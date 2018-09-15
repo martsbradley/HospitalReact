@@ -48,3 +48,15 @@ ol, ul {
 .game-info {
   margin-left: 20px;
 }
+
+
+
+#navbar {
+ border: 1px solid green;
+         float: left;
+}
+#main {
+  border: 1px solid red;
+  overflow:hidden;
+}
+
