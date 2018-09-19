@@ -1,21 +1,17 @@
 import React from 'react';
 import Pagination from "react-js-pagination";
-import { BrowserRouter as Router, Route, Link , Switch} from "react-router-dom";
-import About from './About'
+import { Route, Link , Switch} from "react-router-dom";
+import Patient from './patient'
 
 function PatientRow(props) {
     let id = props.pat.id;
     return (<tr>
-               <td>{props.pat.id}</td>
                <td><Link to={`/patients/edit/${id}`}>{props.pat.id}</Link></td>
-               <td>{props.pat.forename}</td>
-               <td>{props.pat.surname}</td>
-               <td>{props.pat.dob}</td>
+               <td><Link to={`/patients/edit/${id}`}>{props.pat.forename}</Link></td>
+               <td><Link to={`/patients/edit/${id}`}>{props.pat.surname}</Link></td>
+               <td><Link to={`/patients/edit/${id}`}>{props.pat.dob}</Link></td>
            </tr>);
 }
-
-
-
 
 export default class PatientTable extends React.Component {
     constructor(props) {
@@ -93,9 +89,12 @@ export default class PatientTable extends React.Component {
         }
         const patients = this.state.patients;
         const items = patients.map(patient => <PatientRow key={patient.id} pat={patient}/>);
+
+
         let result = (
             <Switch>
-                <Route path="/patients/edit/:gistId" render={Gist}/>
+                <Route path="/patients/edit/:gistId" component={Patient} />
+
                 <Route path="/patients/" render={() => (
                 <div>
                     <table className='table table-bordered'>
@@ -124,8 +123,21 @@ export default class PatientTable extends React.Component {
     }
 }
 
+/*
 const Gist = ({match}) => (
     <div>
     Show zzzzz Patient {match.params.gistId}
     </div>
 );
+
+class Pats extends React.Component 
+{
+    constructor(props){
+        super(props);
+    }
+
+    render() {
+        return (<h2>here {this.props.match.params.gistId}</h2>);
+    }
+};
+*/

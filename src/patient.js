@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
 export default class Patient extends React.Component {
     constructor(props) {
@@ -73,6 +74,10 @@ export default class Patient extends React.Component {
             <div><label>forename</label><input onChange={this.handleChange} value={this.state.forename} type="text" name="forename" /></div>
             <div><label>surname</label><input onChange={this.handleChange} value={this.state.surname} type="text" name="surname" /></div>
             <div><label>dob</label><input onChange={this.handleChange} value={this.state.dob} type="text" name="dob" /></div>
+            <p>
+                <Link to="/patients">Cancel</Link>
+            </p>
+
             </div>);
         return result;
     }
