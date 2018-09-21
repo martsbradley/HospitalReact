@@ -71,9 +71,9 @@ export default class Patient extends React.Component {
             return <p>There was an error calling the service</p>;
         }
         const result = (<div>
-            <div><label>forename</label><input onChange={this.handleChange} value={this.state.forename} type="text" name="forename" /></div>
-            <div><label>surname</label><input onChange={this.handleChange} value={this.state.surname} type="text" name="surname" /></div>
-            <div><label>dob</label><input onChange={this.handleChange} value={this.state.dob} type="text" name="dob" /></div>
+            <div><label for="forename">forename</label><input onChange={this.handleChange} value={this.state.forename} type="text" name="forename" /></div>
+            <div><label for="surname">surname</label><input onChange={this.handleChange} value={this.state.surname} type="text" name="surname" /></div>
+            <div><label for="dob" >dob</label><input onChange={this.handleChange} value={this.state.dob} type="text" name="dob" /></div>
             <p>
                 <Link to="/patients">Cancel</Link>
             </p>

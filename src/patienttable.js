@@ -122,22 +122,3 @@ export default class PatientTable extends React.Component {
         return result;
     }
 }
-
-/*
-const Gist = ({match}) => (
-    <div>
-    Show zzzzz Patient {match.params.gistId}
-    </div>
-);
-
-class Pats extends React.Component 
-{
-    constructor(props){
-        super(props);
-    }
-
-    render() {
-        return (<h2>here {this.props.match.params.gistId}</h2>);
-    }
-};
-*/
