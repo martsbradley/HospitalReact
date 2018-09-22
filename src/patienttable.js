@@ -25,6 +25,7 @@ export default class PatientTable extends React.Component {
         this.handlePageChange = this.handlePageChange.bind(this);
         this.createPageUrl = this.createPageUrl.bind(this);
         this.loadPatients = this.loadPatients.bind(this);
+        this.renderPatient= this.renderPatient.bind(this);
     }
 
     createPageUrl(aActivePage) {
@@ -52,10 +53,10 @@ export default class PatientTable extends React.Component {
         let url = this.createPageUrl(aActivePage);
 
         fetch(url)
-        .then(res => res.json())
+        .then(response => response.json())
         .then(
-          (result) => { this.setState({ patients: result,
-                                        activePage: aActivePage});
+          (json) => { this.setState({ patients:  json,
+                                      activePage: aActivePage});
                       },
 
           (error)  => { this.setState( { error : true});
@@ -80,6 +81,24 @@ export default class PatientTable extends React.Component {
         );
     }
 
+    renderPatient(props)
+    {
+        const patients = this.state.patients;
+        let myId = parseInt(props.match.params.gistId,10);
+
+        var selectedPatient = patients.find(o => o.id === myId );
+
+        /*console.log("Found forename " + JSON.stringify(selectedPatient));
+        console.log("we got a: " + selectedPatient.forename);
+        console.log("we got a: " + selectedPatient.surname);
+        console.log("we got a: " + selectedPatient.dob);*/
+        let result = <div>No Patient...</div>;
+        if (selectedPatient)
+        {
+            result = <Patient {...props} surname={selectedPatient.surname} />;
+        }
+        return result;
+    }
 
     render() {
         const error = this.state.error;
@@ -93,7 +112,7 @@ export default class PatientTable extends React.Component {
 
         let result = (
             <Switch>
-                <Route path="/patients/edit/:gistId" component={Patient} />
+                <Route path="/patients/edit/:gistId" render={(props) => this.renderPatient(props)} />
 
                 <Route path="/patients/" render={() => (
                 <div>
