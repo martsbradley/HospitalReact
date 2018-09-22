@@ -1,36 +1,35 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import LinkButton from './linkbutton';
 
 function Prescription(props) { 
     const prescriptions = props.list;
 
+    let detail = <tr></tr>;
+
     if (prescriptions) {
         console.log("prescriptions is a         " + typeof  prescriptions);
-        //console.log("prescriptions[0].name is a " + typeof  prescriptions[0].name);
 
-        const detail = prescriptions.map( p => 
+        detail = prescriptions.map( p => 
             <tr key={p.id}>
                 <td>{p.id}</td>
                 <td>{p.medicine.name}</td>
                 <td>{p.medicine.manufacturer}</td>
                 <td>{p.amount}</td>
             </tr>);
-
-
-        const table = (<table className='table table-bordered'>
-                          <thead className='thead-dark'>
-                              <tr>
-                                <th scope="col">Id</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Manufacturer</th>
-                                <th scope="col">Amount</th>
-                              </tr>
-                            </thead>
-                              <tbody>{detail}</tbody></table>);
-
-        return table;
     }
-    return <h3>No Prescription</h3>;
+
+    const table = (<table className='table table-bordered'>
+                      <thead className='thead-dark'>
+                          <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Manufacturer</th>
+                            <th scope="col">Amount</th>
+                          </tr>
+                        </thead>
+                          <tbody>{detail}</tbody></table>);
+
+    return table;
 }
 
 export default class Patient extends React.Component {
@@ -39,15 +38,18 @@ export default class Patient extends React.Component {
 
         this.state = {error : false, 
                       patientId : props.match.params.gistId,
+                      loaded: false,
                       patient: {forename: '',
                                 surname: '',
                                 dob: '',
+                                prescription: [],
                       }
         };
 
         this.createPageUrl = this.createPageUrl.bind(this);
         this.loadPatient = this.loadPatient.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     createPageUrl(aActivePage) {
@@ -69,7 +71,9 @@ export default class Patient extends React.Component {
           (patient) => { 
                          console.log("Received from net");
                          console.log(JSON.stringify(patient)); 
-                         this.setState({patient: patient });
+                         this.setState({patient: patient,
+                                        loaded: true});
+                         
                        },
           (error)   => { this.setState( { error : true});
                          console.log(error.toString());
@@ -81,10 +85,18 @@ export default class Patient extends React.Component {
        this.loadPatient(this.state.patientId);
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextState.loaded;//Only render when the thing is loaded.
+    }
+
     handleChange(event) {
         console.log("handleChange name " + event.target.name);
         console.log("handleChange value " + event.target.value);
         this.setState({forename: event.target.value});
+    }
+    handleSubmit(event) {
+        alert('Your favorite flavor is: ' + this.state.value);
+        event.preventDefault();
     }
 
     render() {
@@ -98,18 +110,20 @@ export default class Patient extends React.Component {
 
         console.log("pres is a " + typeof pres);
 
-        const result = (<div>
-            <div><label htmlFor="forename">forename</label><input onChange={this.handleChange} value={patient.forename} type="text" name="forename" /></div>
-            <div><label htmlFor="surname">surname</label><input onChange={this.handleChange} value={patient.surname} type="text" name="surname" /></div>
-            <div><label htmlFor="dob" >dob</label><input onChange={this.handleChange} value={patient.dob} type="text" name="dob" /></div>
+        const result = (
             <div>
-                <Prescription list={pres} />
-            </div>
-            <p>
-                <Link to="/patients">Cancel</Link>
-                {this.state.surname}ok
-            </p>
-
+                <form onSubmit={this.handleSubmit}>
+                    <div><label htmlFor="forename">Forename</label><input onChange={this.handleChange} value={patient.forename} type="text" name="forename" /></div>
+                    <div><label htmlFor="surname">Surname</label><input onChange={this.handleChange} value={patient.surname} type="text" name="surname" /></div>
+                    <div><label htmlFor="dob" >Date of Birth</label><input onChange={this.handleChange} value={patient.dob} type="text" name="dob" /></div>
+                    <div>
+                        <Prescription list={pres} />
+                    </div>
+                    <p>
+                        <LinkButton to="/patients">Cancel</LinkButton>
+                        <button type="submit" >Submit</button>
+                    </p>
+                </form>
             </div>);
         return result;
     }
