@@ -7,7 +7,6 @@ function Prescription(props) {
     let detail = <tr></tr>;
 
     if (prescriptions) {
-        console.log("prescriptions is a         " + typeof  prescriptions);
 
         detail = prescriptions.map( p => 
             <tr key={p.id}>
@@ -46,24 +45,26 @@ export default class Patient extends React.Component {
                       }
         };
 
-        this.createPageUrl = this.createPageUrl.bind(this);
-        this.loadPatient = this.loadPatient.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.createLoadURL = this.createLoadURL.bind(this);
+        this.loadPatient   = this.loadPatient.bind(this);
+        this.handleChange  = this.handleChange.bind(this);
+        this.handleSubmit  = this.handleSubmit.bind(this);
+        this.savePatient   = this.savePatient.bind(this);
+        this.postData      = this.postData.bind(this);
     }
 
-    createPageUrl(aActivePage) {
+    createLoadURL(aActivePage) {
         const patientId = this.state.patientId;
-        //console.log("createPageUrl is " + patientId);
         let result =`/firstcup/rest/hospital/patient/${patientId}`;
-        console.log(result);
         return result;
+    }
+    createSaveURL() {
+        const result ='/firstcup/rest/hospital/patient';
+	return result;
     }
 
     loadPatient(aActivePage) {
-        let url = this.createPageUrl(this.state.patientId);
-       //console.log("aActivePage ... " + this.state.patientId);
-       //console.log("url is " + url);
+        let url = this.createLoadURL(this.state.patientId);
 
         fetch(url)
         .then(res => res.json())
@@ -73,7 +74,6 @@ export default class Patient extends React.Component {
                          console.log(JSON.stringify(patient)); 
                          this.setState({patient: patient,
                                         loaded: true});
-                         
                        },
           (error)   => { this.setState( { error : true});
                          console.log(error.toString());
@@ -81,22 +81,46 @@ export default class Patient extends React.Component {
         );
     }
 
+    postData(url, data = {}) {
+        return fetch(url, {
+            method: "POST",             // *GET, POST, PUT, DELETE, etc.
+          //mode: "cors",               // no-cors, cors, *same-origin
+          //cache: "no-cache",          // default, no-cache, reload, force-cache, only-if-cached
+          //credentials: "same-origin", // include, same-origin, *omit
+            headers: {
+        	"Content-Type": "application/json; charset=utf-8",
+            },
+            redirect: "follow",         // manual, *follow, error
+            referrer: "no-referrer",    // no-referrer, *client
+            body: JSON.stringify(data), // body data type must match "Content-Type" header
+        });
+        //.then(response => return response.json()); // parses response to JSON
+    }
+
+    savePatient() {
+        console.log("Posting... "+ JSON.stringify(this.state.patient));
+
+        this.postData(this.createSaveURL(), this.state.patient)
+                     .then(data => {console.log("here...");
+                                    console.log(JSON.stringify(data));}
+                     )
+                     .catch(error => {console.log("There was an error");
+                                      console.error(error);});
+    }
+
     componentDidMount() {
        this.loadPatient(this.state.patientId);
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return nextState.loaded;//Only render when the thing is loaded.
-    }
-
     handleChange(event) {
-        console.log("handleChange name " + event.target.name);
-        console.log("handleChange value " + event.target.value);
-        this.setState({forename: event.target.value});
+        let updatedPatient = this.state.patient;
+        updatedPatient.forename = event.target.value;
+        this.setState({patient: updatedPatient});
     }
     handleSubmit(event) {
-        alert('Your favorite flavor is: ' + this.state.value);
+        //alert('Your favorite flavor is: ' + this.state.value);
         event.preventDefault();
+        this.savePatient();
     }
 
     render() {
@@ -107,8 +131,6 @@ export default class Patient extends React.Component {
         }
         const patient = this.state.patient;
         const pres = patient.prescription;
-
-        console.log("pres is a " + typeof pres);
 
         const result = (
             <div>
