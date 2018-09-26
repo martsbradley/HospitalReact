@@ -27,7 +27,6 @@ function Prescription(props) {
                           </tr>
                         </thead>
                           <tbody>{detail}</tbody></table>);
-
     return table;
 }
 
@@ -42,12 +41,13 @@ export default class Patient extends React.Component {
                                 surname: '',
                                 dob: '',
                                 prescription: [],
-                      }
+                      },
+                      doit: props.doit,
         };
 
         this.createLoadURL = this.createLoadURL.bind(this);
         this.loadPatient   = this.loadPatient.bind(this);
-        this.handleChange  = this.handleChange.bind(this);
+        this.handleForenameChanged  = this.handleForenameChanged.bind(this);
         this.handleSubmit  = this.handleSubmit.bind(this);
         this.savePatient   = this.savePatient.bind(this);
         this.postData      = this.postData.bind(this);
@@ -70,8 +70,6 @@ export default class Patient extends React.Component {
         .then(res => res.json())
         .then(
           (patient) => { 
-                         console.log("Received from net");
-                         console.log(JSON.stringify(patient)); 
                          this.setState({patient: patient,
                                         loaded: true});
                        },
@@ -81,46 +79,49 @@ export default class Patient extends React.Component {
         );
     }
 
-    postData(url, data = {}) {
-        return fetch(url, {
-            method: "POST",             // *GET, POST, PUT, DELETE, etc.
-          //mode: "cors",               // no-cors, cors, *same-origin
-          //cache: "no-cache",          // default, no-cache, reload, force-cache, only-if-cached
-          //credentials: "same-origin", // include, same-origin, *omit
-            headers: {
-        	"Content-Type": "application/json; charset=utf-8",
-            },
-            redirect: "follow",         // manual, *follow, error
-            referrer: "no-referrer",    // no-referrer, *client
-            body: JSON.stringify(data), // body data type must match "Content-Type" header
-        });
-        //.then(response => return response.json()); // parses response to JSON
+    postData(url, data) {
+
+        console.log("Posting to " + url);
+        console.log("Data is " + JSON.stringify(data));
+        fetch(url, {
+               method: 'post',
+               headers: {
+                 'Accept': 'application/json',
+                 'Content-Type': 'application/json'
+               },
+               body: JSON.stringify(data)
+        }
+        ).then(res => res.json())
+         .then(
+          (patient) => { console.log("POST SUCCESS "); },
+          (error  ) => { console.log("Post ERROR   "); } 
+        );
     }
 
     savePatient() {
-        console.log("Posting... "+ JSON.stringify(this.state.patient));
 
-        this.postData(this.createSaveURL(), this.state.patient)
-                     .then(data => {console.log("here...");
-                                    console.log(JSON.stringify(data));}
-                     )
-                     .catch(error => {console.log("There was an error");
-                                      console.error(error);});
+        this.postData(this.createSaveURL(), this.state.patient);
     }
 
     componentDidMount() {
        this.loadPatient(this.state.patientId);
     }
 
-    handleChange(event) {
-        let updatedPatient = this.state.patient;
-        updatedPatient.forename = event.target.value;
-        this.setState({patient: updatedPatient});
+    handleForenameChanged(event) {
+        console.log("handleForenameChanged .. ->" + event.target.value);
+        let patient = this.state.patient;
+        patient.forename = event.target.value;
+	this.setState({patient});
     }
+
     handleSubmit(event) {
-        //alert('Your favorite flavor is: ' + this.state.value);
         event.preventDefault();
         this.savePatient();
+
+        console.log("doit is a " + typeof this.state.doit);
+        this.state.doit();
+
+        this.props.history.push('/patients')
     }
 
     render() {
@@ -135,9 +136,9 @@ export default class Patient extends React.Component {
         const result = (
             <div>
                 <form onSubmit={this.handleSubmit}>
-                    <div><label htmlFor="forename">Forename</label><input onChange={this.handleChange} value={patient.forename} type="text" name="forename" /></div>
-                    <div><label htmlFor="surname">Surname</label><input onChange={this.handleChange} value={patient.surname} type="text" name="surname" /></div>
-                    <div><label htmlFor="dob" >Date of Birth</label><input onChange={this.handleChange} value={patient.dob} type="text" name="dob" /></div>
+                    <div><label htmlFor="forename">Forename</label><input onChange={this.handleForenameChanged} value={patient.forename} type="text" name="patient.forename" /></div>
+                    <div><label htmlFor="surname">Surname</label><input value={patient.surname} type="text" name="patient.surname" /></div>
+                    <div><label htmlFor="dob" >Date of Birth</label><input value={patient.dob} type="text" name="patient.dob" /></div>
                     <div>
                         <Prescription list={pres} />
                     </div>

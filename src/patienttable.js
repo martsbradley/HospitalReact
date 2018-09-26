@@ -26,6 +26,15 @@ export default class PatientTable extends React.Component {
         this.createPageUrl = this.createPageUrl.bind(this);
         this.loadPatients = this.loadPatients.bind(this);
         this.renderPatient= this.renderPatient.bind(this);
+        this.reloadMe      = this.reloadMe.bind(this);
+    }
+
+    reloadMe() {
+        //console.log("Reloadme calling loadPatients()");
+        //console.log("My state is " + JSON.stringify(this.state));
+        console.log("Reloadme");
+        this.setState({patients: []});
+        this.loadPatients(this.state.activePage);
     }
 
     createPageUrl(aActivePage) {
@@ -33,9 +42,9 @@ export default class PatientTable extends React.Component {
 
         let start  = (aActivePage-1)*itemOnPage;
 
-        console.log("CreatePageUrl aActivePage " + aActivePage);
-        console.log("CreatePageUrl itemOnPage " + itemOnPage);
-        console.log("CreatePageUrl start " + start);
+      //console.log("CreatePageUrl aActivePage " + aActivePage);
+      //console.log("CreatePageUrl itemOnPage " + itemOnPage);
+      //console.log("CreatePageUrl start " + start);
 
         let result =`/firstcup/rest/hospital/patients?start=${start}&max=${itemOnPage}`;
         console.log(result);
@@ -49,15 +58,16 @@ export default class PatientTable extends React.Component {
     }
 
     loadPatients(aActivePage) {
-        console.log("aActivePage ... " + aActivePage);
+        console.log("loadPatients(" + aActivePage + ")");
         let url = this.createPageUrl(aActivePage);
 
         fetch(url)
         .then(response => response.json())
         .then(
-          (json) => { this.setState({ patients:  json,
+          (json) => { console.log("reloaded page " + aActivePage);
+                      this.setState({ patients:  json,
                                       activePage: aActivePage});
-                      },
+                    },
 
           (error)  => { this.setState( { error : true});
                         console.log(error.toString());
@@ -88,14 +98,11 @@ export default class PatientTable extends React.Component {
 
         var selectedPatient = patients.find(o => o.id === myId );
 
-        /*console.log("Found forename " + JSON.stringify(selectedPatient));
-        console.log("we got a: " + selectedPatient.forename);
-        console.log("we got a: " + selectedPatient.surname);
-        console.log("we got a: " + selectedPatient.dob);*/
         let result = <div>No Patient...</div>;
         if (selectedPatient)
         {
-            result = <Patient {...props} surname={selectedPatient.surname} />;
+            console.log("setup " + typeof this.reloadMe);
+            result = <Patient {...props} doit={this.reloadMe} surname={selectedPatient.surname} />;
         }
         return result;
     }
