@@ -101,7 +101,6 @@ export default class PatientTable extends React.Component {
         let result = <div>No Patient...</div>;
         if (selectedPatient)
         {
-            console.log("setup " + typeof this.reloadMe);
             result = <Patient {...props} doit={this.reloadMe} surname={selectedPatient.surname} />;
         }
         return result;

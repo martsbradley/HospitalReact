@@ -42,7 +42,7 @@ export default class Patient extends React.Component {
                                 dob: '',
                                 prescription: [],
                       },
-                      doit: props.doit,
+                      showPatientList: props.doit,
         };
 
         this.createLoadURL = this.createLoadURL.bind(this);
@@ -93,13 +93,15 @@ export default class Patient extends React.Component {
         }
         ).then(res => res.json())
          .then(
-          (patient) => { console.log("POST SUCCESS "); },
+          (patient) => { console.log("POST SUCCESS "); 
+                         this.state.showPatientList();
+                         this.props.history.push('/patients')
+                       },
           (error  ) => { console.log("Post ERROR   "); } 
         );
     }
 
     savePatient() {
-
         this.postData(this.createSaveURL(), this.state.patient);
     }
 
@@ -117,11 +119,6 @@ export default class Patient extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         this.savePatient();
-
-        console.log("doit is a " + typeof this.state.doit);
-        this.state.doit();
-
-        this.props.history.push('/patients')
     }
 
     render() {
