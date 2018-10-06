@@ -51,6 +51,7 @@ export default class Patient extends React.Component {
         this.handleSubmit  = this.handleSubmit.bind(this);
         this.savePatient   = this.savePatient.bind(this);
         this.postData      = this.postData.bind(this);
+        this.showValidationMessages = this.showValidationMessages.bind(this);
     }
 
     createLoadURL(aActivePage) {
@@ -60,7 +61,7 @@ export default class Patient extends React.Component {
     }
     createSaveURL() {
         const result ='/firstcup/rest/hospital/patient';
-	return result;
+    return result;
     }
 
     loadPatient(aActivePage) {
@@ -79,6 +80,21 @@ export default class Patient extends React.Component {
         );
     }
 
+    showValidationMessages(validations) {
+        console.log("Update fields man...");
+
+        const errors = validations.errors;
+
+        for (var i = 0; i < errors.length; i++) {
+            const name = errors[i].field;
+            const message = errors[i].message
+            const formField = document.querySelector("span[name='" + name +".errors']");
+            formField.innerText = message;
+        }
+
+        console.log("please");
+    }
+
     postData(url, data) {
 
         console.log("Posting to " + url);
@@ -91,27 +107,35 @@ export default class Patient extends React.Component {
                },
                body: JSON.stringify(data)
         })
-	//.then (response => {response.json();}
-	.then ( 
-	    response  => { 
-		console.log("here...");
-		if (response.ok) {
-		  const object = response.json();
-		  console.log("Response ok");
-		  const asStr = object;//JSON.stringify(object);
-		  console.log("wth POST SUCCESS fully.." + asStr);
-		  this.state.showPatientList();
-		  this.props.history.push('/patients')
-		}
-		else {
-		  console.log("Response !ok" + response.statusText);
-		  let x = response.json();
-		  console.log("continue.." + typeof x);
-		  x.then(data => {console.log(JSON.stringify(data));});
-		}
-	    },
-	    someerror => { console.log("Network Failure " + someerror);}
-	);
+        .then( 
+            response => { 
+                if (response.ok) {
+                    console.log("OK, transforming to JSON");
+                    return response.json();
+                }    
+                else {
+                    console.log("Response !ok" + response.statusText);
+                    let json_errors = response.json();
+                    json_errors.then(data => {
+                        console.log(JSON.stringify(data));
+                        this.showValidationMessages(data);
+                    });
+                    throw Error(response.statusText);
+                }
+            },
+            error => { 
+                console.log("Network Failure " + error);
+            }
+        )
+        .then( json => { 
+                console.log("POST SUCCESS " + JSON.stringify(json));
+                this.state.showPatientList();
+                this.props.history.push('/patients')
+            }
+        )
+        .catch( exn => {
+            console.log("forget about it" + exn);
+        });
     }
 
     savePatient() {
@@ -124,8 +148,8 @@ export default class Patient extends React.Component {
 
     handleFormChange(event) {
         let patient = this.state.patient;
-	patient[event.target.name] = event.target.value;
-	this.setState({patient});
+    patient[event.target.name] = event.target.value;
+    this.setState({patient});
     }
 
     handleSubmit(event) {
@@ -145,20 +169,22 @@ export default class Patient extends React.Component {
         const result = (
             <div>
                 <form onSubmit={this.handleSubmit}>
-		    <div>
-	                 <label htmlFor="forename">Forename</label>
-	                 <input type="text" name="forename" value={patient.forename}
-	                        onChange={this.handleFormChange}/>
-		    </div>
+            <div>
+                     <label htmlFor="forename">Forename</label>
+                     <input type="text" name="forename" value={patient.forename}
+                            onChange={this.handleFormChange}/>
+                     <span className="errors" name="forename.errors"></span>
+            </div>
                     <div>
-	                 <label htmlFor="surname">Surname</label>
-	                 <input type="text" name="surname" value={patient.surname} 
-	                        onChange={this.handleFormChange}/>
-		    </div>
+                     <label htmlFor="surname">Surname</label>
+                     <input type="text" name="surname" value={patient.surname} 
+                            onChange={this.handleFormChange}/>
+                     <span className="errors" name="surname.errors"></span>
+            </div>
                     <div><label htmlFor="dob" >Date of Birth</label>
-	                 <input type="text" name="dob" value={patient.dob} 
-	                        onChange={this.handleFormChange}/>
-	            </div>
+                     <input type="text" name="dob" value={patient.dob} 
+                            onChange={this.handleFormChange}/>
+                </div>
                     <div>
                         <Prescription list={pres} />
                     </div>
