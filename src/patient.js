@@ -47,7 +47,7 @@ export default class Patient extends React.Component {
 
         this.createLoadURL = this.createLoadURL.bind(this);
         this.loadPatient   = this.loadPatient.bind(this);
-        this.handleForenameChanged  = this.handleForenameChanged.bind(this);
+        this.handleFormChange  = this.handleFormChange.bind(this);
         this.handleSubmit  = this.handleSubmit.bind(this);
         this.savePatient   = this.savePatient.bind(this);
         this.postData      = this.postData.bind(this);
@@ -90,15 +90,28 @@ export default class Patient extends React.Component {
                  'Content-Type': 'application/json'
                },
                body: JSON.stringify(data)
-        }
-        ).then(res => res.json())
-         .then(
-          (patient) => { console.log("POST SUCCESS "); 
-                         this.state.showPatientList();
-                         this.props.history.push('/patients')
-                       },
-          (error  ) => { console.log("Post ERROR   "); } 
-        );
+        })
+	//.then (response => {response.json();}
+	.then ( 
+	    response  => { 
+		console.log("here...");
+		if (response.ok) {
+		  const object = response.json();
+		  console.log("Response ok");
+		  const asStr = object;//JSON.stringify(object);
+		  console.log("wth POST SUCCESS fully.." + asStr);
+		  this.state.showPatientList();
+		  this.props.history.push('/patients')
+		}
+		else {
+		  console.log("Response !ok" + response.statusText);
+		  let x = response.json();
+		  console.log("continue.." + typeof x);
+		  x.then(data => {console.log(JSON.stringify(data));});
+		}
+	    },
+	    someerror => { console.log("Network Failure " + someerror);}
+	);
     }
 
     savePatient() {
@@ -109,10 +122,9 @@ export default class Patient extends React.Component {
        this.loadPatient(this.state.patientId);
     }
 
-    handleForenameChanged(event) {
-        console.log("handleForenameChanged .. ->" + event.target.value);
+    handleFormChange(event) {
         let patient = this.state.patient;
-        patient.forename = event.target.value;
+	patient[event.target.name] = event.target.value;
 	this.setState({patient});
     }
 
@@ -133,9 +145,20 @@ export default class Patient extends React.Component {
         const result = (
             <div>
                 <form onSubmit={this.handleSubmit}>
-                    <div><label htmlFor="forename">Forename</label><input onChange={this.handleForenameChanged} value={patient.forename} type="text" name="patient.forename" /></div>
-                    <div><label htmlFor="surname">Surname</label><input value={patient.surname} type="text" name="patient.surname" /></div>
-                    <div><label htmlFor="dob" >Date of Birth</label><input value={patient.dob} type="text" name="patient.dob" /></div>
+		    <div>
+	                 <label htmlFor="forename">Forename</label>
+	                 <input type="text" name="forename" value={patient.forename}
+	                        onChange={this.handleFormChange}/>
+		    </div>
+                    <div>
+	                 <label htmlFor="surname">Surname</label>
+	                 <input type="text" name="surname" value={patient.surname} 
+	                        onChange={this.handleFormChange}/>
+		    </div>
+                    <div><label htmlFor="dob" >Date of Birth</label>
+	                 <input type="text" name="dob" value={patient.dob} 
+	                        onChange={this.handleFormChange}/>
+	            </div>
                     <div>
                         <Prescription list={pres} />
                     </div>
