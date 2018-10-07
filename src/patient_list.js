@@ -21,15 +21,9 @@ export default class PatientList extends React.Component {
                       itemOnPage : 5, 
                       totalItemsCount: 0,};
 
-        this.createPageUrl = this.createPageUrl.bind(this);
-        this.loadPatients = this.loadPatients.bind(this);
-        this.reloadMe      = this.reloadMe.bind(this);
-    }
-
-    reloadMe() {
-        console.log("Reloadme");
-        this.setState({patients: []});
-        this.loadPatients(this.state.activePage);
+        this.createPageUrl    = this.createPageUrl.bind(this);
+        this.loadPatients     = this.loadPatients.bind(this);
+        this.handlePageChange = this.handlePageChange.bind(this);
     }
 
     createPageUrl(aActivePage) {
@@ -40,6 +34,11 @@ export default class PatientList extends React.Component {
         let result =`/firstcup/rest/hospital/patients?start=${start}&max=${itemOnPage}`;
         console.log(result);
         return result;
+    }
+
+    handlePageChange(activePage) {
+        console.log("Changing active page to " + activePage);
+        this.loadPatients(activePage);
     }
 
     loadPatients(aActivePage) {
