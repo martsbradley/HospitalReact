@@ -21,85 +21,71 @@ export default class PatientList extends React.Component {
                       itemOnPage : 5, 
                       totalItemsCount: 0,};
 
-        this.createPageUrl    = this.createPageUrl.bind(this);
+        this.pagingURL        = this.pagingURL.bind(this);
+        this.totalURL         = this.totalURL.bind(this);
         this.loadPatients     = this.loadPatients.bind(this);
-        this.handlePageChange = this.handlePageChange.bind(this);
+        this.pageChange = this.pageChange.bind(this);
+        this.urlPrefix = '/firstcup/rest/hospital/patients';
     }
 
-    createPageUrl(aActivePage) {
+
+    totalURL() {
+        return this.urlPrefix + '/total';
+    }
+
+    pagingURL(aActivePage) {
         let itemOnPage = this.state.itemOnPage;
 
         let start  = (aActivePage-1)*itemOnPage;
 
-        let result =`/firstcup/rest/hospital/patients?start=${start}&max=${itemOnPage}`;
-        console.log(result);
+        let result = this.urlPrefix + `?start=${start}&max=${itemOnPage}`;
+
         return result;
     }
 
-    handlePageChange(activePage) {
+    pageChange(activePage) {
         console.log("Changing active page to " + activePage);
         this.loadPatients(activePage);
     }
 
     loadPatients(aActivePage) {
-        console.log("loadPatients(" + aActivePage + ")");
-        let url = this.createPageUrl(aActivePage);
+        console.log("patient_list::loadPatients() called");
 
-        fetch(url)
-        .then(
-            response => { 
-                if (response.ok) {
-                    console.log("OK, transforming to JSON");
-                    return response.json();
-                }    
-                else {
-                    console.log("Failed to load patients from the server");
-                    throw Error(response.statusText);
+        const loadPatients  = fetch( this.pagingURL(aActivePage));
+        const countPatients = fetch(this.totalURL());
+
+        Promise.all([loadPatients,countPatients])   
+        .then(responses => {
+
+                // All the headers have arrived.
+                if (responses[0].ok && responses[1].ok)
+                {
+                    return Promise.all([responses[0].json(), responses[1].json()]);
+                }
+                else
+                {
+                    throw Error([responses[0].statusText(),responses[1].statusText()]);
                 }
             },
             networkError => { 
                 console.log("Network Failure " + networkError);
             }
-        ).then(
-            patientsJson => { 
-                this.setState({ patients:  patientsJson,
-                                activePage: aActivePage});
-            }
         )
-        .catch( 
-            error  => { 
-                this.setState( { error : true});
-                console.log(error.toString());
-                console.log(error);
-            } 
-        );
-        /*...................*/
+        .then( dataArray => {
+                // The data from the response bodies has arrived.
+                const patients = dataArray[0];
+                const total    = dataArray[1];
 
-        fetch('/firstcup/rest/hospital/patients/total')
-        .then(
-            response => { 
-                if (response.ok) {
-                    console.log("OK, transforming to JSON");
-                    return response.json();
-                }    
-                throw Error(response.statusText);
-            },
-            networkError => { 
-                console.log("Network Failure " + networkError);
-            }
-        ).then(
-            totalJson => { 
-                console.log("There are " + totalJson);
-                this.setState({ totalItemsCount: totalJson});
+                this.setState({ patients:  patients,
+                                activePage: aActivePage,
+                                totalItemsCount: total});
             }
         )
-        .catch( 
-            error  => { 
-                this.setState( { error : true});
-                console.log(error.toString());
-                console.log(error);
-            } 
-        );
+        .catch (error => {
+            console.log("There were errors");
+        })
+
+        console.log("here.... loadPatients(" + aActivePage + ")");
     }
 
     componentDidMount() {
@@ -139,7 +125,7 @@ export default class PatientList extends React.Component {
                         itemsCountPerPage={this.state.itemOnPage}
                         totalItemsCount={this.state.totalItemsCount}
                         pageRangeDisplayed={15}
-                        onChange={this.handlePageChange} />
+                        onChange={this.pageChange} />
         </div>
         );
     }
