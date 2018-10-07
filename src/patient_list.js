@@ -46,44 +46,79 @@ export default class PatientList extends React.Component {
         let url = this.createPageUrl(aActivePage);
 
         fetch(url)
-        .then(response => response.json())
         .then(
-          (json) => { console.log("reloaded page " + aActivePage);
-                      this.setState({ patients:  json,
-                                      activePage: aActivePage});
-                    },
+            response => { 
+                if (response.ok) {
+                    console.log("OK, transforming to JSON");
+                    return response.json();
+                }    
+                else {
+                    console.log("Failed to load patients from the server");
+                    throw Error(response.statusText);
+                }
+            },
+            networkError => { 
+                console.log("Network Failure " + networkError);
+            }
+        ).then(
+            patientsJson => { 
+                this.setState({ patients:  patientsJson,
+                                activePage: aActivePage});
+            }
+        )
+        .catch( 
+            error  => { 
+                this.setState( { error : true});
+                console.log(error.toString());
+                console.log(error);
+            } 
+        );
+        /*...................*/
 
-          (error)  => { this.setState( { error : true});
-                        console.log(error.toString());
-                        console.log(error);
-                      } 
+        fetch('/firstcup/rest/hospital/patients/total')
+        .then(
+            response => { 
+                if (response.ok) {
+                    console.log("OK, transforming to JSON");
+                    return response.json();
+                }    
+                throw Error(response.statusText);
+            },
+            networkError => { 
+                console.log("Network Failure " + networkError);
+            }
+        ).then(
+            totalJson => { 
+                console.log("There are " + totalJson);
+                this.setState({ totalItemsCount: totalJson});
+            }
+        )
+        .catch( 
+            error  => { 
+                this.setState( { error : true});
+                console.log(error.toString());
+                console.log(error);
+            } 
         );
     }
 
     componentDidMount() {
-
         this.loadPatients(this.state.activePage);
-
-        fetch('/firstcup/rest/hospital/patients/total')
-        .then(total => total.json())
-        .then(
-          (total) =>  { console.log("There are " + total + " patients.");
-                        this.setState({ totalItemsCount: total,})},
-
-          (error)  => { console.log("get total issue ");
-                        console.log(error.toString());}
-        );
     }
 
     render() {
         const error = this.state.error;
+
         if (error)
         {
             return <p>There was an error calling the service</p>;
         }
+
+
         const patients = this.state.patients;
         const items = patients.map(patient => <PatientRow key={patient.id} pat={patient}/>);
 
+        console.log("Rendering patient_list");
 
         return ( <div>
             <table className='table table-bordered'>

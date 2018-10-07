@@ -111,6 +111,7 @@ export default class Patient extends React.Component {
 
         console.log("Posting to " + url);
         console.log("Data is " + JSON.stringify(data));
+
         fetch(url, {
                method: 'post',
                headers: {
