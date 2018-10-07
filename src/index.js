@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 
 import './index.css';
-import PatientTable from './patienttable.js';
+import Patient from './patient.js';
 import About from './About'
 import Repos from './Repos'
 
@@ -17,7 +17,7 @@ const BasicExample = () => (
               <Link to="/">Repos</Link>
             </li>
             <li>
-              <Link to="/patients">Patients</Link>
+              <Link to="/patients/list">Patients</Link>
             </li>
             <li>
               <Link to="/about">About</Link>
@@ -30,7 +30,7 @@ const BasicExample = () => (
 
         <div id="main">
           <Route exact path="/" component={Repos} />
-          <Route path="/patients" component={PatientTable} />
+          <Route path="/patients" component={Patient} />
           <Route path="/about" component={About} />
           <Route path="/topics" component={Topics} />
         </div>

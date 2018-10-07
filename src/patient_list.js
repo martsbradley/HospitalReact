@@ -1,7 +1,6 @@
 import React from 'react';
 import Pagination from "react-js-pagination";
-import { Route, Link , Switch} from "react-router-dom";
-import Patient from './patient'
+import { Link } from "react-router-dom";
 
 function PatientRow(props) {
     let id = props.pat.id;
@@ -13,7 +12,7 @@ function PatientRow(props) {
            </tr>);
 }
 
-export default class PatientTable extends React.Component {
+export default class PatientList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {patients : [],
@@ -22,16 +21,12 @@ export default class PatientTable extends React.Component {
                       itemOnPage : 5, 
                       totalItemsCount: 0,};
 
-        this.handlePageChange = this.handlePageChange.bind(this);
         this.createPageUrl = this.createPageUrl.bind(this);
         this.loadPatients = this.loadPatients.bind(this);
-        this.renderPatient= this.renderPatient.bind(this);
         this.reloadMe      = this.reloadMe.bind(this);
     }
 
     reloadMe() {
-        //console.log("Reloadme calling loadPatients()");
-        //console.log("My state is " + JSON.stringify(this.state));
         console.log("Reloadme");
         this.setState({patients: []});
         this.loadPatients(this.state.activePage);
@@ -42,19 +37,9 @@ export default class PatientTable extends React.Component {
 
         let start  = (aActivePage-1)*itemOnPage;
 
-      //console.log("CreatePageUrl aActivePage " + aActivePage);
-      //console.log("CreatePageUrl itemOnPage " + itemOnPage);
-      //console.log("CreatePageUrl start " + start);
-
         let result =`/firstcup/rest/hospital/patients?start=${start}&max=${itemOnPage}`;
         console.log(result);
         return result;
-    }
-
-    handlePageChange(aActivePage) {
-        console.log("Changing active page to " + aActivePage);
-
-        this.loadPatients(aActivePage);
     }
 
     loadPatients(aActivePage) {
@@ -91,21 +76,6 @@ export default class PatientTable extends React.Component {
         );
     }
 
-    renderPatient(props)
-    {
-        const patients = this.state.patients;
-        let myId = parseInt(props.match.params.gistId,10);
-
-        var selectedPatient = patients.find(o => o.id === myId );
-
-        let result = <div>No Patient...</div>;
-        if (selectedPatient)
-        {
-            result = <Patient {...props} doit={this.reloadMe} surname={selectedPatient.surname} />;
-        }
-        return result;
-    }
-
     render() {
         const error = this.state.error;
         if (error)
@@ -116,34 +86,27 @@ export default class PatientTable extends React.Component {
         const items = patients.map(patient => <PatientRow key={patient.id} pat={patient}/>);
 
 
-        let result = (
-            <Switch>
-                <Route path="/patients/edit/:gistId" render={(props) => this.renderPatient(props)} />
+        return ( <div>
+            <table className='table table-bordered'>
+            <thead className='thead-dark'>
+                <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">First</th>
+                  <th scope="col">Last</th>
+                  <th scope="col">DOB</th>
+                </tr>
+              </thead>
+              <tbody>
+                {items}
+              </tbody>
+            </table>
 
-                <Route path="/patients/" render={() => (
-                <div>
-                    <table className='table table-bordered'>
-                    <thead className='thead-dark'>
-                        <tr>
-                          <th scope="col">Id</th>
-                          <th scope="col">First</th>
-                          <th scope="col">Last</th>
-                          <th scope="col">DOB</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {items}
-                      </tbody>
-                    </table>
-
-                    <Pagination activePage={this.state.activePage}
-                                itemsCountPerPage={this.state.itemOnPage}
-                                totalItemsCount={this.state.totalItemsCount}
-                                pageRangeDisplayed={15}
-                                onChange={this.handlePageChange} />
-                    </div>
-                )}/>
-            </Switch>);
-        return result;
+            <Pagination activePage={this.state.activePage}
+                        itemsCountPerPage={this.state.itemOnPage}
+                        totalItemsCount={this.state.totalItemsCount}
+                        pageRangeDisplayed={15}
+                        onChange={this.handlePageChange} />
+        </div>
+        );
     }
 }
