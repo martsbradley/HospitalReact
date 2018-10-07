@@ -68,16 +68,29 @@ export default class Patient extends React.Component {
         let url = this.createLoadURL(this.state.patientId);
 
         fetch(url)
-        .then(res => res.json())
-        .then(
-          (patient) => { 
-                         this.setState({patient: patient,
-                                        loaded: true});
-                       },
-          (error)   => { this.setState( { error : true});
-                         console.log(error.toString());
-                       } 
-        );
+        .then( response => { 
+                if(response.ok) {
+                    return response.json();
+                }
+                else { 
+                    this.setState( { error : true });
+                    console.log("That patient was not found");
+                    throw Error(response.statusText);
+                }
+            },
+            networkError => { 
+                console.log("Network Failure " + networkError);
+            }
+        )
+        .then(patient => {
+            this.setState({patient: patient, 
+                           loaded: true
+            });
+         },
+        )
+        .catch( exn => {
+            console.log("forget about it: " + exn.statusText);
+        });
     }
 
     showValidationMessages(validations) {
@@ -123,8 +136,8 @@ export default class Patient extends React.Component {
                     throw Error(response.statusText);
                 }
             },
-            error => { 
-                console.log("Network Failure " + error);
+            networkError => { 
+                console.log("Network Failure " + networkError);
             }
         )
         .then( json => { 
