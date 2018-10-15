@@ -1,42 +1,42 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
-
-import './index.css';
-import Patient from './patient.js';
+import './index.css'
+import Patient from './patient.js'
 import About from './About'
 import Repos from './Repos'
 
 const BasicExample = () => (
   <Router>
     <div>
-        <div id="navbar">
-          <ul>
-            <li>
-              <Link to="/">Repos</Link>
-            </li>
-            <li>
-              <Link to="/patients/list">Patients</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
-              <Link to="/topics">Topics</Link>
-            </li>
-          </ul>
-        </div>
+      <div id="navbar">
+        <ul>
+          <li>
+            <Link to="/">Repos</Link>
+          </li>
+          <li>
+            <Link to="/patients/list">Patients</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
+          <li>
+            <Link to="/topics">Topics</Link>
+          </li>
+        </ul>
+      </div>
 
-        <div id="main">
-          <Route exact path="/" component={Repos} />
-          <Route path="/patients" component={Patient} />
-          <Route path="/about" component={About} />
-          <Route path="/topics" component={Topics} />
-        </div>
+      <div id="main">
+        <Route exact path="/" component={Repos} />
+        <Route path="/patients" component={Patient} />
+        <Route path="/about" component={About} />
+        <Route path="/topics" component={Topics} />
+      </div>
     </div>
   </Router>
-);
+)
 
 const Topics = ({ match }) => (
   <div>
@@ -60,12 +60,20 @@ const Topics = ({ match }) => (
       render={() => <h3>Please select a topic.</h3>}
     />
   </div>
-);
+)
 
 const Topic = ({ match }) => (
   <div>
     <h3>{match.params.topicId}</h3>
   </div>
-);
+)
 
-ReactDOM.render( <div className="container"><BasicExample/></div> , document.getElementById('root'));
+Topics.propTypes = {
+    match : PropTypes.object,
+}
+
+Topic.propTypes = {
+    match : PropTypes.object,
+}
+
+ReactDOM.render(<div className="container"><BasicExample/></div>, document.getElementById('root'))
