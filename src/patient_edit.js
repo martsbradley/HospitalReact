@@ -163,8 +163,8 @@ export default class Patient extends React.Component {
 
     handleFormChange(event) {
         let patient = this.state.patient;
-    patient[event.target.name] = event.target.value;
-    this.setState({patient});
+        patient[event.target.name] = event.target.value;
+        this.setState({patient});
     }
 
 
