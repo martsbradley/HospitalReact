@@ -1,6 +1,6 @@
 import React from 'react'
-import LinkButton from './linkbutton'
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom'
 
 function Prescription (props) {
   const prescriptions = props.list
@@ -42,7 +42,6 @@ export default class Patient extends React.Component {
         dob: null,
         prescription: []
       },
-      showPatientList: props.doit
     }
 
     this.createLoadURL = this.createLoadURL.bind(this)
@@ -137,7 +136,6 @@ export default class Patient extends React.Component {
         }
       )
       .then(() => {
-        this.state.showPatientList()
         this.props.history.push('/patients/list')
       }
       )
@@ -166,8 +164,19 @@ export default class Patient extends React.Component {
     if (error) {
       return <p>There was an error calling the service</p>
     }
+
     const patient = this.state.patient;
+
+      //Really should not need to do this.
+      //there is a method to avoid rendering.
+    if (patient.dob === null) {
+        return "";
+    }
     const pres = patient.prescription;
+    const addPrescription = `/patients/${patient.id}/addPrescription`;
+
+    console.log("addPrescription : " + addPrescription);
+
 
     const result = (
       <div>
@@ -195,7 +204,8 @@ export default class Patient extends React.Component {
               </div>
               <div className="form-group">
                   <button type="submit" >Submit</button>
-                  <LinkButton to="/patients/list">Cancel</LinkButton>
+                  <Link to="/patients/list"><button>Cancel</button></Link>
+                  <Link to={`${addPrescription}`} ><button>Add Prescription</button></Link>
               </div>
           </div>
         </form>
@@ -206,6 +216,5 @@ export default class Patient extends React.Component {
 
 Patient.propTypes = {
     history : PropTypes.object,
-    doit    : PropTypes.func,
     match   : PropTypes.object
 }

@@ -10,15 +10,11 @@ export default class PatientTable extends React.Component {
 
     this.editPatient = this.editPatient.bind(this)
     this.listPatients = this.listPatients.bind(this)
-    this.reloadMe = this.reloadMe.bind(this)
-  }
-
-  reloadMe () {
+    this.addPrescription = this.addPrescription.bind(this)
   }
 
   editPatient (props) {
-
-    return <Patient {...props} doit={this.reloadMe} />
+    return <Patient {...props} />
   }
 
   listPatients (props) {
@@ -26,12 +22,18 @@ export default class PatientTable extends React.Component {
     return result
   }
 
+  addPrescription(props) {
+      return (<div> Show add Prescription </div>);
+  }
+
+
   render () {
 
     let result = (
       <Switch>
         <Route path="/patients/edit/:gistId" render={(props) => this.editPatient(props)} />
         <Route path="/patients/list" render={(props) => this.listPatients(props)} />
+        <Route path="/patients/:patientId/addPrescription" render={(props) => this.addPrescription(props)} />
       </Switch>
       )
     return result
