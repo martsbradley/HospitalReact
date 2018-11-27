@@ -5,34 +5,14 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 import './index.css'
 import Patient from './patient.js'
-import About from './About'
 import Repos from './Repos'
 
 const BasicExample = () => (
   <Router>
     <div>
-      <div id="navbar">
-        <ul>
-          <li>
-            <Link to="/">Repos</Link>
-          </li>
-          <li>
-            <Link to="/patients/list">Patients</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/topics">Topics</Link>
-          </li>
-        </ul>
-      </div>
-
-      <div id="main">
+      <div>
         <Route exact path="/" component={Repos} />
         <Route path="/patients" component={Patient} />
-        <Route path="/about" component={About} />
-        <Route path="/topics" component={Topics} />
       </div>
     </div>
   </Router>
@@ -76,4 +56,4 @@ Topic.propTypes = {
     match : PropTypes.object,
 }
 
-ReactDOM.render(<div className="container"><BasicExample/></div>, document.getElementById('root'))
+ReactDOM.render(<div><BasicExample/></div>, document.getElementById('root'))

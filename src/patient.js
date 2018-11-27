@@ -32,7 +32,8 @@ export default class PatientTable extends React.Component {
       <Switch>
         <Route path="/patients/edit/:gistId" render={(props) => this.editPatient(props)} />
         <Route path="/patients/list" render={(props) => this.listPatients(props)} />
-      </Switch>)
+      </Switch>
+      )
     return result
   }
 }

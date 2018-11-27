@@ -39,7 +39,7 @@ export default class Patient extends React.Component {
       loaded: false,
       patient: { forename: '',
         surname: '',
-        dob: '',
+        dob: null,
         prescription: []
       },
       showPatientList: props.doit
@@ -63,6 +63,7 @@ export default class Patient extends React.Component {
     return result
   }
 
+
   loadPatient () {
     let url = this.createLoadURL()
 
@@ -76,17 +77,22 @@ export default class Patient extends React.Component {
         }
       },
       networkError => {
-        alert('Network Failure ' + networkError)
+        console.log('Network Failure ' + networkError)
       }
       )
       .then(patient => {
+          // There is on JSON Date
+          // So date comes in as a "yyyy-MM-ddT00:00Z
+          // Now get the yyyy-MM-dd part of the string only.
+        patient.dob = new Date(patient.dob).toISOString().split('T')[0];
+
         this.setState({ patient: patient,
           loaded: true
         })
       }
       )
       .catch(exn => {
-        alert('forget about it: ' + exn.statusText)
+        console.log('forget about it: ' + exn.statusText)
       })
   }
 
@@ -100,10 +106,11 @@ export default class Patient extends React.Component {
       const formField = document.querySelector("span[name='" + name + ".errors']")
       formField.innerText = message
     }
-
   }
 
-  postData (url, data) {
+  postData (url, patient) {
+
+    patient.dob = patient.dob + "T00:00Z";
 
     fetch(url, {
       method: 'post',
@@ -111,7 +118,7 @@ export default class Patient extends React.Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(patient)
     })
       .then(
         response => {
@@ -159,40 +166,44 @@ export default class Patient extends React.Component {
     if (error) {
       return <p>There was an error calling the service</p>
     }
-    const patient = this.state.patient
-    const pres = patient.prescription
+    const patient = this.state.patient;
+    const pres = patient.prescription;
 
     const result = (
       <div>
         <form onSubmit={this.savePatient}>
-          <div>
-            <label htmlFor="forename">Forename</label>
-            <input type="text" name="forename" value={patient.forename}
-              onChange={this.handleFormChange}/>
-            <span className="errors" name="forename.errors"></span>
+          <div className="col-md-6 form-line">
+              <div className="form-group">
+                  <label htmlFor="forename">Forename</label>
+                  <input type="text" className="form-control" name="forename" value={patient.forename}
+                    onChange={this.handleFormChange}/>
+                  <span className="errors" name="forename.errors"></span>
+              </div>
+              <div className="form-group">
+                  <label htmlFor="surname">Surname</label>
+                  <input type="text" className="form-control" name="surname" value={patient.surname}
+                    onChange={this.handleFormChange}/>
+                  <span className="errors" name="surname.errors"></span>
+              </div>
+              <div className="form-group">
+                  <label htmlFor="dob" >Date of Birth</label>
+                  <input type="date" className="form-control" name="dob" value={patient.dob}
+                  onChange={this.handleFormChange}/>
+              </div>
+              <div className="form-group">
+                <Prescription list={pres} />
+              </div>
+              <div className="form-group">
+                  <button type="submit" >Submit</button>
+                  <LinkButton to="/patients/list">Cancel</LinkButton>
+              </div>
           </div>
-          <div>
-            <label htmlFor="surname">Surname</label>
-            <input type="text" name="surname" value={patient.surname}
-              onChange={this.handleFormChange}/>
-            <span className="errors" name="surname.errors"></span>
-          </div>
-          <div><label htmlFor="dob" >Date of Birth</label>
-            <input type="text" name="dob" value={patient.dob}
-              onChange={this.handleFormChange}/>
-          </div>
-          <div>
-            <Prescription list={pres} />
-          </div>
-          <p>
-            <LinkButton to="/patients/list">Cancel</LinkButton>
-            <button type="submit" >Submit</button>
-          </p>
         </form>
       </div>)
     return result
   }
 }
+
 Patient.propTypes = {
     history : PropTypes.object,
     doit    : PropTypes.func,

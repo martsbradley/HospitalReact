@@ -4,12 +4,15 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 
 function PatientRow (props) {
-  let id = props.pat.id
+  let pat = props.pat;
+  let id  = pat.id;
+  pat.dob = new Date(pat.dob).toISOString().split('T')[0];
+
   return (<tr>
-    <td><Link to={`/patients/edit/${id}`}>{props.pat.id}</Link></td>
-    <td><Link to={`/patients/edit/${id}`}>{props.pat.forename}</Link></td>
-    <td><Link to={`/patients/edit/${id}`}>{props.pat.surname}</Link></td>
-    <td><Link to={`/patients/edit/${id}`}>{props.pat.dob}</Link></td>
+    <td><Link to={`/patients/edit/${id}`}>{pat.id}</Link></td>
+    <td><Link to={`/patients/edit/${id}`}>{pat.forename}</Link></td>
+    <td><Link to={`/patients/edit/${id}`}>{pat.surname}</Link></td>
+    <td><Link to={`/patients/edit/${id}`}>{pat.dob}</Link></td>
   </tr>)
 }
 
@@ -82,7 +85,6 @@ export default class PatientList extends React.Component {
       .catch(() => {
         alert('There were errors')
       })
-
   }
 
   componentDidMount () {
@@ -96,30 +98,41 @@ export default class PatientList extends React.Component {
       return <p>There was an error calling the service</p>
     }
 
-    const patients = this.state.patients
+    const patients = this.state.patients;
+
+    if (patients.length === 0) return "";
+
     const items = patients.map(patient => <PatientRow key={patient.id} pat={patient}/>)
 
-    return (<div>
-      <table className='table table-bordered'>
-        <thead className='thead-dark'>
-          <tr>
-            <th scope="col">Id</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">DOB</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items}
-        </tbody>
-      </table>
 
-      <Pagination activePage={this.state.activePage}
-        itemsCountPerPage={this.state.itemOnPage}
-        totalItemsCount={this.state.totalItemsCount}
-        pageRangeDisplayed={15}
-        onChange={this.pageChange} />
-    </div>
+    return (<div>
+       <div>
+          <table className='table table-bordered'>
+            <thead className='thead-dark'>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">DOB</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items}
+            </tbody>
+          </table>
+
+          <Pagination activePage={this.state.activePage}
+            itemsCountPerPage={this.state.itemOnPage}
+            totalItemsCount={this.state.totalItemsCount}
+            pageRangeDisplayed={15}
+            onChange={this.pageChange} />
+          </div>
+
+          <div>
+              <Link to="/"><button>New</button></Link>
+              <Link to="/"><button>Cancel</button></Link>
+          </div>
+      </div>
     )
   }
 }
