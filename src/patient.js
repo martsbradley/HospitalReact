@@ -2,6 +2,8 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import Patient from './patient_edit.js'
 import PatientList from './patient_list.js'
+import PrescriptionAdd from './prescriptionadd.js'
+
 
 export default class PatientTable extends React.Component {
   constructor (props) {
@@ -10,7 +12,7 @@ export default class PatientTable extends React.Component {
 
     this.editPatient = this.editPatient.bind(this)
     this.listPatients = this.listPatients.bind(this)
-    this.addPrescription = this.addPrescription.bind(this)
+    //this.addPrescription = this.addPrescription.bind(this)
   }
 
   editPatient (props) {
@@ -19,13 +21,8 @@ export default class PatientTable extends React.Component {
 
   listPatients (props) {
     let result = <PatientList {...props} />
-    return result
+    return result;
   }
-
-  addPrescription(props) {
-      return (<div> Show add Prescription </div>);
-  }
-
 
   render () {
 
@@ -33,7 +30,7 @@ export default class PatientTable extends React.Component {
       <Switch>
         <Route path="/patients/edit/:gistId" render={(props) => this.editPatient(props)} />
         <Route path="/patients/list" render={(props) => this.listPatients(props)} />
-        <Route path="/patients/:patientId/addPrescription" render={(props) => this.addPrescription(props)} />
+        <Route path="/patients/:patientId/addPrescription" component={PrescriptionAdd} />
       </Switch>
       )
     return result

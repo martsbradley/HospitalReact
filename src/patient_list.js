@@ -76,6 +76,7 @@ export default class PatientList extends React.Component {
         // The data from the response bodies has arrived.
         const patients = dataArray[0]
         const total = dataArray[1]
+        console.log("Found the total meds to be " + total);
 
         this.setState({ patients: patients,
           activePage: aActivePage,
