@@ -17,3 +17,13 @@ button {
     margin-top: 2%;
     width: 85%;
 }
+table.selectabletable thead > tr:hover {
+    background-color: white;
+}
+table.selectabletable tr:hover {
+    background-color: lightblue;
+}
+
+.selected { 
+    background-color: gray; 
+}

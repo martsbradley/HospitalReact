@@ -3,30 +3,51 @@ import PropTypes from 'prop-types';
 import BackButton from './backbutton.js'
 import Pagination from 'react-js-pagination'
 
-function Medicine (props) {
-  const meds = props.list
+class Medicine extends React.Component {
+    constructor(props) {
+        super(props);
+        this.myClick = this.myClick.bind(this);
+        this.state = {selectedRow : -1}
+    }
 
-  let detail = <tr></tr>
+    myClick(medicineId){
+        this.setState({ selectedRow: medicineId});
+        console.log("selected " + medicineId);
+    }
 
-  if (meds) {
-    detail = meds.map(p =>
-      <tr key={p.id}>
-        <td>{p.id}</td>
-        <td>{p.name}</td>
-        <td>{p.manufacturer}</td>
-      </tr>)
-  }
+    render()  {
+        let detail = <tr></tr>
+        console.log("Rendered table again");
 
-  const table = (<table className='table table-bordered'>
-    <thead className='thead-dark'>
-      <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Name</th>
-        <th scope="col">Manufacturer</th>
-      </tr>
-    </thead>
-    <tbody>{detail}</tbody></table>)
-  return table
+        const meds = this.props.meds;
+        if (meds) {
+            //const theStyle = "selected";
+
+
+            detail = meds.map(p =>
+              <tr className={this.state.selectedRow === p.id? "selected": ""}
+                   onClick={() => this.myClick(p.id)} key={p.id}>
+                <td>{p.id}</td>
+                <td>{p.name}</td>
+                <td>{p.manufacturer}</td>
+              </tr>)
+        }
+
+        const table = (<table className='table table-border selectabletable'>
+          <thead className=''>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Name</th>
+              <th scope="col">Manufacturer</th>
+            </tr>
+          </thead>
+          <tbody>{detail}</tbody></table>)
+        return table
+    }
+}
+
+Medicine.propTypes = {
+    meds : PropTypes.array,
 }
 
 export default class PrescriptionAdd extends React.Component {
@@ -51,7 +72,8 @@ export default class PrescriptionAdd extends React.Component {
     }
 
     totalMedsURL () {
-      return this.urlPrefix + '/total'
+        const filter =  this.state.formData["filter"];
+        return this.urlPrefix + `/total?filter=${filter}`;
     }
 
     createLoadURL(aActivePage) {
@@ -101,7 +123,8 @@ export default class PrescriptionAdd extends React.Component {
       
           this.setState({ meds: medsArray,
             activePage: aActivePage,
-            totalItemsCount: total })
+            totalItemsCount: total },
+          () => {console.log("finally loaded " + medsArray.length);})
         }
         )
         .catch(() => {
@@ -112,17 +135,20 @@ export default class PrescriptionAdd extends React.Component {
 
     handleFilterChange(event) {
         this.handleFormChange(event);
-        this.loadTable(this.state.activePage)
+        this.setState({ activePage: 1 },
+            () => {
+            this.loadTable(this.state.activePage);
+        });
     }
+
     handleFormChange (event) {
       let formData = this.state.formData
       formData[event.target.name] = event.target.value
       this.setState({ formData })
     }
 
-
-
     render () {
+        console.log("rendering " + this.state.meds.length);
         const meds = this.state.meds;
         let result = (<div>
             
@@ -134,10 +160,9 @@ export default class PrescriptionAdd extends React.Component {
                         <label htmlFor="filter">Filter:</label>
                         <input type="text" className="form-control" name="filter" value={this.state.formData.filter}
                                onChange={this.handleFilterChange} />
-                        <BackButton {...this.props}/>
                     </div>
                     <div className="form-line">
-                        <Medicine list={meds}/>
+                        <Medicine meds={meds}/>
                          <Pagination activePage={this.state.activePage}
                            itemsCountPerPage={this.state.numItemsOnPage}
                            totalItemsCount={this.state.totalItemsCount}
