@@ -12,11 +12,12 @@ export default class BackButton extends React.Component {
     }
 
     render () {
-        let result = (<button onClick={this.goBack}>Back Button...</button>);
+        let result = (<button onClick={this.goBack}>{this.props.text}</button>);
         return result;
     }
 }
 
 BackButton.propTypes = {
     history : PropTypes.object,
+    text  : PropTypes.string,
 }

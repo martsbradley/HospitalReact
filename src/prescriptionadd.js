@@ -8,7 +8,7 @@ class Medicine extends React.Component {
     constructor(props) {
         super(props);
         this.myClick = this.myClick.bind(this);
-        this.state = {selectedRow : -1}
+        this.state = {selectedRow : -1 }
     }
 
     myClick(medicineId){
@@ -173,8 +173,8 @@ export default class PrescriptionAdd extends React.Component {
                     </div>
                     <div className="form-line">
                         <div className="form-group">
-                            <BackButton {...this.props}/>
-                            <Link to={`${this.props.match.url}/setStartDate`}><button>Next</button></Link>
+                            <BackButton text="Cancel" {...this.props}/>
+                            <Link to="setStartDate"><button>Next</button></Link>
                         </div>
                     </div>
                 </div>
