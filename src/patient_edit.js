@@ -173,7 +173,7 @@ export default class Patient extends React.Component {
         return "";
     }
     const pres = patient.prescription;
-    const addPrescription = `/patients/${patient.id}/addPrescription`;
+    const addPrescription = `/patients/${patient.id}/prescription`;
 
     console.log("addPrescription : " + addPrescription);
 

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import BackButton from './backbutton.js'
 import Pagination from 'react-js-pagination'
+import { Link } from 'react-router-dom'
 
 class Medicine extends React.Component {
     constructor(props) {
@@ -173,6 +174,7 @@ export default class PrescriptionAdd extends React.Component {
                     <div className="form-line">
                         <div className="form-group">
                             <BackButton {...this.props}/>
+                            <Link to={`${this.props.match.url}/setStartDate`}><button>Next</button></Link>
                         </div>
                     </div>
                 </div>

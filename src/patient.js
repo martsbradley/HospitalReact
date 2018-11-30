@@ -2,8 +2,7 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import Patient from './patient_edit.js'
 import PatientList from './patient_list.js'
-import PrescriptionAdd from './prescriptionadd.js'
-
+import Prescription from './prescription.js'
 
 export default class PatientTable extends React.Component {
   constructor (props) {
@@ -30,9 +29,9 @@ export default class PatientTable extends React.Component {
       <Switch>
         <Route path="/patients/edit/:gistId" render={(props) => this.editPatient(props)} />
         <Route path="/patients/list" render={(props) => this.listPatients(props)} />
-        <Route path="/patients/:patientId/addPrescription" component={PrescriptionAdd} />
+        <Route path="/patients/:patientId/prescription" component={Prescription} />
       </Switch>
-      )
+    )
     return result
   }
 }
