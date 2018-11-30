@@ -11,6 +11,9 @@ class Medicine extends React.Component {
     }
 
     myClick(medicineId){
+        if (medicineId === this.state.selectedRow) {
+            medicineId = -1;
+        }
         this.setState({ selectedRow: medicineId});
         console.log("selected " + medicineId);
     }
@@ -21,8 +24,6 @@ class Medicine extends React.Component {
 
         const meds = this.props.meds;
         if (meds) {
-            //const theStyle = "selected";
-
 
             detail = meds.map(p =>
               <tr className={this.state.selectedRow === p.id? "selected": ""}
