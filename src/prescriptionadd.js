@@ -1,23 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import BackButton from './backbutton.js'
 import Pagination from 'react-js-pagination'
 import { Link } from 'react-router-dom'
 
 class Medicine extends React.Component {
-    constructor(props) {
-        super(props);
-        this.myClick = this.myClick.bind(this);
-        this.state = {selectedRow : -1 }
-    }
-
-    myClick(medicineId){
-        if (medicineId === this.state.selectedRow) {
-            medicineId = -1;
-        }
-        this.setState({ selectedRow: medicineId});
-        console.log("selected " + medicineId);
-    }
 
     render()  {
         let detail = <tr></tr>
@@ -27,8 +13,8 @@ class Medicine extends React.Component {
         if (meds) {
 
             detail = meds.map(p =>
-              <tr className={this.state.selectedRow === p.id? "selected": ""}
-                   onClick={() => this.myClick(p.id)} key={p.id}>
+              <tr className={this.props.selectedMedicine === p.id? "selected": ""}
+                   onClick={() => this.props.mouseClicked(p.id)} key={p.id}>
                 <td>{p.id}</td>
                 <td>{p.name}</td>
                 <td>{p.manufacturer}</td>
@@ -50,6 +36,8 @@ class Medicine extends React.Component {
 
 Medicine.propTypes = {
     meds : PropTypes.array,
+    selectedMedicine: PropTypes.number,
+    mouseClicked: PropTypes.func
 }
 
 export default class PrescriptionAdd extends React.Component {
@@ -164,7 +152,10 @@ export default class PrescriptionAdd extends React.Component {
                                onChange={this.handleFilterChange} />
                     </div>
                     <div className="form-line">
-                        <Medicine meds={meds}/>
+                        <Medicine meds={meds} 
+                                  selectedMedicine={this.props.selectedMedicine} 
+                                  mouseClicked={this.props.mouseClicked} />
+
                          <Pagination activePage={this.state.activePage}
                            itemsCountPerPage={this.state.numItemsOnPage}
                            totalItemsCount={this.state.totalItemsCount}
@@ -173,7 +164,7 @@ export default class PrescriptionAdd extends React.Component {
                     </div>
                     <div className="form-line">
                         <div className="form-group">
-                            <BackButton text="Cancel" {...this.props}/>
+                            <Link to={`/patients/edit/${this.props.patientId}`}><button>Cancel</button></Link>
                             <Link to="setStartDate"><button>Next</button></Link>
                         </div>
                     </div>
@@ -186,5 +177,7 @@ export default class PrescriptionAdd extends React.Component {
 }
 
 PrescriptionAdd.propTypes = {
-    message : PropTypes.object,
+    mouseClicked: PropTypes.func,
+    selectedMedicine: PropTypes.number,
+    patientId : PropTypes.string,
 }
