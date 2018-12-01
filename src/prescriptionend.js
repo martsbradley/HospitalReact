@@ -8,7 +8,13 @@ export default class PrescriptionEnd extends React.Component {
         super(props);
 
         this.state =  {formData :  { startDate : '2018-02-04'}};
-        console.log("Prescription constructor " + this.props.match);
+        this.handleFormChange = this.handleFormChange.bind(this)
+    }
+
+    handleFormChange (event) {
+        let formData = this.state.formData
+        formData[event.target.name] = event.target.value
+        this.setState({ formData })
     }
 
     render () {
@@ -21,7 +27,7 @@ export default class PrescriptionEnd extends React.Component {
                     <div className="form-group">
                         <label htmlFor="dob" >Start Date</label>
                         <input type="date" className="form-control" name="startDate" value={formData.startDate}
-                        readOnly onChange={this.handleFormChange}/>
+                        onChange={this.handleFormChange}/>
                     </div>
                     <div className="form-group">
                       <BackButton text="Previous" {...this.props}/>
