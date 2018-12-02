@@ -7,7 +7,6 @@ class Medicine extends React.Component {
 
     render()  {
         let detail = <tr></tr>
-        console.log("Rendered table again");
 
         const meds = this.props.meds;
         if (meds) {
@@ -40,12 +39,21 @@ Medicine.propTypes = {
     mouseClicked: PropTypes.func
 }
 
+
+function ValidationMessage(props) {
+    if (props.when) {
+        return <div>Error: Please select a medicine.</div>
+    }
+    return "";
+}
+
 export default class PrescriptionAdd extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {  
           formData: { "filter": "" },
+          showWarning: false,
           meds: [],
           loaded: false,
           activePage: 1,
@@ -59,6 +67,22 @@ export default class PrescriptionAdd extends React.Component {
         this.loadTable = this.loadTable.bind(this);
         this.totalMedsURL = this.totalMedsURL.bind(this)
         this.pageChange  = this.pageChange.bind(this);
+        this.onSubmit  = this.onSubmit.bind(this);
+    }
+
+    onSubmit(event) {
+
+        if (this.props.canMoveNextPage()) {
+            console.log("Can move to the next page!");
+            this.setState({showWarning: false});
+            console.log("History is a " + typeof(this.props.history));
+            this.props.history.push('setStartDate')
+        }
+        else {
+            this.setState({showWarning: true});
+        }
+        event.preventDefault();
+        event.target.reset();
     }
 
     totalMedsURL () {
@@ -70,11 +94,9 @@ export default class PrescriptionAdd extends React.Component {
         let numItemsOnPage = this.state.numItemsOnPage
 
         let start = (aActivePage - 1) * numItemsOnPage
-        console.log("Starting at " + start);
         const filter =  this.state.formData["filter"];
 
         let result = this.urlPrefix + `?start=${start}&max=${numItemsOnPage}&filter=${filter}`;
-        console.log("result is " + result);
 
         return result
     }
@@ -108,7 +130,6 @@ export default class PrescriptionAdd extends React.Component {
           // The data from the response bodies has arrived.
           const medsArray = dataArray[0];
           const total = dataArray[1];
-          console.log("JavaScript total is " + total);
 
       
           this.setState({ meds: medsArray,
@@ -138,12 +159,15 @@ export default class PrescriptionAdd extends React.Component {
     }
 
     render () {
-        console.log("rendering " + this.state.meds.length);
         const meds = this.state.meds;
+
+        const isBlocking = this.state.showWarning;
+
         let result = (<div>
             
             <h1>Prescription Medicine</h1>
-            <form onSubmit={this.next}>
+            <form onSubmit={this.onSubmit}>
+
 
                 <div className="col-md-6">
                     <div className="form-inline">
@@ -163,9 +187,13 @@ export default class PrescriptionAdd extends React.Component {
                            onChange={this.pageChange} />
                     </div>
                     <div className="form-line">
+                        <ValidationMessage when={isBlocking} />
+                    </div>
+
+                    <div className="form-line">
                         <div className="form-group">
                             <Link to={`/patients/edit/${this.props.patientId}`}><button>Cancel</button></Link>
-                            <Link to="setStartDate"><button>Next</button></Link>
+                            <input type="submit" value="Next"></input>
                         </div>
                     </div>
                 </div>
@@ -175,9 +203,12 @@ export default class PrescriptionAdd extends React.Component {
         return result;
     }
 }
+                            //<Link to="setStartDate"><button>Next</button></Link>
 
 PrescriptionAdd.propTypes = {
     mouseClicked: PropTypes.func,
     selectedMedicine: PropTypes.number,
+    canMoveNextPage: PropTypes.func,
     patientId : PropTypes.string,
+    history : PropTypes.object,
 }

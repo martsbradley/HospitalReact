@@ -1,18 +1,14 @@
 body {
     font-size: 1.4em;
     font-family: Arial, sans-serif, Times, "Times New Roman";
+    background-color: lightyellow;
 }
-
-/*a {color: darkgray;
-   font-size: 17.5px;
-   font-weight : 400}*/
 
 button {
   color: black;
 }
 
 .container {
-    background-color: white;
     margin : 0 auto;
     margin-top: 2%;
     width: 85%;
