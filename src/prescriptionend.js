@@ -6,8 +6,8 @@ export default class PrescriptionEnd extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state =  {formData :  { startDate : '2018-02-04'}};
         this.handleFormChange = this.handleFormChange.bind(this)
+        this.saveDate = this.saveDate.bind(this)
     }
 
     handleFormChange (event) {
@@ -26,7 +26,6 @@ export default class PrescriptionEnd extends React.Component {
     }
 
     render () {
-        const formData = this.state.formData;
         return (<div>
             <h1>Prescription End Date</h1>
 
@@ -35,25 +34,24 @@ export default class PrescriptionEnd extends React.Component {
                   <div className="form-group">
                       <label htmlFor="medicine" >Medicine</label>
                       <input type="input" className="form-control" name="medicine" 
-                             readOnly disabled value={this.props.medicineName} />
+                             readOnly disabled value={this.props.medicine.name} />
                   </div>
                   <div className="form-group">
                       <label htmlFor="startDate" >Start Date</label>
-                      <input type="input" className="form-control" name="startDate" 
+                      <input type="date" className="form-control" name="startDate" 
                              readOnly disabled value={this.props.startDate}/>
                   </div>
                     <div className="form-group">
                         <label htmlFor="dob" >End Date</label>
-                        <input type="date" className="form-control" name="startDate" value={formData.startDate}
-                        onChange={this.handleFormChange}/>
+                        <input type="date" className="form-control" name="endDate" 
+                               value={this.props.endDate}
+                               onChange={this.handleFormChange}/>
                     </div>
                     <div className="form-group">
                       <BackButton text="Previous" {...this.props}/>
                       <input type="submit" value="Next"></input>
                     </div>
                 </div>
-            
-
             </form>
         </div>);
     }
@@ -61,7 +59,8 @@ export default class PrescriptionEnd extends React.Component {
 PrescriptionEnd.propTypes = {
     match : PropTypes.object,
     startDate : PropTypes.string,
-    medicineName : PropTypes.string,
+    endDate : PropTypes.string,
+    medicine: PropTypes.object,
     updateDate : PropTypes.func,
     history : PropTypes.object,
     canMoveNextPage : PropTypes.func,

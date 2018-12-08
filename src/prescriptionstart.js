@@ -37,7 +37,7 @@ export default class PrescriptionStart extends React.Component {
                   <div className="form-group">
                       <label htmlFor="medicine" >Medicine</label>
                       <input type="input" className="form-control" name="medicine" 
-                             readOnly disabled value={this.props.medicineName} />
+                             readOnly disabled value={this.props.medicine.name} />
                   </div>
                   <div className="form-group">
                       <label htmlFor="startDate" >Start Date</label>
@@ -60,7 +60,7 @@ export default class PrescriptionStart extends React.Component {
 PrescriptionStart.propTypes = {
     match : PropTypes.object,
     startDate : PropTypes.string,
-    medicineName : PropTypes.string,
+    medicine : PropTypes.object,
     updateDate : PropTypes.func,
     history : PropTypes.object,
     canMoveNextPage : PropTypes.func,
