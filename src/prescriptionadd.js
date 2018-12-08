@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import Pagination from 'react-js-pagination'
 import { Link } from 'react-router-dom'
+import ValidationMessage from './validationmessage.js'
 
 class Medicine extends React.Component {
 
@@ -39,13 +40,6 @@ Medicine.propTypes = {
     mouseClicked: PropTypes.func
 }
 
-
-function ValidationMessage(props) {
-    if (props.when) {
-        return <div>Error: Please select a medicine.</div>
-    }
-    return "";
-}
 
 export default class PrescriptionAdd extends React.Component {
     constructor(props) {
@@ -203,7 +197,6 @@ export default class PrescriptionAdd extends React.Component {
         return result;
     }
 }
-                            //<Link to="setStartDate"><button>Next</button></Link>
 
 PrescriptionAdd.propTypes = {
     mouseClicked: PropTypes.func,

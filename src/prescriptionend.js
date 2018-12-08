@@ -31,7 +31,7 @@ export default class PrescriptionEnd extends React.Component {
                     </div>
                     <div className="form-group">
                       <BackButton text="Previous" {...this.props}/>
-                      <Link to="confirm"><button>Next</button></Link>
+                      <Link to="confirmed"><button>Next</button></Link>
                     </div>
                 </div>
             
