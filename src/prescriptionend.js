@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import BackButton from './backbutton.js'
-import { Link } from 'react-router-dom'
 
 export default class PrescriptionEnd extends React.Component {
     constructor(props) {
@@ -12,9 +11,18 @@ export default class PrescriptionEnd extends React.Component {
     }
 
     handleFormChange (event) {
-        let formData = this.state.formData
-        formData[event.target.name] = event.target.value
-        this.setState({ formData })
+        const aNewDate = event.target.value
+        this.props.updateDate(aNewDate);
+    }
+
+    saveDate(event) {
+        event.preventDefault();
+        if (this.props.canMoveNextPage()) {
+            this.props.history.push('confirmed')
+        }
+        else {
+            this.setState({showWarning: true});
+        }
     }
 
     render () {
@@ -24,14 +32,24 @@ export default class PrescriptionEnd extends React.Component {
 
             <form onSubmit={this.saveDate}>
               <div className="col-md-6 form-line">
+                  <div className="form-group">
+                      <label htmlFor="medicine" >Medicine</label>
+                      <input type="input" className="form-control" name="medicine" 
+                             readOnly disabled value={this.props.medicineName} />
+                  </div>
+                  <div className="form-group">
+                      <label htmlFor="startDate" >Start Date</label>
+                      <input type="input" className="form-control" name="startDate" 
+                             readOnly disabled value={this.props.startDate}/>
+                  </div>
                     <div className="form-group">
-                        <label htmlFor="dob" >Start Date</label>
+                        <label htmlFor="dob" >End Date</label>
                         <input type="date" className="form-control" name="startDate" value={formData.startDate}
                         onChange={this.handleFormChange}/>
                     </div>
                     <div className="form-group">
                       <BackButton text="Previous" {...this.props}/>
-                      <Link to="confirmed"><button>Next</button></Link>
+                      <input type="submit" value="Next"></input>
                     </div>
                 </div>
             
@@ -42,4 +60,9 @@ export default class PrescriptionEnd extends React.Component {
 }
 PrescriptionEnd.propTypes = {
     match : PropTypes.object,
+    startDate : PropTypes.string,
+    medicineName : PropTypes.string,
+    updateDate : PropTypes.func,
+    history : PropTypes.object,
+    canMoveNextPage : PropTypes.func,
 }

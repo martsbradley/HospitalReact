@@ -35,13 +35,18 @@ export default class PrescriptionStart extends React.Component {
             <form onSubmit={this.saveDate}>
                 <div className="col-md-6 form-line">
                   <div className="form-group">
-                      <label htmlFor="dob" >Start Date</label>
+                      <label htmlFor="medicine" >Medicine</label>
+                      <input type="input" className="form-control" name="medicine" 
+                             readOnly disabled value={this.props.medicineName} />
+                  </div>
+                  <div className="form-group">
+                      <label htmlFor="startDate" >Start Date</label>
                       <input type="date" className="form-control" name="startDate" 
                              value={this.props.startDate}
                       onChange={this.handleFormChange}/>
                   </div>
                   <div className="form-group">
-                        <ValidationMessage when={isBlocking} />
+                        <ValidationMessage when={isBlocking} what="Date cannot be in the past"/>
                   </div>
                   <div className="form-group">
                     <Link to="medicine"><button>Back</button></Link>
@@ -55,6 +60,7 @@ export default class PrescriptionStart extends React.Component {
 PrescriptionStart.propTypes = {
     match : PropTypes.object,
     startDate : PropTypes.string,
+    medicineName : PropTypes.string,
     updateDate : PropTypes.func,
     history : PropTypes.object,
     canMoveNextPage : PropTypes.func,

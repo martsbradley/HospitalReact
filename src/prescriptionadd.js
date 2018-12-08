@@ -14,7 +14,7 @@ class Medicine extends React.Component {
 
             detail = meds.map(p =>
               <tr className={this.props.selectedMedicine === p.id? "selected": ""}
-                   onClick={() => this.props.mouseClicked(p.id)} key={p.id}>
+                   onClick={() => this.props.mouseClicked(p.id, p.name)} key={p.id}>
                 <td>{p.id}</td>
                 <td>{p.name}</td>
                 <td>{p.manufacturer}</td>
@@ -76,7 +76,7 @@ export default class PrescriptionAdd extends React.Component {
             this.setState({showWarning: true});
         }
         event.preventDefault();
-        event.target.reset();
+        event.target.reset();//??????????? why...
     }
 
     totalMedsURL () {
@@ -181,7 +181,7 @@ export default class PrescriptionAdd extends React.Component {
                            onChange={this.pageChange} />
                     </div>
                     <div className="form-line">
-                        <ValidationMessage when={isBlocking} />
+                        <ValidationMessage when={isBlocking} what="Please select a medicine"/>
                     </div>
 
                     <div className="form-line">
