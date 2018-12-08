@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import ValidationMessage from './validationmessage.js'
+import Medicine from './medicine.js'
 
 export default class PrescriptionStart extends React.Component {
     constructor(props) {
@@ -35,17 +36,20 @@ export default class PrescriptionStart extends React.Component {
             <form onSubmit={this.saveDate}>
                 <div className="col-md-6 form-line">
                   <div className="form-group">
-                      <label htmlFor="medicine" >Medicine</label>
-                      <input type="input" className="form-control" name="medicine" 
-                             readOnly disabled value={this.props.medicine.name} />
+                      <Medicine meds={[this.props.medicine]} 
+                                selectedMedicine={-1}
+                                mouseDisabled={true}
+                                mouseClicked={() => {console.log("do nothing");} } />
                   </div>
+
                   <div className="form-group">
                       <label htmlFor="startDate" >Start Date</label>
-                      <input type="date" className="form-control" name="startDate" 
+                      <input type="date" className="form-control " name="startDate" 
                              value={this.props.startDate}
                       onChange={this.handleFormChange}/>
                   </div>
-                  <div className="form-group">
+
+                  <div className="col-3">
                         <ValidationMessage when={isBlocking} what="Date cannot be in the past"/>
                   </div>
                   <div className="form-group">

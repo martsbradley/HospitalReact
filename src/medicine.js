@@ -18,7 +18,14 @@ export default class Medicine extends React.Component {
               </tr>)
         }
 
-        const table = (<table className='table table-border selectabletable'>
+        let selectAble = 'table table-border selectabletable';
+
+        if (this.props.mouseDisabled) {
+            selectAble= 'table table-border';
+        }
+
+        const table = (<table className={selectAble}>
+            
           <thead className=''>
             <tr>
               <th scope="col">Id</th>
@@ -33,5 +40,6 @@ export default class Medicine extends React.Component {
 Medicine.propTypes = {
     meds : PropTypes.array,
     selectedMedicine: PropTypes.number,
-    mouseClicked: PropTypes.func
+    mouseClicked: PropTypes.func,
+    mouseDisabled: PropTypes.bool,
 }

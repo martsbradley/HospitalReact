@@ -35,7 +35,7 @@ export default class Prescription extends React.Component {
         super(props);
 
         this.state = { selectedMedicineId : -1,
-                       selectedMedicine   : null,
+                       selectedMedicine   : {id:'-1',name: ''},
                        startDate : todayAsYYYYMMDD(),
                        endDate : todayAsYYYYMMDD()}
         this.medicineSelectionClick = this.medicineSelectionClick.bind(this);
@@ -124,38 +124,38 @@ export default class Prescription extends React.Component {
         const patientId = this.props.match.params["patientId"];
         let selectedMedicineId = this.state.selectedMedicine ? this.state.selectedMedicine.id: -1
 
-      return (
-        <Switch>
-          <Route path={`${this.props.match.path}/medicine`} exact 
-               render={() => <PrescriptionAdd   
-                                 patientId={patientId}
-                                 selectedMedicine={selectedMedicineId}
-                                 canMoveNextPage={this.isMedicineSelected}
-                                 mouseClicked={this.medicineSelectionClick} 
-                                 {...this.props}/> } />
-
-          <Route path={`${this.props.match.path}/setStartDate`} render={
-               ()=> <PrescriptionStart 
-                                 medicine={this.state.selectedMedicine} 
-                                 startDate={this.state.startDate} 
-                                 updateDate={this.startDateChanged} 
-                                 canMoveNextPage={this.isStartDateValid}
-                                 {...this.props}/> } />
-
-          <Route path={`${this.props.match.path}/setEndDate`} render = {
-              () => <PrescriptionEnd 
-                        medicine={this.state.selectedMedicine} 
-                        startDate={this.state.startDate} 
-                        endDate={this.state.endDate} 
-                        updateDate={this.endDateChanged} 
-                        canMoveNextPage={this.isEndDateValid}
-                        {...this.props} /> } />
-
-          <Route path={`${this.props.match.path}/confirmed`} component={Confirm}/>
-
-          <Route component={NoMatch} />
-
-        </Switch>)
+        return (
+            <Switch>
+              <Route path={`${this.props.match.path}/medicine`} exact 
+                   render={() => <PrescriptionAdd   
+                                     patientId={patientId}
+                                     selectedMedicine={selectedMedicineId}
+                                     canMoveNextPage={this.isMedicineSelected}
+                                     mouseClicked={this.medicineSelectionClick} 
+                                     {...this.props}/> } />
+          
+              <Route path={`${this.props.match.path}/setStartDate`} render={
+                   ()=> <PrescriptionStart 
+                                     medicine={this.state.selectedMedicine} 
+                                     startDate={this.state.startDate} 
+                                     updateDate={this.startDateChanged} 
+                                     canMoveNextPage={this.isStartDateValid}
+                                     {...this.props}/> } />
+          
+              <Route path={`${this.props.match.path}/setEndDate`} render = {
+                  () => <PrescriptionEnd 
+                            medicine={this.state.selectedMedicine} 
+                            startDate={this.state.startDate} 
+                            endDate={this.state.endDate} 
+                            updateDate={this.endDateChanged} 
+                            canMoveNextPage={this.isEndDateValid}
+                            {...this.props} /> } />
+          
+              <Route path={`${this.props.match.path}/confirmed`} component={Confirm}/>
+          
+              <Route component={NoMatch} />
+          
+            </Switch>)
     }
 }
 

@@ -6,8 +6,6 @@ import ValidationMessage from './validationmessage.js'
 import Medicine from './medicine.js'
 
 
-
-
 export default class PrescriptionAdd extends React.Component {
     constructor(props) {
         super(props);
@@ -131,23 +129,29 @@ export default class PrescriptionAdd extends React.Component {
 
 
                 <div className="col-md-6">
-                    <div className="form-inline">
-                        <label htmlFor="filter">Filter:</label>
-                        <input type="text" className="form-control" name="filter" value={this.state.formData.filter}
-                               onChange={this.handleFilterChange} />
-                    </div>
                     <div className="form-line">
                         <Medicine meds={meds} 
                                   selectedMedicine={this.props.selectedMedicine} 
                                   mouseClicked={this.props.mouseClicked} />
 
-                         <Pagination activePage={this.state.activePage}
-                           itemsCountPerPage={this.state.numItemsOnPage}
-                           totalItemsCount={this.state.totalItemsCount}
-                           pageRangeDisplayed={5}
-                           onChange={this.pageChange} />
+                        <div style={{display:'inline'}}>
+
+                            <Pagination activePage={this.state.activePage}
+                              itemsCountPerPage={this.state.numItemsOnPage}
+                              totalItemsCount={this.state.totalItemsCount}
+                              pageRangeDisplayed={5}
+                              onChange={this.pageChange} 
+                              innerClass="pagination pages" />
+
+                            <div style={{float:'right'}}>
+                                <label htmlFor="filter">Filter:</label>
+                                <input type="text" style={{display: 'inline'}} 
+                                          name="filter" value={this.state.formData.filter}
+                                                    placeholder="filter by name" onChange={this.handleFilterChange} />
+                            </div>
+                        </div>
                     </div>
-                    <div className="form-line">
+                    <div style={{clear: 'right'}} className="form-line">
                         <ValidationMessage when={isBlocking} what="Please select a medicine"/>
                     </div>
 
