@@ -1,10 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import BackButton from './backbutton.js'
+import ValidationMessage from './validationmessage.js'
 
 export default class PrescriptionEnd extends React.Component {
     constructor(props) {
         super(props);
+        this.state = { showWarning: false};
 
         this.handleFormChange = this.handleFormChange.bind(this)
         this.saveDate = this.saveDate.bind(this)
@@ -26,6 +28,7 @@ export default class PrescriptionEnd extends React.Component {
     }
 
     render () {
+        const isBlocking = this.state.showWarning;
         return (<div>
             <h1>Prescription End Date</h1>
 
@@ -46,6 +49,9 @@ export default class PrescriptionEnd extends React.Component {
                         <input type="date" className="form-control" name="endDate" 
                                value={this.props.endDate}
                                onChange={this.handleFormChange}/>
+                    </div>
+                    <div className="col-3">
+                          <ValidationMessage when={isBlocking} what="Must be after start date"/>
                     </div>
                     <div className="form-group">
                       <BackButton text="Previous" {...this.props}/>
