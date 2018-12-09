@@ -35,7 +35,9 @@ export default class Prescription extends React.Component {
         super(props);
 
         this.state = { selectedMedicineId : -1,
-                       selectedMedicine   : {id:'-1',name: ''},
+                       selectedMedicine   : {id: -1 ,name: ''},
+                       filter: "",
+                       activePage: 1,
                        startDate : todayAsYYYYMMDD(),
                        endDate : todayAsYYYYMMDD()}
         this.medicineSelectionClick = this.medicineSelectionClick.bind(this);
@@ -45,6 +47,9 @@ export default class Prescription extends React.Component {
 
         this.endDateChanged = this.endDateChanged.bind(this);
         this.isEndDateValid = this.isEndDateValid.bind(this);
+        this.filterChanged = this.filterChanged.bind(this);
+
+        this.pageChanged = this.pageChanged.bind(this);
 
         console.log("constr isStartDateValid " + this.state.startDate);
     }
@@ -63,6 +68,14 @@ export default class Prescription extends React.Component {
         }
 
         this.setState({ selectedMedicine: aMedicine});
+    }
+
+    pageChanged(aPage) {
+        this.setState({activePage: aPage});
+    }
+
+    filterChanged(aFilter) {
+        this.setState({filter: aFilter});
     }
 
     startDateChanged(aDate) {
@@ -129,9 +142,13 @@ export default class Prescription extends React.Component {
               <Route path={`${this.props.match.path}/medicine`} exact 
                    render={() => <PrescriptionAdd   
                                      patientId={patientId}
+                                     activePage={this.state.activePage}
+                                     filter={this.state.filter}
+                                     filterChanged={this.filterChanged}
                                      selectedMedicine={selectedMedicineId}
                                      canMoveNextPage={this.isMedicineSelected}
                                      mouseClicked={this.medicineSelectionClick} 
+                                     pageChanged={this.pageChanged}
                                      {...this.props}/> } />
           
               <Route path={`${this.props.match.path}/setStartDate`} render={

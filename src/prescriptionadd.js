@@ -11,11 +11,9 @@ export default class PrescriptionAdd extends React.Component {
         super(props);
 
         this.state = {  
-          formData: { "filter": "" },
           showWarning: false,
           meds: [],
           loaded: false,
-          activePage: 1,
           numItemsOnPage: 5,
           totalItemsCount: 0,
         };
@@ -45,7 +43,7 @@ export default class PrescriptionAdd extends React.Component {
     }
 
     totalMedsURL () {
-        const filter =  this.state.formData["filter"];
+        const filter =  this.props.filter;
         return this.urlPrefix + `/total?filter=${filter}`;
     }
 
@@ -53,7 +51,7 @@ export default class PrescriptionAdd extends React.Component {
         let numItemsOnPage = this.state.numItemsOnPage
 
         let start = (aActivePage - 1) * numItemsOnPage
-        const filter =  this.state.formData["filter"];
+        const filter =  this.props.filter;
 
         let result = this.urlPrefix + `?start=${start}&max=${numItemsOnPage}&filter=${filter}`;
 
@@ -61,7 +59,7 @@ export default class PrescriptionAdd extends React.Component {
     }
 
     componentDidMount () {
-        this.loadTable(this.state.activePage)
+        this.loadTable(this.props.activePage)
     }
 
     pageChange (activePage) {
@@ -92,9 +90,10 @@ export default class PrescriptionAdd extends React.Component {
 
       
           this.setState({ meds: medsArray,
-            activePage: aActivePage,
             totalItemsCount: total },
           () => {console.log("finally loaded " + medsArray.length);})
+
+           this.props.pageChanged(aActivePage);
         }
         )
         .catch(() => {
@@ -104,7 +103,8 @@ export default class PrescriptionAdd extends React.Component {
     }
 
     handleFilterChange(event) {
-        this.handleFormChange(event);
+        this.props.filterChanged(event.target.value);
+
         this.setState({ activePage: 1 },
             () => {
             this.loadTable(this.state.activePage);
@@ -136,7 +136,7 @@ export default class PrescriptionAdd extends React.Component {
 
                         <div style={{display:'inline'}}>
 
-                            <Pagination activePage={this.state.activePage}
+                            <Pagination activePage={this.props.activePage}
                               itemsCountPerPage={this.state.numItemsOnPage}
                               totalItemsCount={this.state.totalItemsCount}
                               pageRangeDisplayed={5}
@@ -146,8 +146,9 @@ export default class PrescriptionAdd extends React.Component {
                             <div style={{float:'right'}}>
                                 <label htmlFor="filter">Filter:</label>
                                 <input type="text" style={{display: 'inline'}} 
-                                          name="filter" value={this.state.formData.filter}
-                                                    placeholder="filter by name" onChange={this.handleFilterChange} />
+                                          name="filter" value={this.props.filter}
+                                                    placeholder="filter by name" 
+                                                    onChange={this.handleFilterChange} />
                             </div>
                         </div>
                     </div>
@@ -175,4 +176,8 @@ PrescriptionAdd.propTypes = {
     canMoveNextPage: PropTypes.func,
     patientId : PropTypes.string,
     history : PropTypes.object,
+    activePage: PropTypes.number,
+    pageChanged: PropTypes.func,
+    filter:      PropTypes.string,
+    filterChanged: PropTypes.func,
 }
