@@ -121,6 +121,18 @@ export default class PrescriptionAdd extends React.Component {
         const meds = this.state.meds;
 
         const isBlocking = this.state.showWarning;
+        //
+        let filterElement = <input type="text" style={{display: 'inline'}} 
+                                   name="filter" value={this.props.filter}
+                                   onChange={this.handleFilterChange} />
+
+        if (this.props.filter === '') {
+
+            filterElement = <input type="text" style={{display: 'inline'}} 
+                                   name="filter" value={this.props.filter}
+                                   placeholder="filter by name" 
+                                   onChange={this.handleFilterChange} />
+        }
 
         let result = (<div>
             
@@ -145,10 +157,7 @@ export default class PrescriptionAdd extends React.Component {
 
                             <div style={{float:'right'}}>
                                 <label htmlFor="filter">Filter:</label>
-                                <input type="text" style={{display: 'inline'}} 
-                                          name="filter" value={this.props.filter}
-                                                    placeholder="filter by name" 
-                                                    onChange={this.handleFilterChange} />
+                                {filterElement }
                             </div>
                         </div>
                     </div>
