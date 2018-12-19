@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types';
 
 export default class Logout extends React.Component {
     constructor (props) {
@@ -86,4 +87,8 @@ export default class Logout extends React.Component {
 
         return result;
     }
+}
+Logout.propTypes = {
+    userName : PropTypes.string,
+    loggedOff   : PropTypes.func,
 }
