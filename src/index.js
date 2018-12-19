@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import './index.css'
-import Repos from './Repos'
-import Patient from './patient.js'
+import HomePage from './homepage'
+import Patient from './patient'
 
 const BasicExample = () => (
   <Router>
     <div>
       <div>
-        <Route exact path="/" component={Repos} />
+        <Route exact path="/" component={HomePage} />
         <Route path="/patients" component={Patient} />
       </div>
     </div>
