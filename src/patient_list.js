@@ -63,6 +63,7 @@ export default class PatientList extends React.Component {
       .then(responses => {
         // All the headers have arrived.
         if (responses[0].ok && responses[1].ok) {
+          console.log("total coming as " + responses[1]);
           return Promise.all([responses[0].json(), responses[1].json()])
         } else {
           throw Error([responses[0].statusText(), responses[1].statusText()])

@@ -146,7 +146,7 @@ export default class Patient extends React.Component {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            //body: JSON.stringify(payload)
         })
             .then(
                 response => {
@@ -208,6 +208,7 @@ export default class Patient extends React.Component {
     }
 
     render () {
+        console.log("Hit here");
         const error = this.state.error
         if (error) {
             return <p>There was an error calling the service</p>

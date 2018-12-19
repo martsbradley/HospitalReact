@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 import './index.css'
-import Patient from './patient.js'
 import Repos from './Repos'
 
 const BasicExample = () => (
@@ -12,7 +11,6 @@ const BasicExample = () => (
     <div>
       <div>
         <Route exact path="/" component={Repos} />
-        <Route path="/patients" component={Patient} />
       </div>
     </div>
   </Router>
@@ -39,7 +37,7 @@ const Topics = ({ match }) => (
       path={match.url}
       render={() => <h3>Please select a topic.</h3>}
     />
-  </div>
+   /div>
 )
 
 const Topic = ({ match }) => (
