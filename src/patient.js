@@ -4,7 +4,7 @@ import Patient from './patient_edit.js'
 import PatientList from './patient_list.js'
 import Prescription from './prescription.js'
 
-export default class PatientTable extends React.Component {
+export class PatientTable extends React.Component {
   constructor (props) {
     super(props)
     this.state = { }
@@ -19,7 +19,7 @@ export default class PatientTable extends React.Component {
   }
 
   listPatients (props) {
-    let result = <PatientList {...props} />
+    let result =<div> <PatientList {...props} /> </div>
     return result;
   }
 
@@ -27,11 +27,13 @@ export default class PatientTable extends React.Component {
 
     let result = (
       <Switch>
-        <Route path="/patients/edit/:gistId" render={(props) => this.editPatient(props)} />
+        Why is this even shown?
         <Route path="/patients/list" render={(props) => this.listPatients(props)} />
         <Route path="/patients/:patientId/prescription" component={Prescription} />
+        <Route path="/patients/edit/:gistId" render={(props) => this.editPatient(props)} />
       </Switch>
     )
     return result
   }
 }
+

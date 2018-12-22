@@ -26,3 +26,6 @@ table.selectabletable tr:hover {
 .pages {
      display: inline
 }
+.isactive {
+    background-color: lightblue; 
+}
