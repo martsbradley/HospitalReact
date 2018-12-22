@@ -7,6 +7,7 @@ import {FuzzyBear} from './fuzzybear'
 import {Auth} from './auth/auth'
 import {Callback} from './callback'
 import {Logout} from './logout'
+import AuthenticatedRoute from './authenticatedroute'
 
 import './index.css'
 
@@ -25,12 +26,11 @@ export default class App extends React.Component {
             <Switch>
                 <Route exact path="/" render={props => <MyHouse auth={this.auth} {...props}/> } />
                 <Route path="/callback" render={props => <Callback auth={this.auth} {...props}/> } />
-                <Route path="/patients" component={PatientTable} />
-                <Route path="/fuzzybear"  render={props => <FuzzyBear auth={this.auth} {...props} /> } />
+                <AuthenticatedRoute path="/patients"  auth={this.auth} component={PatientTable} />
+                <AuthenticatedRoute path="/fuzzybear" auth={this.auth} component={props => <FuzzyBear auth={this.auth} {...props} /> } />
                 <Route path="/logout"     component={Logout} />
             </Switch>
         </div>
       );
     }
 }
-
