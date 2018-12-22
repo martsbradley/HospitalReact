@@ -1,7 +1,7 @@
 body {
     font-size: 1.4em;
     font-family: Arial, sans-serif, Times, "Times New Roman";
-    background-color: lightyellow;
+    background-color: lightgray;
 }
 
 button {
@@ -28,4 +28,14 @@ table.selectabletable tr:hover {
 }
 .isactive {
     background-color: lightblue; 
+}
+
+nav > ul {
+    margin: 10px 10px;
+    border: 1px solid gray;
+    background-color: yellow;
+}
+nav > ul > li {
+    display: inline;
+    margin: 3px 10px;
 }

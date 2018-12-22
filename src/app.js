@@ -21,7 +21,7 @@ export default class App extends React.Component {
     render() {
       return (
         <div>
-            <Navigation/>
+            <Navigation auth={this.auth}/>
             <Switch>
                 <Route exact path="/" render={props => <MyHouse auth={this.auth} {...props}/> } />
                 <Route path="/callback" render={props => <Callback auth={this.auth} {...props}/> } />
