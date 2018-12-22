@@ -1,6 +1,5 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
-
+import { Route, Switch} from 'react-router-dom'
 import {HomePage as MyHouse} from './homepage'
 import {PatientTable} from './patient'
 import {Navigation} from './navigation'
@@ -23,11 +22,13 @@ export default class App extends React.Component {
       return (
         <div>
             <Navigation/>
-            <Route exact path="/" render={props => <MyHouse auth={this.auth} {...props}/> } />
-            <Route path="/callback" render={props => <Callback auth={this.auth} {...props}/> } />
-            <Route path="/patients" component={PatientTable} />
-            <Route path="/fuzzybear"  component={FuzzyBear} />
-            <Route path="/logout"     component={Logout} />
+            <Switch>
+                <Route exact path="/" render={props => <MyHouse auth={this.auth} {...props}/> } />
+                <Route path="/callback" render={props => <Callback auth={this.auth} {...props}/> } />
+                <Route path="/patients" component={PatientTable} />
+                <Route path="/fuzzybear"  render={props => <FuzzyBear auth={this.auth} {...props} /> } />
+                <Route path="/logout"     component={Logout} />
+            </Switch>
         </div>
       );
     }

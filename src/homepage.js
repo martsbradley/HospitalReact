@@ -2,23 +2,26 @@ import React  from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 
+
+let SignInOutButton = ({auth}) => {
+
+    let signInOutButton = '';
+
+    if (auth.isAuthenticated()) {
+        signInOutButton = <button onClick={auth.logout}>Log Off</button>;
+    } else {
+        signInOutButton = <button onClick={auth.login}>Log In</button>;
+    }
+    return signInOutButton;
+}
+
 export class HomePage extends React.Component {
+
     constructor (props) {
         super(props)
-
-        this.state = {  }
     }
 
     render () {
-
-        let {auth} = this.props;
-
-        let signInOutButton = <button onClick={auth.login}>Log In</button>;
-        if (auth.isAuthenticated()) {
-            signInOutButton = <button onClick={auth.logout}>Log Off</button>;
-        }
-
-
 
         return (<div>
               <ol>
@@ -26,10 +29,10 @@ export class HomePage extends React.Component {
                       <Link to="/patients/list"><button>Patients</button></Link>
                   </li>
                   <li>
-                      <Link to="/medicine"><button>Medicine</button></Link>
+                      <Link to="/fuzzybear"><button>FuzzyBear</button></Link>
                   </li>
                   <li>
-                       {signInOutButton }    
+                       <SignInOutButton auth={this.props.auth}/>
                   </li>
                   
               </ol>
