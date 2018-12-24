@@ -1,5 +1,4 @@
 import React  from 'react'
-import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 
 export class HomePage extends React.Component {
@@ -11,14 +10,6 @@ export class HomePage extends React.Component {
     render () {
 
         return (<div>
-              <ol>
-                  <li>
-                      <Link to="/patients/list"><button>Patients</button></Link>
-                  </li>
-                  <li>
-                      <Link to="/fuzzybear"><button>Profile</button></Link>
-                  </li>
-              </ol>
               <ol>
                   <li>Authentication</li>
                   <li>Locking so that folks cannot write over each others changes.</li>
@@ -35,3 +26,13 @@ export class HomePage extends React.Component {
 HomePage.propTypes = {
     auth : PropTypes.object,
 }
+
+//import { Link } from 'react-router-dom'
+            //<ol>
+            //    <li>
+            //        <Link to="/patients/list"><button>Patients</button></Link>
+            //    </li>
+            //    <li>
+            //        <Link to="/fuzzybear"><button>Profile</button></Link>
+            //    </li>
+            //</ol>
