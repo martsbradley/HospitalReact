@@ -56,8 +56,11 @@ export default class PatientList extends React.Component {
 
   loadPatients (aActivePage) {
 
-    const loadPatients = fetch(this.pagingURL(aActivePage))
-    const countPatients = fetch(this.totalURL())
+    //let header = {headers: {Authorization: `Bearer ${this.props.auth.getAccessToken()}`}}; 
+    let header = {};
+
+    const loadPatients = fetch(this.pagingURL(aActivePage), header);
+    const countPatients = fetch(this.totalURL(), header);
 
     Promise.all([loadPatients, countPatients])
       .then(responses => {
@@ -137,4 +140,7 @@ export default class PatientList extends React.Component {
       </div>
     )
   }
+}
+PatientList.propTypes = {
+    auth : PropTypes.object,
 }

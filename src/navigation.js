@@ -14,7 +14,7 @@ export class Navigation extends Component {
         return (<nav> 
             <ul>
                <li><NavLink exact activeClassName='isactive' to="/">Home</NavLink></li>
-                <Links auth={this.props.auth} to="/fuzzybear" label="Profile"/>
+                <Links auth={this.props.auth} to="/profile" label="Profile"/>
                 <Links auth={this.props.auth} to="/patients/list" label="Patients"/>
                <li><SignInOutButton auth={this.props.auth}/></li>
             </ul>
