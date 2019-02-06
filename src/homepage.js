@@ -1,5 +1,6 @@
 import React  from 'react'
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 export class HomePage extends React.Component {
 
@@ -11,7 +12,7 @@ export class HomePage extends React.Component {
 
         return (<div>
               <ol>
-                  <li>Authentication</li>
+                  <li>Authentication123</li>
                   <li>Locking so that folks cannot write over each others changes.</li>
                   <li>Add prescription and finish that out.</li>
                   <li>Change it to use redux library.</li>
@@ -19,6 +20,8 @@ export class HomePage extends React.Component {
                   <li>Learn about reactive for mobile.</li>
                   <li>Setting up a TLS certificate.</li>
               </ol>
+              <Link to="/marty"><button>Patients</button></Link>
+              <Link to="/callback"><button>Callback</button></Link>
             </div>);
     }
 }

@@ -5,7 +5,7 @@ export class Callback extends React.Component {
     componentDidMount() {
         console.log("Callback componentDidMount");
         if (/access_token|id_token|error/.test(this.props.location.hash)) {
-            console.log("OK");
+            console.log("callback OK");
             this.props.auth.handleAuthentication();
         }
         else {

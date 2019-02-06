@@ -5,14 +5,18 @@ export class Auth {
         console.log("constructor of Auth" + history);
         this.history = history;
         this.userProfile = null;
+
+        console.log("Later => " + REACT_APP_AUTH0_DOMAIN);
+
         this.auth0 = new auth0.WebAuth({
-            domain      : process.env.REACT_APP_AUTH0_DOMAIN,
-            clientID    : process.env.REACT_APP_AUTH0_CLIENT_ID,
-            redirectUri : process.env.REACT_APP_AUTH0_CALLBACK_URL,
-            audience    : process.env.REACT_APP_AUTH0_AUDIENCE,
+            domain      : REACT_APP_AUTH0_DOMAIN,
+            clientID    : REACT_APP_AUTH0_CLIENT_ID,
+            redirectUri : REACT_APP_AUTH0_CALLBACK_URL,
+            audience    : REACT_APP_AUTH0_AUDIENCE,
             responseType: "token id_token",
             scope       : "openid profile email"
          });
+        console.log("Created " + this.auth0);
     }
 
     login = () => {
@@ -56,7 +60,7 @@ export class Auth {
         this.userProfile = null;
 
         this.auth0.logout({
-            clientID    : process.env.REACT_APP_AUTH0_CLIENT_ID});
+            clientID    : REACT_APP_AUTH0_CLIENT_ID});
     };
 
     getAccessToken = () => {

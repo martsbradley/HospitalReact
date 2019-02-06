@@ -15,8 +15,8 @@ export default class App extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log("App history " + this.props.history);
         this.auth = new Auth(props.history);
+        console.log("App.this.auth " + this.auth);
     }
 
     myPatientTable = () => {
@@ -31,11 +31,13 @@ export default class App extends React.Component {
       return (
         <div>
             <Navigation auth={this.auth}/>
+            
             <Switch>
                 <Route exact path="/" render={props => <MyHouse auth={this.auth} {...props}/> }    />
                 <Route path="/callback" render={props => <Callback auth={this.auth} {...props}/> } />
                 <AuthenticatedRoute path="/patients"  auth={this.auth} component={this.myPatientTable}  />
                 <AuthenticatedRoute path="/profile" auth={this.auth} component={this.myFuzzyBear}     />
+                <Route path="/marty" auth={this.auth} render={() => <div>hithere</div> }    />
                 <Route path="/logout"     component={Logout} />
             </Switch>
         </div>
