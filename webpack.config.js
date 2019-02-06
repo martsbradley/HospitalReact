@@ -44,11 +44,9 @@ module.exports = {
   devServer: {
     contentBase: './dist',
     hot: true,
-    historyApiFallback: true
+    historyApiFallback: true,
+    proxy: {
+        '/firstcup': 'http://localhost:8080'
+    }
   }
 };
-
-
-
-
-

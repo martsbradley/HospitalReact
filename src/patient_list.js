@@ -56,8 +56,7 @@ export default class PatientList extends React.Component {
 
   loadPatients (aActivePage) {
 
-    //let header = {headers: {Authorization: `Bearer ${this.props.auth.getAccessToken()}`}}; 
-    let header = {};
+    let header = {headers: {Authorization: `Bearer ${this.props.auth.getAccessToken()}`}}; 
 
     const loadPatients = fetch(this.pagingURL(aActivePage), header);
     const countPatients = fetch(this.totalURL(), header);
