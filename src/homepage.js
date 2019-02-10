@@ -12,16 +12,18 @@ export class HomePage extends React.Component {
 
         return (<div>
               <ol>
-                  <li>Authentication123</li>
+
+                  <li>Anyone can view the patients, but only admins can make updates.</li>
                   <li>Locking so that folks cannot write over each others changes.</li>
+                  <li>Only buttons appropriate for the permissions are shown</li>
+                  <li>Setting up a TLS certificate and storing the bearer token in a cookie..</li>
+
                   <li>Add prescription and finish that out.</li>
                   <li>Change it to use redux library.</li>
                   <li>Fix the styling in both browsers.</li>
                   <li>Learn about reactive for mobile.</li>
-                  <li>Setting up a TLS certificate.</li>
+                  <li>Get authentication enabled integration tests going again.</li> 
               </ol>
-              <Link to="/marty"><button>Patients</button></Link>
-              <Link to="/callback"><button>Callback</button></Link>
             </div>);
     }
 }

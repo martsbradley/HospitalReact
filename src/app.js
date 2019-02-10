@@ -37,7 +37,6 @@ export default class App extends React.Component {
                 <Route path="/callback" render={props => <Callback auth={this.auth} {...props}/> } />
                 <AuthenticatedRoute path="/patients"  auth={this.auth} component={this.myPatientTable}  />
                 <AuthenticatedRoute path="/profile" auth={this.auth} component={this.myFuzzyBear}     />
-                <Route path="/marty" auth={this.auth} render={() => <div>hithere</div> }    />
                 <Route path="/logout"     component={Logout} />
             </Switch>
         </div>
