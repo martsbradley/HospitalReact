@@ -91,4 +91,14 @@ export class Auth {
         );
     };
 
+    checkGroups = () => {
+        const token = this.getAccessToken();
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace('-', '+').replace('_', '/');
+        const obj = JSON.parse(window.atob(base64));
+
+        console.log("Got " + Object.keys(obj));
+        console.log("var is  " +REACT_APP_AUTH0_AUTHORIZATION);
+        console.log("Got " + obj[REACT_APP_AUTH0_AUTHORIZATION].groups);
+    }
 }

@@ -31,13 +31,3 @@ export class HomePage extends React.Component {
 HomePage.propTypes = {
     auth : PropTypes.object,
 }
-
-//import { Link } from 'react-router-dom'
-            //<ol>
-            //    <li>
-            //        <Link to="/patients/list"><button>Patients</button></Link>
-            //    </li>
-            //    <li>
-            //        <Link to="/fuzzybear"><button>Profile</button></Link>
-            //    </li>
-            //</ol>
