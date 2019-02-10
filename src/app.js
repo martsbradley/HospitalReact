@@ -39,7 +39,7 @@ export default class App extends React.Component {
                 <AuthenticatedRoute path="/profile" auth={this.auth} component={this.myFuzzyBear}     />
                 <Route path="/logout"     component={Logout} />
             </Switch>
-            <button onClick={this.auth.checkGroups}>CheckIt Right</button>
+            <button onClick={this.auth.showGroups}>CheckIt Right</button>
         </div>
       );
     }

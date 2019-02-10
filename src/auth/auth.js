@@ -46,6 +46,10 @@ export class Auth {
         localStorage.setItem("access_token", authResult.accessToken);
         localStorage.setItem("id_token", authResult.idToken);
         localStorage.setItem("expires_at", expiresAt);
+
+        const groups = this.getGroups(authResult.accessToken);
+        localStorage.setItem("groups", groups);
+        console.log("Adding groups " + groups);
     };
 
     isAuthenticated() {
@@ -57,6 +61,7 @@ export class Auth {
         localStorage.removeItem("access_token");
         localStorage.removeItem("id_token");
         localStorage.removeItem("expires_at");
+        localStorage.removeItem("groups");
         this.userProfile = null;
 
         this.auth0.logout({
@@ -91,14 +96,31 @@ export class Auth {
         );
     };
 
-    checkGroups = () => {
-        const token = this.getAccessToken();
+    getGroups = (token) => {
         var base64Url = token.split('.')[1];
         var base64 = base64Url.replace('-', '+').replace('_', '/');
         const obj = JSON.parse(window.atob(base64));
+        var myArray = [];
 
-        console.log("Got " + Object.keys(obj));
-        console.log("var is  " +REACT_APP_AUTH0_AUTHORIZATION);
-        console.log("Got " + obj[REACT_APP_AUTH0_AUTHORIZATION].groups);
+        if (obj != null && 
+            obj.hasOwnProperty(REACT_APP_AUTH0_AUTHORIZATION)) {
+
+            const detail = obj[REACT_APP_AUTH0_AUTHORIZATION].groups;
+
+            myArray  = detail;
+        }
+
+        console.log("Array has type " + typeof(myArray));
+        console.log(myArray);
+        return myArray;
+    }
+
+    showGroups = () => {
+        const groups = localStorage.getItem("groups");
+        if (!groups) {
+            throw new Error("No groups token found.");
+        }
+        console.log("groups is now " + groups);
+        return groups;
     }
 }
