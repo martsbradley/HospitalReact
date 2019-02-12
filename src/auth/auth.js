@@ -49,7 +49,10 @@ export class Auth {
 
         const groups = this.getGroups(authResult.accessToken);
         localStorage.setItem("groups", groups);
-        console.log("Adding groups " + groups);
+        console.log("Saving into storage groups type "   + typeof(groups));
+        console.log("Saving into storage groups length " + groups.length);
+        const gotback = localStorage.getItem("groups");
+        console.log("got back" + gotback);
     };
 
     isAuthenticated() {
@@ -100,27 +103,32 @@ export class Auth {
         var base64Url = token.split('.')[1];
         var base64 = base64Url.replace('-', '+').replace('_', '/');
         const obj = JSON.parse(window.atob(base64));
-        var myArray = [];
+        var groups = [];
 
         if (obj != null && 
-            obj.hasOwnProperty(REACT_APP_AUTH0_AUTHORIZATION)) {
+            obj.hasOwnProperty(REACT_APP_AUTH0_AUTHORIZATION) &&
+            obj[REACT_APP_AUTH0_AUTHORIZATION].hasOwnProperty("groups")) {
 
-            const detail = obj[REACT_APP_AUTH0_AUTHORIZATION].groups;
-
-            myArray  = detail;
+            groups = obj[REACT_APP_AUTH0_AUTHORIZATION].groups;
         }
 
-        console.log("Array has type " + typeof(myArray));
-        console.log(myArray);
-        return myArray;
+        console.log("Groups type "   + typeof(groups));
+        console.log("Groups length " + groups.length);
+        return groups;
     }
 
     showGroups = () => {
         const groups = localStorage.getItem("groups");
-        if (!groups) {
+
+        if (groups === null) {
             throw new Error("No groups token found.");
         }
-        console.log("groups is now " + groups);
+        console.log("groups is now [" + groups + "]");
         return groups;
+    }
+
+    userInGroup = (groupName) => {
+        const groups = localStorage.getItem("groups");
+        return groups != null && groups.includes(groupName);
     }
 }

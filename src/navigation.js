@@ -5,7 +5,21 @@ import SignInOutButton from './signin'
 
 
 let Links = (props) => {
-    return props.auth.isAuthenticated() ? <NavLink activeClassName='isactive' to={props.to}>{props.label}</NavLink> :null;
+
+    const authenticated = props.auth.isAuthenticated();
+    let groupOk = true;
+
+    if (props.hasOwnProperty('group')) {
+        const groupName = props.group;
+        groupOk = props.auth.userInGroup(groupName);
+    }
+
+    let result = null;
+
+    if (props.auth.isAuthenticated() && groupOk) {
+        result = <NavLink activeClassName='isactive' to={props.to}>{props.label}</NavLink>;
+    }
+    return result;
 }
 
 export class Navigation extends Component {
@@ -17,6 +31,8 @@ export class Navigation extends Component {
                <li><Links auth={this.props.auth} to="/profile" label="Profile"/></li>
                <li><Links auth={this.props.auth} to="/patients/list" label="Patients"/></li>
                <li><SignInOutButton auth={this.props.auth}/></li>
+               <li><Links auth={this.props.auth} group="adminGroup"
+                                                 to="/patients/list" label="Show When In Group"/></li>
             </ul>
            </nav>);
     }
@@ -29,4 +45,5 @@ Links.propTypes = {
     to : PropTypes.string,
     label : PropTypes.string,
     auth : PropTypes.object,
+    group : PropTypes.string,
 }
