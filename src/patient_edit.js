@@ -1,49 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
-import format from 'date-fns/format'
-
-function Prescription (props) {
-    const prescriptions = props.list
-
-    let detail = <tr></tr>
-
-        if (prescriptions) {
-            detail = prescriptions.map(p =>
-                <tr key={p.id}>
-                <td>{p.id}</td>
-                <td>{p.medicine.name}</td>
-                <td>{p.medicine.manufacturer}</td>
-                <td>{p.amount}</td>
-                </tr>)
-        }
-
-    const table = (<table className='table table-bordered'>
-        <thead className='thead-dark'>
-        <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Name</th>
-        <th scope="col">Manufacturer</th>
-        <th scope="col">Amount</th>
-        </tr>
-        </thead>
-        <tbody>{detail}</tbody></table>)
-    return table
-}
-
-function dateFormat() {
-    return 'YYYY-MM-DD';
-}
-
-function todayAsYYYYMMDD() {
-    const today = format(new Date(), dateFormat());
-    return today;
-}
-
-function getDobString(aDate) {
-    const dateString = new Date(aDate).toISOString().split('T')[0];
-    return dateString;
-}
+import {PrescriptionTable} from './prescriptiontable.js'
+import {todayAsYYYYMMDD, getDobString} from './dateutils.js'
 
 export default class Patient extends React.Component {
     constructor (props) {
@@ -247,7 +206,7 @@ export default class Patient extends React.Component {
             <span className="errors" name="dob.errors"></span>
             </div>
             <div className="form-group">
-            <Prescription list={pres} />
+            <PrescriptionTable list={pres} />
             </div>
             <div className="form-group">
             <button type="submit" >Submit</button>

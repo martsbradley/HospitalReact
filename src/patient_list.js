@@ -133,7 +133,7 @@ export default class PatientList extends React.Component {
           </div>
 
           <div>
-              <Link to="/"><button>New</button></Link>
+              <Link to="/patients/edit/"><button>New</button></Link>
               <Link to="/"><button>Cancel</button></Link>
           </div>
       </div>
