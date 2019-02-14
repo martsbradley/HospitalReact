@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import Patient from './patient_edit.js'
+import PatientEdit from './patient_edit.js'
 import PatientList from './patient_list.js'
 import PropTypes from 'prop-types';
 import Prescription from './prescription.js'
@@ -16,7 +16,7 @@ export class PatientTable extends React.Component {
   }
 
   editPatient (props) {
-    return <Patient {...props} />
+    return <PatientEdit {...props} />
   }
 
   listPatients (props) {

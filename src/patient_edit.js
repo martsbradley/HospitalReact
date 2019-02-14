@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import {PrescriptionTable} from './prescriptiontable.js'
 import {todayAsYYYYMMDD, getDobString} from './dateutils.js'
 
-export default class Patient extends React.Component {
+export default class PatientEdit extends React.Component {
     constructor (props) {
         super(props)
 
@@ -33,9 +33,9 @@ export default class Patient extends React.Component {
         let result = `/firstcup/rest/hospital/patient/${patientId}`
         return result
     }
+
     createSaveURL () {
-        const result = '/firstcup/rest/hospital/patient'
-        return result
+        return  '/firstcup/rest/hospital/patient'
     }
 
     loadPatient () {
@@ -71,8 +71,6 @@ export default class Patient extends React.Component {
             })
     }
 
-
-
     showValidationMessages (validations) {
 
         const errors = validations.errors
@@ -91,8 +89,6 @@ export default class Patient extends React.Component {
     }
 
     postData (url, patient) {
-
-
         let payload = {...patient};
         console.log("payload is " + payload);
         payload.dob = payload.dob + "T00:00Z";
@@ -136,6 +132,7 @@ export default class Patient extends React.Component {
         event.preventDefault()
         this.postData(this.createSaveURL(), this.state.patient)
     }
+
 
     componentDidMount () {
         this.loadPatient(this.state.patientId)
@@ -186,41 +183,41 @@ export default class Patient extends React.Component {
         const result = (
             <div>
             <form onSubmit={this.savePatient}>
-            <div className="col-md-6 form-line">
-            <div className="form-group">
-            <label htmlFor="forename">Forename</label>
-            <input type="text" className="form-control" name="forename" value={patient.forename}
-            onChange={this.handleFormChange}/>
-            <span className="errors" name="forename.errors"></span>
-            </div>
-            <div className="form-group">
-            <label htmlFor="surname">Surname</label>
-            <input type="text" className="form-control" name="surname" value={patient.surname}
-            onChange={this.handleFormChange}/>
-            <span className="errors" name="surname.errors"></span>
-            </div>
-            <div className="form-group">
-            <label htmlFor="dob" >Date of Birth</label>
-            <input type="date" className="form-control" name="dob" value={patient.dob}
-            onChange={this.handleDateChange}/>
-            <span className="errors" name="dob.errors"></span>
-            </div>
-            <div className="form-group">
-            <PrescriptionTable list={pres} />
-            </div>
-            <div className="form-group">
-            <button type="submit" >Submit</button>
-            <Link to="/patients/list"><button>Cancel</button></Link>
-            <Link to={`${addPrescription}`} ><button>Add Prescription</button></Link>
-            </div>
-            </div>
+                <div className="col-md-6 form-line">
+                    <div className="form-group">
+                        <label htmlFor="forename">Forename</label>
+                        <input type="text" className="form-control" name="forename" value={patient.forename}
+                        onChange={this.handleFormChange}/>
+                        <span className="errors" name="forename.errors"></span>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="surname">Surname</label>
+                        <input type="text" className="form-control" name="surname" value={patient.surname}
+                        onChange={this.handleFormChange}/>
+                        <span className="errors" name="surname.errors"></span>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="dob" >Date of Birth</label>
+                        <input type="date" className="form-control" name="dob" value={patient.dob}
+                        onChange={this.handleDateChange}/>
+                        <span className="errors" name="dob.errors"></span>
+                    </div>
+                    <div className="form-group">
+                        <PrescriptionTable list={pres} />
+                    </div>
+                    <div className="form-group">
+                        <button type="submit" >Submit</button>
+                        <Link to="/patients/list"><button>Cancel</button></Link>
+                        <Link to={`${addPrescription}`} ><button>Add Prescription</button></Link>
+                    </div>
+                </div>
             </form>
             </div>)
         return result
     }
 }
 
-Patient.propTypes = {
+PatientEdit.propTypes = {
     history : PropTypes.object,
     match   : PropTypes.object
 }
