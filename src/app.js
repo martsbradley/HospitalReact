@@ -10,6 +10,7 @@ import {Logout} from './logout'
 import AuthenticatedRoute from './authenticatedroute'
 //import PropTypes from 'prop-types';
 import './index.css'
+import ErrorBoundary from './errorboundary.js'
 
 export default class App extends React.Component {
 
@@ -20,7 +21,7 @@ export default class App extends React.Component {
     }
 
     myPatientTable = () => {
-        return <PatientTable auth={this.auth} />;
+        return <ErrorBoundary><PatientTable auth={this.auth} {...this.props} /></ErrorBoundary>;
     }
 
     myFuzzyBear = () => {

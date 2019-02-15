@@ -4,15 +4,11 @@ import { Link } from 'react-router-dom'
 import {PrescriptionTable} from './prescriptiontable.js'
 import {todayAsYYYYMMDD, getDobString} from './dateutils.js'
 
-export default class PatientEdit extends React.Component {
+export default class PatientNew extends React.Component {
     constructor (props) {
         super(props)
-        console.log("PatientEdit constructor " + Object.keys(this.props));
-        console.log("PatientEdit gistId " + props.match.params.gistId);
 
         this.state = { error: false,
-            patientId: props.match.params.gistId,
-            loaded: false,
             patient: { forename: '',
                        surname: '',
                        dob: todayAsYYYYMMDD(),
@@ -20,57 +16,16 @@ export default class PatientEdit extends React.Component {
             },
         }
 
-        this.createLoadURL = this.createLoadURL.bind(this)
-        this.loadPatient = this.loadPatient.bind(this)
         this.handleFormChange = this.handleFormChange.bind(this)
         this.handleDateChange = this.handleDateChange.bind(this)
-        this.savePatient = this.savePatient.bind(this)
-        this.postData = this.postData.bind(this)
+        this.save             = this.save.bind(this)
+        this.postData         = this.postData.bind(this)
         this.showValidationMessages = this.showValidationMessages.bind(this)
         this.clearValidationMessages = this.clearValidationMessages.bind(this)
     }
 
-    createLoadURL () {
-        const patientId = this.state.patientId
-        let result = `/firstcup/rest/hospital/patient/${patientId}`
-        return result
-    }
-
     createSaveURL () {
         return  '/firstcup/rest/hospital/patient'
-    }
-
-    loadPatient () {
-        let url = this.createLoadURL()
-
-        fetch(url)
-            .then(response => {
-                if (response.ok) {
-                    return response.json()
-                } else {
-                    this.setState({ error: true })
-                    throw Error(response.statusText)
-                }
-            },
-                networkError => {
-                    console.log('Network Failure ' + networkError)
-                }
-            )
-            .then(patient => {
-                // There is on JSON Date
-                // So date comes in as a "yyyy-MM-ddT00:00Z
-                // Now get the yyyy-MM-dd part of the string only.
-                //patient.dob = new Date(patient.dob).toISOString().split('T')[0];
-                patient.dob = getDobString(patient.dob);
-
-                this.setState({ patient: patient,
-                    loaded: true
-                })
-            }
-            )
-            .catch(exn => {
-                console.log('forget about it: ' + exn.statusText)
-            })
     }
 
     showValidationMessages (validations) {
@@ -92,56 +47,48 @@ export default class PatientEdit extends React.Component {
 
     postData (url, patient) {
         let payload = {...patient};
+        console.log("payload is " + payload);
         payload.dob = payload.dob + "T00:00Z";
-        console.log("The payload is " + payload.dob);
-
-        let header = {headers: {Authorization: `Bearer ${this.props.auth.getAccessToken()}`}}; 
-        console.log("Post headers " +header);
+        console.log("payload is " + payload);
 
         fetch(url, {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.props.auth.getAccessToken()}`
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(payload)
         })
-            .then(
-                response => {
-                    if (response.ok) {
-                        return response.json()
-                    } else {
-                        let json_errors = response.json()
-                        json_errors.then(data => {
-                            this.showValidationMessages(data)
-                        })
-                        throw Error(response.statusText)
-                    }
-                },
-                networkError => {
-                    alert('Network Failure ' + networkError)
+        .then(
+            response => {
+                if (response.ok) {
+                    return response.json()
+                } else {
+                    let json_errors = response.json()
+                    json_errors.then(data => {
+                        this.showValidationMessages(data)
+                    })
+                    throw Error(response.statusText)
                 }
-            )
-            .then(() => {
-                this.props.history.push('/patients/list')
+            },
+            networkError => {
+                alert('Network Failure ' + networkError)
             }
-            )
-            .catch(() => {
-                console.log("There was an error");
-            })
+        )
+        .then(() => {
+            this.props.history.push('/patients/list')
+        })
+        .catch(() => {
+            console.log("There was an error");
+        })
     }
 
-    savePatient (event) {
-        event.preventDefault();
-        console.log("-->savePatient  "+ Object.keys(this.props));
-        console.log("Doit");
+    save(event) {
+        event.preventDefault()
         this.postData(this.createSaveURL(), this.state.patient)
     }
 
-
     componentDidMount () {
-        this.loadPatient(this.state.patientId)
     }
 
     handleDateChange (event) {
@@ -170,6 +117,7 @@ export default class PatientEdit extends React.Component {
     }
 
     render () {
+        console.log("Hit here");
         const error = this.state.error
         if (error) {
             return <p>There was an error calling the service</p>
@@ -187,7 +135,7 @@ export default class PatientEdit extends React.Component {
 
         const result = (
             <div>
-            <form onSubmit={this.savePatient}>
+            <form onSubmit={this.save}>
                 <div className="col-md-6 form-line">
                     <div className="form-group">
                         <label htmlFor="forename">Forename</label>
@@ -222,8 +170,7 @@ export default class PatientEdit extends React.Component {
     }
 }
 
-PatientEdit.propTypes = {
+PatientNew.propTypes = {
     history : PropTypes.object,
-    match   : PropTypes.object,
-    auth    : PropTypes.object
+    match   : PropTypes.object
 }
