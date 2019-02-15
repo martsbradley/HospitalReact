@@ -13,8 +13,8 @@ export class PatientTable extends React.Component {
     console.log("PatientTable constructor " + Object.keys(props));
   }
 
-  newPatient (props) {
-     return <PatientNew {...props} />
+  newPatient (props, auth) {
+     return <ErrorBoundary><PatientNew auth={auth} {...props} /></ErrorBoundary>
   }
   editPatient= (props, auth) => {
       return <ErrorBoundary><PatientEdit auth={auth} {...props} /></ErrorBoundary>; 
@@ -33,10 +33,15 @@ export class PatientTable extends React.Component {
         Why is this even shown?
         <Route path="/patients/list" render={(props) => this.listPatients(props)} />
         <Route path="/patients/:patientId/prescription" component={Prescription} />
+
         <Route path="/patients/edit/:gistId" 
-                              render = {(props) => this.editPatient(props, this.props.auth)}>
+               render = {(props) => this.editPatient(props, this.props.auth)}>
         </Route>
-        <Route path="/patients/new/" render={(props) => this.newPatient(props)} />
+
+        <Route path="/patients/new/" 
+               render={(props) => this.newPatient(props, this.props.auth)}>
+        </Route>
+
       </Switch>
     )
     return result

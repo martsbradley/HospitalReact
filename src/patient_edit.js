@@ -22,10 +22,11 @@ export default class PatientEdit extends React.Component {
 
         this.createLoadURL = this.createLoadURL.bind(this)
         this.loadPatient = this.loadPatient.bind(this)
-        this.handleFormChange = this.handleFormChange.bind(this)
-        this.handleDateChange = this.handleDateChange.bind(this)
         this.savePatient = this.savePatient.bind(this)
         this.postData = this.postData.bind(this)
+
+        this.handleFormChange = this.handleFormChange.bind(this)
+        this.handleDateChange = this.handleDateChange.bind(this)
         this.showValidationMessages = this.showValidationMessages.bind(this)
         this.clearValidationMessages = this.clearValidationMessages.bind(this)
     }
@@ -127,8 +128,8 @@ export default class PatientEdit extends React.Component {
                 this.props.history.push('/patients/list')
             }
             )
-            .catch(() => {
-                console.log("There was an error");
+            .catch((e) => {
+                console.log("There was an error" + e);
             })
     }
 

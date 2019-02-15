@@ -7,11 +7,15 @@ import {todayAsYYYYMMDD, getDobString} from './dateutils.js'
 export default class PatientNew extends React.Component {
     constructor (props) {
         super(props)
+        console.log("PatientNew constructor " + Object.keys(props));
 
         this.state = { error: false,
-            patient: { forename: '',
+            patient: { 
+                       id: -1,
+                       forename: '',
                        surname: '',
                        dob: todayAsYYYYMMDD(),
+                       rowVersion: 1,
                        prescription: []
             },
         }
@@ -47,15 +51,17 @@ export default class PatientNew extends React.Component {
 
     postData (url, patient) {
         let payload = {...patient};
-        console.log("payload is " + payload);
         payload.dob = payload.dob + "T00:00Z";
-        console.log("payload is " + payload);
+
+        console.log("postData  " + Object.keys(this.props));
+        console.log("Payload is "+ payload);
 
         fetch(url, {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.props.auth.getAccessToken()}`
             },
             body: JSON.stringify(payload)
         })
@@ -78,13 +84,14 @@ export default class PatientNew extends React.Component {
         .then(() => {
             this.props.history.push('/patients/list')
         })
-        .catch(() => {
-            console.log("There was an error");
+        .catch((e) => {
+            console.log("There was an error" + e);
         })
     }
 
     save(event) {
         event.preventDefault()
+        console.log("Hit save");
         this.postData(this.createSaveURL(), this.state.patient)
     }
 
@@ -117,7 +124,6 @@ export default class PatientNew extends React.Component {
     }
 
     render () {
-        console.log("Hit here");
         const error = this.state.error
         if (error) {
             return <p>There was an error calling the service</p>
