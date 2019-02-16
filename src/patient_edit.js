@@ -185,6 +185,7 @@ export default class PatientEdit extends React.Component {
         }
         const pres = patient.prescription;
         const addPrescription = `/patients/${patient.id}/prescription/medicine`;
+        const administrator = this.props.auth.isAdministrator();
 
         const result = (
             <div>
@@ -214,7 +215,10 @@ export default class PatientEdit extends React.Component {
                     <div className="form-group">
                         <button type="submit" >Submit</button>
                         <Link to="/patients/list"><button>Cancel</button></Link>
-                        <Link to={`${addPrescription}`} ><button>Add Prescription</button></Link>
+                        { administrator ? 
+                          <Link to={`${addPrescription}`} ><button>Add Prescription</button></Link>
+                          : null
+                        }
                     </div>
                 </div>
             </form>

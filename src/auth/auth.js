@@ -131,4 +131,22 @@ export class Auth {
         const groups = localStorage.getItem("groups");
         return groups != null && groups.includes(groupName);
     }
+
+    isAuthorized = (groupName) => {
+
+        const authenticated = this.isAuthenticated();
+
+        let inGroup = groupName == null || this.userInGroup(groupName);
+
+        let result = false;
+
+        if (authenticated && inGroup) {
+            result = true;
+        }
+        return result;
+    }
+
+    isAdministrator = () => {
+        return this.isAuthorized("adminGroup");
+    }
 }

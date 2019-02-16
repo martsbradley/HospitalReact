@@ -108,6 +108,7 @@ export default class PatientList extends React.Component {
 
     const items = patients.map(patient => <PatientRow key={patient.id} pat={patient}/>)
 
+    const administrator = this.props.auth.isAdministrator();
 
     return (<div>
        <div>
@@ -133,8 +134,11 @@ export default class PatientList extends React.Component {
           </div>
 
           <div>
+          { administrator ? 
               <Link to="/patients/new/"><button>New</button></Link>
-              <Link to="/"><button>Cancel</button></Link>
+              : null
+          }
+          <Link to="/"><button>Cancel</button></Link>
           </div>
       </div>
     )

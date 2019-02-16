@@ -3,34 +3,24 @@ import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SignInOutButton from './signin'
 
-let isAuthorized = (auth, groupName) => {
-
-    const authenticated = auth.isAuthenticated();
-
-    let inGroup = auth.userInGroup(groupName);
-
-    let result = false;
-
-    if (authenticated && inGroup) {
-        result = true;
-    }
-    return result;
-}
-
 export class Navigation extends Component {
+
     render() {
-        const securityGroup="adminGroup"
-        const isShown = isAuthorized(this.props.auth, securityGroup);
+        const isAuthenticated = this.props.auth.isAuthenticated();
 
         return (<nav> 
             <ul>
                <li><NavLink exact activeClassName='isactive' to="/">Home</NavLink></li>
 
-               {!isShown ?  null:
-                   <li><NavLink activeClassName='isactive' to="/profile">Profile</NavLink></li>}
+               { isAuthenticated ?  
+                 <li><NavLink activeClassName='isactive' to="/profile">Profile</NavLink></li>
+                 : null
+               }
 
-               {!isShown ? null :
-               <li><NavLink activeClassName='isactive' to="/patients/list">Patients</NavLink></li> }
+               { isAuthenticated ? 
+                 <li><NavLink activeClassName='isactive' to="/patients/list">Patients</NavLink></li>
+                 : null 
+               }
 
                <li><SignInOutButton auth={this.props.auth}/></li>
             </ul>
