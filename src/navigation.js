@@ -3,36 +3,36 @@ import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SignInOutButton from './signin'
 
+let isAuthorized = (auth, groupName) => {
 
-let Links = (props) => {
+    const authenticated = auth.isAuthenticated();
 
-    const authenticated = props.auth.isAuthenticated();
-    let groupOk = true;
+    let inGroup = auth.userInGroup(groupName);
 
-    if (props.hasOwnProperty('group')) {
-        const groupName = props.group;
-        groupOk = props.auth.userInGroup(groupName);
-    }
+    let result = false;
 
-    let result = null;
-
-    if (props.auth.isAuthenticated() && groupOk) {
-        result = <NavLink activeClassName='isactive' to={props.to}>{props.label}</NavLink>;
+    if (authenticated && inGroup) {
+        result = true;
     }
     return result;
 }
 
 export class Navigation extends Component {
     render() {
+        const securityGroup="adminGroup"
+        const isShown = isAuthorized(this.props.auth, securityGroup);
 
         return (<nav> 
             <ul>
                <li><NavLink exact activeClassName='isactive' to="/">Home</NavLink></li>
-               <li><Links auth={this.props.auth} to="/profile" label="Profile"/></li>
-               <li><Links auth={this.props.auth} to="/patients/list" label="Patients"/></li>
+
+               {!isShown ?  null:
+                   <li><NavLink activeClassName='isactive' to="/profile">Profile</NavLink></li>}
+
+               {!isShown ? null :
+               <li><NavLink activeClassName='isactive' to="/patients/list">Patients</NavLink></li> }
+
                <li><SignInOutButton auth={this.props.auth}/></li>
-               <li><Links auth={this.props.auth} group="adminGroup"
-                                                 to="/patients/list" label="Show When In Group"/></li>
             </ul>
            </nav>);
     }
@@ -40,10 +40,4 @@ export class Navigation extends Component {
 
 Navigation.propTypes = {
     auth  : PropTypes.object
-}
-Links.propTypes = {
-    to : PropTypes.string,
-    label : PropTypes.string,
-    auth : PropTypes.object,
-    group : PropTypes.string,
 }
