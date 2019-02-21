@@ -12,6 +12,7 @@ export function PrescriptionTable(props) {
             <td>{p.medicine.name}</td>
             <td>{p.medicine.manufacturer}</td>
             <td>{p.amount}</td>
+            <td><i class="far fa-trash-alt fa-2x"></i></td>
             </tr>)
     }
 
@@ -22,6 +23,7 @@ export function PrescriptionTable(props) {
         <th scope="col">Name</th>
         <th scope="col">Manufacturer</th>
         <th scope="col">Amount</th>
+        <th scope="col">Action</th>
         </tr>
         </thead>
         <tbody>{detail}</tbody></table>)

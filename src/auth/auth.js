@@ -117,16 +117,6 @@ export class Auth {
         return groups;
     }
 
-    showGroups = () => {
-        const groups = localStorage.getItem("groups");
-
-        if (groups === null) {
-            throw new Error("No groups token found.");
-        }
-        console.log("groups is now [" + groups + "]");
-        return groups;
-    }
-
     userInGroup = (groupName) => {
         const groups = localStorage.getItem("groups");
         return groups != null && groups.includes(groupName);

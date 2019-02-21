@@ -33,14 +33,15 @@ export default class App extends React.Component {
         <div>
             <Navigation auth={this.auth}/>
             
-            <Switch>
-                <Route exact path="/" render={props => <MyHouse auth={this.auth} {...props}/> }    />
-                <Route path="/callback" render={props => <Callback auth={this.auth} {...props}/> } />
-                <AuthenticatedRoute path="/patients"  auth={this.auth} component={this.myPatientTable}  />
-                <AuthenticatedRoute path="/profile" auth={this.auth} component={this.myFuzzyBear}     />
-                <Route path="/logout"     component={Logout} />
-            </Switch>
-            <button onClick={this.auth.showGroups}>CheckIt Right</button>
+            <div className="container">
+                <Switch>
+                    <Route exact path="/" render={props => <MyHouse auth={this.auth} {...props}/> }    />
+                    <Route path="/callback" render={props => <Callback auth={this.auth} {...props}/> } />
+                    <AuthenticatedRoute path="/patients"  auth={this.auth} component={this.myPatientTable}  />
+                    <AuthenticatedRoute path="/profile" auth={this.auth} component={this.myFuzzyBear}     />
+                    <Route path="/logout"     component={Logout} />
+                </Switch>
+            </div>
         </div>
       );
     }

@@ -2,6 +2,12 @@ body {
     font-size: 1.4em;
     font-family: Arial, sans-serif, Times, "Times New Roman";
     background-color: lightgray;
+    margin: 2% 4% 4% 4%
+}
+#root {
+    margin : 5px;
+    width: 70%;
+    /*border: 1px dotted yellow;*/
 }
 
 button {
@@ -9,9 +15,9 @@ button {
 }
 
 .container {
-    margin : 0 auto;
-    margin-top: 2%;
-    width: 85%;
+    margin : 1px;
+    width: 100%;
+    /*border: 1px dashed black;*/
 }
 table.selectabletable thead > tr:hover {
     background-color: white;
@@ -31,11 +37,26 @@ table.selectabletable tr:hover {
 }
 
 nav > ul {
-    margin: 10px 10px;
     background-color: yellow;
     border: 1px solid gray;
 }
 nav > ul > li {
     margin: 3px 10px;
     display:inline;
+}
+
+.pagination {
+    margin: 0px 0px;
+}
+.tablehead {
+    overflow: auto;
+    border: 1px dashed gray;
+    padding: 3px 3px;
+}
+.myleft {
+    float: left;
+}
+.myright {
+    float: right;
+    height: 100%;
 }

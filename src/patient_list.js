@@ -8,16 +8,19 @@ function PatientRow (props) {
   let id  = pat.id;
   pat.dob = new Date(pat.dob).toISOString().split('T')[0];
 
+  let editIcon = <i class="fas fa-user-edit fa-2x"></i>;
   return (<tr>
-    <td><Link to={`/patients/edit/${id}`}>{pat.id}</Link></td>
-    <td><Link to={`/patients/edit/${id}`}>{pat.forename}</Link></td>
-    <td><Link to={`/patients/edit/${id}`}>{pat.surname}</Link></td>
-    <td><Link to={`/patients/edit/${id}`}>{pat.dob}</Link></td>
+    <td>{pat.id}</td>
+    <td>{pat.forename}</td>
+    <td>{pat.surname}</td>
+    <td>{pat.dob}</td>
+    <td><Link to={`/patients/edit/${id}`}>{editIcon}</Link></td>
   </tr>)
 }
 
 PatientRow.propTypes = {
-    pat : PropTypes.object
+    pat : PropTypes.object,
+    isAdmin : PropTypes.boolean
 }
 
 export default class PatientList extends React.Component {
@@ -106,44 +109,52 @@ export default class PatientList extends React.Component {
 
     if (patients.length === 0) return "";
 
-    const items = patients.map(patient => <PatientRow key={patient.id} pat={patient}/>)
 
     const administrator = this.props.auth.isAdministrator();
 
-    return (<div>
-       <div>
-          <table className='table table-bordered'>
-            <thead className='thead-dark'>
-              <tr>
-                <th scope="col">Id</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">DOB</th>
-              </tr>
-            </thead>
-            <tbody>
-              {items}
-            </tbody>
-          </table>
+    const items = patients.map(patient => <PatientRow isAdmin={administrator} key={patient.id} pat={patient}/>)
 
-          <Pagination activePage={this.state.activePage}
-            itemsCountPerPage={this.state.itemOnPage}
-            totalItemsCount={this.state.totalItemsCount}
-            pageRangeDisplayed={15}
-            onChange={this.pageChange} />
-          </div>
+      //<button>Create New Patient</button>
+    return (
+    <div >
+        <h1>Patients</h1>
+        <div className="tablehead">
+            <div className="myleft">
+                { administrator ? 
+                   <Link to="/patients/new/"><i class="fa fa-plus-square fa-3x"></i></Link>
+                   : null
+                }
+            </div>
+            <div className="myright">
+                <Pagination activePage={this.state.activePage}
+                            itemsCountPerPage={this.state.itemOnPage}
+                            totalItemsCount={this.state.totalItemsCount}
+                            pageRangeDisplayed={15}
+                            onChange={this.pageChange}>
+                </Pagination>
+            </div>
+        </div>
 
-          <div>
-          { administrator ? 
-              <Link to="/patients/new/"><button>New</button></Link>
-              : null
-          }
-          <Link to="/"><button>Cancel</button></Link>
-          </div>
-      </div>
+        <table className='table table-bordered'>
+                   <thead className='thead-dark'>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">DOB</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items}
+          </tbody>
+        </table>
+    </div>
     )
   }
 }
+
+//<!-- <Link to="/"><button>Cancel</button></Link> -->
 PatientList.propTypes = {
     auth : PropTypes.object,
 }
