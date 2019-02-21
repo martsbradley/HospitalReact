@@ -136,18 +136,17 @@ export default class PrescriptionAdd extends React.Component {
 
         let result = (<div>
             
-            <h1>Prescription Medicine</h1>
+            <h1>Prescription Select Medicine</h1>
             <form onSubmit={this.onSubmit}>
 
 
                 <div className="col-md-6">
                     <div className="form-line">
-                        <Medicine meds={meds} 
-                                  selectedMedicine={this.props.selectedMedicine} 
-                                  mouseClicked={this.props.mouseClicked} />
-
                         <div style={{display:'inline'}}>
-
+                            <label htmlFor="filter">Filter:</label>
+                            {filterElement }
+                        </div>
+                        <div style={{float:'right'}}>
                             <Pagination activePage={this.props.activePage}
                               itemsCountPerPage={this.state.numItemsOnPage}
                               totalItemsCount={this.state.totalItemsCount}
@@ -155,11 +154,11 @@ export default class PrescriptionAdd extends React.Component {
                               onChange={this.pageChange} 
                               innerClass="pagination pages" />
 
-                            <div style={{float:'right'}}>
-                                <label htmlFor="filter">Filter:</label>
-                                {filterElement }
-                            </div>
                         </div>
+                        <Medicine meds={meds} 
+                                  selectedMedicine={this.props.selectedMedicine} 
+                                  mouseClicked={this.props.mouseClicked} />
+
                     </div>
                     <div style={{clear: 'right'}} className="form-line">
                         <ValidationMessage when={isBlocking} what="Please select a medicine"/>

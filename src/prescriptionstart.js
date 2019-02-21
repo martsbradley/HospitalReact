@@ -31,15 +31,14 @@ export default class PrescriptionStart extends React.Component {
         const isBlocking = this.state.showWarning;
 
         return (<div>
-            <h1>Prescription Start Date</h1>
+            <h1>Prescription Select Start Date</h1>
 
             <form onSubmit={this.saveDate}>
                 <div className="col-md-6 form-line">
                   <div className="form-group">
-                      <Medicine meds={[this.props.medicine]} 
-                                selectedMedicine={-1}
-                                mouseDisabled={true}
-                                mouseClicked={() => {console.log("do nothing");} } />
+                      <label htmlFor="medicine" >Medicine</label>
+                      <input type="input" className="form-control" name="medicine" 
+                             readOnly disabled value={this.props.medicine.name} />
                   </div>
 
                   <div className="form-group">

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import {Route, Switch} from 'react-router-dom'
 import PatientEdit from './patient_edit.js'
 import PatientNew from './patient_new.js'
 import PatientList from './patient_list.js'
@@ -30,7 +30,6 @@ export class PatientTable extends React.Component {
 
     let result = (
       <Switch>
-        Why is this even shown?
         <Route path="/patients/list" render={(props) => this.listPatients(props)} />
         <Route path="/patients/:patientId/prescription" component={Prescription} />
 

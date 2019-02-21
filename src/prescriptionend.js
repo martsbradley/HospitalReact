@@ -30,7 +30,7 @@ export default class PrescriptionEnd extends React.Component {
     render () {
         const isBlocking = this.state.showWarning;
         return (<div>
-            <h1>Prescription End Date</h1>
+            <h1>Prescription Select End Date</h1>
 
             <form onSubmit={this.saveDate}>
               <div className="col-md-6 form-line">

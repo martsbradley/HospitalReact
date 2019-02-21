@@ -8,7 +8,7 @@ function PatientRow (props) {
   let id  = pat.id;
   pat.dob = new Date(pat.dob).toISOString().split('T')[0];
 
-  let editIcon = <i class="fas fa-user-edit fa-2x"></i>;
+  let editIcon = <i className="fas fa-user-edit fa-2x"></i>;
   return (<tr>
     <td>{pat.id}</td>
     <td>{pat.forename}</td>
@@ -121,7 +121,7 @@ export default class PatientList extends React.Component {
         <div className="tablehead">
             <div className="myleft">
                 { administrator ? 
-                   <Link to="/patients/new/"><i class="fa fa-plus-square fa-3x"></i></Link>
+                   <Link to="/patients/new/"><i className="fa fa-plus-square fa-3x"></i></Link>
                    : null
                 }
             </div>

@@ -9,15 +9,7 @@ import format from 'date-fns/format'
 import parse from 'date-fns/parse'
 import isBefore from 'date-fns/is_before'
 import differenceInDays from 'date-fns/difference_in_days'
-
-
-function dateFormat() {
-    return 'YYYY-MM-DD';
-}
-function todayAsYYYYMMDD() {
-    const today = format(new Date(), dateFormat());
-    return today;
-}
+import {tomorrowAsYYYYMMDD, todayAsYYYYMMDD, dateFormat} from './dateutils.js'
 
 function NoMatch() {
   return (
@@ -39,7 +31,7 @@ export default class Prescription extends React.Component {
                        filter: "",
                        activePage: 1,
                        startDate : todayAsYYYYMMDD(),
-                       endDate : todayAsYYYYMMDD()}
+                       endDate :   tomorrowAsYYYYMMDD()}
         this.medicineSelectionClick = this.medicineSelectionClick.bind(this);
         this.isMedicineSelected = this.isMedicineSelected.bind(this);
         this.startDateChanged = this.startDateChanged.bind(this);
@@ -139,38 +131,41 @@ export default class Prescription extends React.Component {
 
         return (
             <Switch>
-              <Route path={`${this.props.match.path}/medicine`} exact 
-                   render={() => <PrescriptionAdd   
-                                     patientId={patientId}
-                                     activePage={this.state.activePage}
-                                     filter={this.state.filter}
-                                     filterChanged={this.filterChanged}
-                                     selectedMedicine={selectedMedicineId}
-                                     canMoveNextPage={this.isMedicineSelected}
-                                     mouseClicked={this.medicineSelectionClick} 
-                                     pageChanged={this.pageChanged}
-                                     {...this.props}/> } />
-          
-              <Route path={`${this.props.match.path}/setStartDate`} render={
-                   ()=> <PrescriptionStart 
-                                     medicine={this.state.selectedMedicine} 
-                                     startDate={this.state.startDate} 
-                                     updateDate={this.startDateChanged} 
-                                     canMoveNextPage={this.isStartDateValid}
-                                     {...this.props}/> } />
-          
-              <Route path={`${this.props.match.path}/setEndDate`} render = {
-                  () => <PrescriptionEnd 
-                            medicine={this.state.selectedMedicine} 
-                            startDate={this.state.startDate} 
-                            endDate={this.state.endDate} 
-                            updateDate={this.endDateChanged} 
-                            canMoveNextPage={this.isEndDateValid}
-                            {...this.props} /> } />
-          
-              <Route path={`${this.props.match.path}/confirmed`} component={Confirm}/>
-          
-              <Route component={NoMatch} />
+               <Route path={`${this.props.match.path}/medicine`} exact 
+                    render={() => <PrescriptionAdd   
+                                      patientId={patientId}
+                                      activePage={this.state.activePage}
+                                      filter={this.state.filter}
+                                      filterChanged={this.filterChanged}
+                                      selectedMedicine={selectedMedicineId}
+                                      canMoveNextPage={this.isMedicineSelected}
+                                      mouseClicked={this.medicineSelectionClick} 
+                                      pageChanged={this.pageChanged}
+                                      {...this.props}/> } />
+               
+               <Route path={`${this.props.match.path}/setStartDate`} render={
+                    ()=> <PrescriptionStart 
+                                      medicine={this.state.selectedMedicine} 
+                                      startDate={this.state.startDate} 
+                                      updateDate={this.startDateChanged} 
+                                      canMoveNextPage={this.isStartDateValid}
+                                      {...this.props}/> } />
+               
+               <Route path={`${this.props.match.path}/setEndDate`} render = {
+                   () => <PrescriptionEnd 
+                             medicine={this.state.selectedMedicine} 
+                             startDate={this.state.startDate} 
+                             endDate={this.state.endDate} 
+                             updateDate={this.endDateChanged} 
+                             canMoveNextPage={this.isEndDateValid}
+                             {...this.props} /> } />
+               
+               <Route path={`${this.props.match.path}/confirmed`} render={
+                   () => <Confirm medicine={this.state.selectedMedicine} 
+                                  startDate={this.state.startDate} 
+                                  endDate={this.state.endDate} {...this.props}/> } />
+               
+               <Route component={NoMatch} />
           
             </Switch>)
     }

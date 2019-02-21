@@ -12,7 +12,7 @@ export function PrescriptionTable(props) {
             <td>{p.medicine.name}</td>
             <td>{p.medicine.manufacturer}</td>
             <td>{p.amount}</td>
-            <td><i class="far fa-trash-alt fa-2x"></i></td>
+            <td><i className="far fa-trash-alt fa-2x"></i></td>
             </tr>)
     }
 

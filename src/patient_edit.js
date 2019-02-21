@@ -135,6 +135,12 @@ export default class PatientEdit extends React.Component {
 
     savePatient (event) {
         event.preventDefault();
+
+        const administrator = this.props.auth.isAdministrator();
+        if (!administrator) {
+            alert("Sorry only administrators can save their changes");
+            return;
+        }
         console.log("-->savePatient  "+ Object.keys(this.props));
         console.log("Doit");
         this.postData(this.createSaveURL(), this.state.patient)
@@ -213,7 +219,8 @@ export default class PatientEdit extends React.Component {
                         <PrescriptionTable list={pres} />
                     </div>
                     <div className="form-group">
-                        <button type="submit" >Submit</button>
+                        <button type="submit">Submit</button>
+
                         <Link to="/patients/list"><button>Cancel</button></Link>
                         { administrator ? 
                           <Link to={`${addPrescription}`} ><button>Add Prescription</button></Link>
