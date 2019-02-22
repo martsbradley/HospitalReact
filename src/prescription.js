@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import PrescriptionAdd from './prescriptionadd.js'
 import PrescriptionStart from './prescriptionstart.js'
 import PrescriptionEnd from './prescriptionend.js'
-import Confirm from './confirm.js'
+import PrescriptionConfirm from './prescription_confirm.js'
 import format from 'date-fns/format'
 import parse from 'date-fns/parse'
 import isBefore from 'date-fns/is_before'
@@ -161,9 +161,12 @@ export default class Prescription extends React.Component {
                              {...this.props} /> } />
                
                <Route path={`${this.props.match.path}/confirmed`} render={
-                   () => <Confirm medicine={this.state.selectedMedicine} 
+                   () => <PrescriptionConfirm medicine={this.state.selectedMedicine} 
+                                  patientId={patientId}
                                   startDate={this.state.startDate} 
-                                  endDate={this.state.endDate} {...this.props}/> } />
+                                  endDate={this.state.endDate} 
+                                  auth={this.props.auth}
+                                  {...this.props}/> } />
                
                <Route component={NoMatch} />
           
@@ -173,4 +176,5 @@ export default class Prescription extends React.Component {
 
 Prescription.propTypes = {
     match : PropTypes.object,
+    auth  : PropTypes.object
 }

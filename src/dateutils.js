@@ -21,3 +21,7 @@ export function getDobString(aDate) {
     const dateString = new Date(aDate).toISOString().split('T')[0];
     return dateString;
 }
+
+export function addTimeZone(strDate) {
+    return strDate + "T00:00Z";
+}

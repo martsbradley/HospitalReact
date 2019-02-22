@@ -19,8 +19,7 @@ function PatientRow (props) {
 }
 
 PatientRow.propTypes = {
-    pat : PropTypes.object,
-    isAdmin : PropTypes.boolean
+    pat : PropTypes.object
 }
 
 export default class PatientList extends React.Component {
