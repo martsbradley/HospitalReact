@@ -1,4 +1,5 @@
 import auth0 from 'auth0-js';
+import {setCookie, getCookie, eraseCookie} from '../cookie.js'
 
 export class Auth {
     constructor(history) {
@@ -13,7 +14,7 @@ export class Auth {
             clientID    : REACT_APP_AUTH0_CLIENT_ID,
             redirectUri : REACT_APP_AUTH0_CALLBACK_URL,
             audience    : REACT_APP_AUTH0_AUDIENCE,
-            responseType: "token id_token",
+            responseType: "token",
             scope       : "openid profile email"
          });
         console.log("Created " + this.auth0);
@@ -25,7 +26,7 @@ export class Auth {
 
     handleAuthentication = () => {
         this.auth0.parseHash((err, authResult) => {
-            if (authResult && authResult.accessToken && authResult.idToken) {
+            if (authResult && authResult.accessToken) {
                 this.setSession(authResult);
                 this.history.push("/");
             } else if (err) {
@@ -43,8 +44,10 @@ export class Auth {
           authResult.expiresIn * 1000 + new Date().getTime()
         );
 
+        //document.cookie = `mytoken=${authResult.accessToken};secure`;
+        setCookie('mytoken',authResult.accessToken);
+
         localStorage.setItem("access_token", authResult.accessToken);
-        localStorage.setItem("id_token", authResult.idToken);
         localStorage.setItem("expires_at", expiresAt);
 
         const groups = this.getGroups(authResult.accessToken);
@@ -61,8 +64,11 @@ export class Auth {
     }
 
     logout = () => {
+        var foundCookie = getCookie('mytoken');
+        console.log("I found " + foundCookie);
+        //console.log("I found " + document.cookie['mytoken']);
+
         localStorage.removeItem("access_token");
-        localStorage.removeItem("id_token");
         localStorage.removeItem("expires_at");
         localStorage.removeItem("groups");
         this.userProfile = null;
