@@ -1,5 +1,5 @@
 import auth0 from 'auth0-js';
-import {setCookie, getCookie, eraseCookie} from '../cookie.js'
+import {getCookie} from '../cookie.js'
 
 export class Auth {
     constructor(history) {
@@ -25,37 +25,37 @@ export class Auth {
     }
 
     handleAuthentication = () => {
-        this.auth0.parseHash((err, authResult) => {
-            if (authResult && authResult.accessToken) {
-                this.setSession(authResult);
-                this.history.push("/");
-            } else if (err) {
-                this.history.push("/");
-                alert(`Error: ${err.error}. Check the console for further details.`);
-                console.log(err);
-            }
-        });
+      //this.auth0.parseHash((err, authResult) => {
+      //    if (authResult && authResult.accessToken) {
+      //        this.setSession(authResult);
+      //        this.history.push("/");
+      //    } else if (err) {
+      //        this.history.push("/");
+      //        alert(`Error: ${err.error}. Check the console for further details.`);
+      //        console.log(err);
+      //    }
+      //});
     }
     
     setSession = authResult => {
-        console.log(authResult);
-        // set the time that the access token will expire
-        const expiresAt = JSON.stringify(
-          authResult.expiresIn * 1000 + new Date().getTime()
-        );
+    /// console.log(authResult);
+    /// // set the time that the access token will expire
+    /// const expiresAt = JSON.stringify(
+    ///   authResult.expiresIn * 1000 + new Date().getTime()
+    /// );
 
-        //document.cookie = `mytoken=${authResult.accessToken};secure`;
-        setCookie('mytoken',authResult.accessToken);
+    /// //document.cookie = `mytoken=${authResult.accessToken};secure`;
+    /// setCookie('mytoken',authResult.accessToken);
 
-        localStorage.setItem("access_token", authResult.accessToken);
-        localStorage.setItem("expires_at", expiresAt);
+    /// localStorage.setItem("access_token", authResult.accessToken);
+    /// localStorage.setItem("expires_at", expiresAt);
 
-        const groups = this.getGroups(authResult.accessToken);
-        localStorage.setItem("groups", groups);
-        console.log("Saving into storage groups type "   + typeof(groups));
-        console.log("Saving into storage groups length " + groups.length);
-        const gotback = localStorage.getItem("groups");
-        console.log("got back" + gotback);
+    /// const groups = this.getGroups(authResult.accessToken);
+    /// localStorage.setItem("groups", groups);
+    /// console.log("Saving into storage groups type "   + typeof(groups));
+    /// console.log("Saving into storage groups length " + groups.length);
+    /// const gotback = localStorage.getItem("groups");
+    /// console.log("got back" + gotback);
     };
 
     isAuthenticated() {
@@ -64,17 +64,17 @@ export class Auth {
     }
 
     logout = () => {
-        var foundCookie = getCookie('mytoken');
-        console.log("I found " + foundCookie);
-        //console.log("I found " + document.cookie['mytoken']);
+    //  var foundCookie = getCookie('mytoken');
+    //  console.log("I found " + foundCookie);
+    //  //console.log("I found " + document.cookie['mytoken']);
 
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("expires_at");
-        localStorage.removeItem("groups");
-        this.userProfile = null;
+    //  localStorage.removeItem("access_token");
+    //  localStorage.removeItem("expires_at");
+    //  localStorage.removeItem("groups");
+    //  this.userProfile = null;
 
-        this.auth0.logout({
-            clientID    : REACT_APP_AUTH0_CLIENT_ID});
+    //  this.auth0.logout({
+    //      clientID    : REACT_APP_AUTH0_CLIENT_ID});
     };
 
     getAccessToken = () => {

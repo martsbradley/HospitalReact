@@ -5,10 +5,12 @@ import {PatientTable} from './patient'
 import {Navigation} from './navigation'
 import {FuzzyBear} from './fuzzybear'
 import {Auth} from './auth/auth'
+import {UserDetails} from './auth/userdetails'
 import {Callback} from './callback'
 import {Logout} from './logout'
 import {LoginFailure} from './loginfailure.js'
 import AuthenticatedRoute from './authenticatedroute'
+import {LoginSessionExpired} from './loginsessionexpired.js'
 //import PropTypes from 'prop-types';
 import './index.css'
 import ErrorBoundary from './errorboundary.js'
@@ -18,6 +20,7 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.auth = new Auth(props.history);
+        this.userDetails = new UserDetails(props.history);
         console.log("App.this.auth " + this.auth);
     }
 
@@ -29,19 +32,40 @@ export default class App extends React.Component {
         return <FuzzyBear auth={this.auth} />;
     }
 
+    successfulLogin = () => {
+        this.userDetails.startLogoutTimer();
+        this.props.history.push('/');
+        console.log("Starting login timer and moving user to front page.");
+        return null;
+    }
+
     render() {
       return (
         <div>
-            <Navigation auth={this.auth}/>
+            <Navigation auth={this.userDetails}/>
             
             <div className="container">
                 <Switch>
                     <Route exact path="/" render={props => <MyHouse auth={this.auth} {...props}/> }    />
                     <Route path="/callback" render={props => <Callback auth={this.auth} {...props}/> } />
                     <AuthenticatedRoute path="/patients"  auth={this.auth} component={this.myPatientTable}  />
-                    <AuthenticatedRoute path="/profile" auth={this.auth} component={this.myFuzzyBear}     />
-                    <Route path="/logout"     component={Logout} />
-                    <Route path="/loginfailure"     component={LoginFailure} />
+                    <AuthenticatedRoute path="/profile" auth={this.userDetails} component={this.myFuzzyBear}     />
+
+                    <Route path="/logoutsuccess"      component={Logout} />
+                    <Route path="/loginsuccess"       component={this.successfulLogin} />
+                    <Route path="/loginfailure"       component={LoginFailure} />
+                    <Route path="/loginsessionexpired" component={LoginSessionExpired} />
+
+                    <Route path="/login"         component={() => { window.location = '/firstcup/login';    return null;} }/>
+                    <Route path="/logout"        component={() => { window.location = '/firstcup/logout';    return null;} }/>
+                    <Route path="/auth0callback" component={() => 
+                                       { console.log("YEA SEEING THIS HERE RIGHT HERE");
+                                         console.log("this.props.location" + Object.keys(this.props.location));
+                                         console.log("this.props.location.pathname" +this.props.location.pathname);
+                                         console.log("this.props.location.hash" +this.props.location.hash);
+                                         console.log("this.props.location.search" +this.props.location.search);
+                                         window.location = '/firstcup/auth0callback' + this.props.location.search;
+                                         return null;} }/>
                 </Switch>
             </div>
         </div>

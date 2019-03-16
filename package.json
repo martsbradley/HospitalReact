@@ -6,6 +6,7 @@
     "auth0-js": "^9.8.2",
     "date-fns": "1.29.0",
     "dotenv": "^6.2.0",
+    "js-cookie": "^2.2.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-js-pagination": "^3.0.2",
@@ -13,7 +14,7 @@
     "react-router-dom": "^4.3.1"
   },
   "scripts": {
-    "start": "webpack-dev-server --config ./webpack.config.js --mode development --port 3000 --https --cert=/home/martin/Software/JavaScript/HospitalReact/certs/cert.pem --key=/home/martin/Software/JavaScript/HospitalReact/certs/key.pem",
+    "start": "webpack-dev-server --config ./webpack.config.js --progress --mode development --port 3000 --https --cert=/home/martin/Software/JavaScript/HospitalReact/certs/cert.pem --key=/home/martin/Software/JavaScript/HospitalReact/certs/key.pem",
     "test": "jest"
   },
   "devDependencies": {
