@@ -2,7 +2,6 @@ import  React, {Component} from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SignInOutButton from './signin'
-import {getCookie} from './cookie'
 
 export class Navigation extends Component {
 
@@ -12,11 +11,6 @@ export class Navigation extends Component {
         return (<nav> 
             <ul>
                <li><NavLink exact activeClassName='isactive' to="/">Home</NavLink></li>
-
-               { isAuthenticated ?  
-                 <li><NavLink activeClassName='isactive' to="/profile">Profile</NavLink></li>
-                 : null
-               }
 
                { isAuthenticated ? 
                  <li><NavLink activeClassName='isactive' to="/patients/list">Patients</NavLink></li>

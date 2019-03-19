@@ -9,16 +9,13 @@ export default class PrescriptionConfirm extends React.Component {
 
     postData = (url, payload) => {
 
-        let header = {headers: {Authorization: `Bearer ${this.props.auth.getAccessToken()}`}}; 
-        console.log("Post headers " +header);
         console.log("Post payload " +JSON.stringify(payload));
 
         fetch(url, {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.props.auth.getAccessToken()}`
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(payload)
         })

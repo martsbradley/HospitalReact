@@ -3,10 +3,8 @@ import { Route, Switch} from 'react-router-dom'
 import {HomePage as MyHouse} from './homepage'
 import {PatientTable} from './patient'
 import {Navigation} from './navigation'
-import {FuzzyBear} from './fuzzybear'
 import {Auth} from './auth/auth'
 import {UserDetails} from './auth/userdetails'
-import {Callback} from './callback'
 import {Logout} from './logout'
 import {LoginFailure} from './loginfailure.js'
 import AuthenticatedRoute from './authenticatedroute'
@@ -25,12 +23,9 @@ export default class App extends React.Component {
     }
 
     myPatientTable = () => {
-        return <ErrorBoundary><PatientTable auth={this.auth} {...this.props} /></ErrorBoundary>;
+        return <ErrorBoundary><PatientTable auth={this.userDetails} {...this.props} /></ErrorBoundary>;
     }
 
-    myFuzzyBear = () => {
-        return <FuzzyBear auth={this.auth} />;
-    }
 
     successfulLogin = () => {
         this.userDetails.startLogoutTimer();
@@ -47,9 +42,7 @@ export default class App extends React.Component {
             <div className="container">
                 <Switch>
                     <Route exact path="/" render={props => <MyHouse auth={this.auth} {...props}/> }    />
-                    <Route path="/callback" render={props => <Callback auth={this.auth} {...props}/> } />
-                    <AuthenticatedRoute path="/patients"  auth={this.auth} component={this.myPatientTable}  />
-                    <AuthenticatedRoute path="/profile" auth={this.userDetails} component={this.myFuzzyBear}     />
+                    <AuthenticatedRoute path="/patients"  auth={this.userDetails} component={this.myPatientTable}  />
 
                     <Route path="/logoutsuccess"      component={Logout} />
                     <Route path="/loginsuccess"       component={this.successfulLogin} />

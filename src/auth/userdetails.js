@@ -6,17 +6,19 @@ export class UserDetails {
         this.timerId = null;
     }
 
-    isAuthorized = (groupName) => {
+    isLoggedIn = () => {
         const userStatus = Cookies.get('userStatus');
-        const groups     = Cookies.get('auth0Groups');
-
-        let result = userStatus === "loggedIn" && groups.includes(groupName);
-        //console.log("userStatus = " + userStatus);
-        //console.log("groups     = " + groups);
-        //console.log("isAuthorized " + result);
+        const result = userStatus === "loggedIn"
         return result;
     }
 
+    isAuthorized = (groupName) => {
+        const isLoggedIn = this.isLoggedIn();
+        const groups     = Cookies.get('auth0Groups');
+
+        let result =  isLoggedIn && groups.includes(groupName);
+        return result;
+    }
 
     startLogoutTimer = () => {
         const expiresAfterSeconds = Cookies.get('auth0ExpiresIn');
@@ -30,7 +32,6 @@ export class UserDetails {
                                     },
                                     1000*expiresAfterSeconds);
     }
-
 
     login = () => {
         console.log("redirect the page to the real log in");
@@ -47,6 +48,10 @@ export class UserDetails {
 
     // Needs removed.
     isAuthenticated = () => {
+        return this.isLoggedIn();
+    }
+
+    isAdministrator =() => {;
         return this.isAuthorized('adminGroup');
     }
 }

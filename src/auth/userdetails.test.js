@@ -1,24 +1,23 @@
 import {UserDetails} from './userdetails.js'
-import  * as cook from '../cookie.js'
+import * as Cookies from 'js-cookie'
 
+jest.mock('js-cookie');
 
 test('authorized and in group', () => {
 
-    cook.getCookie = jest.fn()
-                         .mockImplementationOnce(() => {return true})
-                         .mockImplementationOnce(() => {return "mygroup"});
+    Cookies.get.mockReturnValueOnce("loggedIn")
+               .mockReturnValueOnce("mygroup");
 
     let details = new UserDetails();
     const result = details.isAuthorized("mygroup");
-
     expect(result).toBe(true);
+
 })
 
 test('authorized not in group', () => {
 
-    cook.getCookie = jest.fn()
-                         .mockImplementationOnce(() => {return true})
-                         .mockImplementationOnce(() => {return "admin"});
+    Cookies.get.mockReturnValueOnce("loggedIn")
+               .mockReturnValueOnce("admin");
 
     let details = new UserDetails();
     const result = details.isAuthorized("user");
@@ -28,9 +27,8 @@ test('authorized not in group', () => {
 
 test('not authorized but in group', () => {
 
-    cook.getCookie = jest.fn()
-                         .mockImplementationOnce(() => {return false})
-                         .mockImplementationOnce(() => {return "admin"});
+    Cookies.get.mockReturnValueOnce("")
+               .mockReturnValueOnce("admin");
 
     let details = new UserDetails();
     const result = details.isAuthorized("admin");
@@ -40,9 +38,8 @@ test('not authorized but in group', () => {
 
 test('group arg undefined group', () => {
 
-    cook.getCookie = jest.fn()
-                         .mockImplementationOnce(() => {return false})
-                         .mockImplementationOnce(() => {return "admin"});
+    Cookies.get.mockReturnValueOnce(undefined)
+               .mockReturnValueOnce("admin");
 
     let details = new UserDetails();
     const result = details.isAuthorized();
@@ -52,9 +49,8 @@ test('group arg undefined group', () => {
 
 test('group arg undefined group but no groups for the user also', () => {
 
-    cook.getCookie = jest.fn()
-                         .mockImplementationOnce(() => {return false})
-                         .mockImplementationOnce(() => {return undefined});
+    Cookies.get.mockReturnValueOnce(undefined)
+               .mockReturnValueOnce(undefined);
 
     let details = new UserDetails();
     const result = details.isAuthorized();

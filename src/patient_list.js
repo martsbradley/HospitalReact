@@ -58,10 +58,8 @@ export default class PatientList extends React.Component {
 
   loadPatients (aActivePage) {
 
-    let header = {headers: {Authorization: `Bearer ${this.props.auth.getAccessToken()}`}}; 
-
-    const loadPatients = fetch(this.pagingURL(aActivePage), header);
-    const countPatients = fetch(this.totalURL(), header);
+    const loadPatients = fetch(this.pagingURL(aActivePage));
+    const countPatients = fetch(this.totalURL());
 
     Promise.all([loadPatients, countPatients])
       .then(responses => {
@@ -109,7 +107,7 @@ export default class PatientList extends React.Component {
     if (patients.length === 0) return "";
 
 
-    const administrator = this.props.auth.isAdministrator();
+    const administrator = true;//this.props.auth.isAdministrator();
 
     const items = patients.map(patient => <PatientRow isAdmin={administrator} key={patient.id} pat={patient}/>)
 

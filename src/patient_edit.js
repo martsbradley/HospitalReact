@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import {PrescriptionTable} from './prescriptiontable.js'
 import {todayAsYYYYMMDD, getDobString} from './dateutils.js'
+import Poster from './network'
 
 export default class PatientEdit extends React.Component {
     constructor (props) {
@@ -23,12 +24,16 @@ export default class PatientEdit extends React.Component {
         this.createLoadURL = this.createLoadURL.bind(this)
         this.loadPatient = this.loadPatient.bind(this)
         this.savePatient = this.savePatient.bind(this)
-        this.postData = this.postData.bind(this)
 
         this.handleFormChange = this.handleFormChange.bind(this)
         this.handleDateChange = this.handleDateChange.bind(this)
-        this.showValidationMessages = this.showValidationMessages.bind(this)
+
         this.clearValidationMessages = this.clearValidationMessages.bind(this)
+
+        this.poster = new Poster(this.successfulPost,
+                                 this.showValidationMessages,
+                                 this.showAuthorizationErrorMessage ,
+                                 this.showNetworkErrorMessage);
     }
 
     createLoadURL () {
@@ -38,7 +43,7 @@ export default class PatientEdit extends React.Component {
     }
 
     createSaveURL () {
-        return  '/firstcup/rest/hospital/patient'
+        return '/firstcup/rest/hospital/patient'
     }
 
     loadPatient () {
@@ -74,7 +79,7 @@ export default class PatientEdit extends React.Component {
             })
     }
 
-    showValidationMessages (validations) {
+    showValidationMessages = (validations) => {
 
         const errors = validations.errors
 
@@ -91,59 +96,34 @@ export default class PatientEdit extends React.Component {
         formField.innerText = '';
     }
 
-    postData (url, patient) {
-        let payload = {...patient};
-        payload.dob = payload.dob + "T00:00Z";
-        console.log("The payload is " + payload.dob);
+    successfulPost = () => {
+        this.props.history.push('/patients/list')
+    }
 
-        let header = {headers: {Authorization: `Bearer ${this.props.auth.getAccessToken()}`}}; 
-        console.log("Post headers " +header);
+    showAuthorizationErrorMessage = () => {
+        alert( "Authorization Error You are not authorized to save changes.");
+    }
 
-        fetch(url, {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.props.auth.getAccessToken()}`
-            },
-            body: JSON.stringify(payload)
-        })
-            .then(
-                response => {
-                    if (response.ok) {
-                        return response.json()
-                    } else {
-                        let json_errors = response.json()
-                        json_errors.then(data => {
-                            this.showValidationMessages(data)
-                        })
-                        throw Error(response.statusText)
-                    }
-                },
-                networkError => {
-                    alert('Network Failure ' + networkError)
-                }
-            )
-            .then(() => {
-                this.props.history.push('/patients/list')
-            }
-            )
-            .catch((e) => {
-                console.log("There was an error" + e);
-            })
+    showNetworkErrorMessage = () => {
+        alert( "Network Error There was an issue with the network.");
     }
 
     savePatient (event) {
         event.preventDefault();
 
-        const administrator = this.props.auth.isAdministrator();
-        if (!administrator) {
-            alert("Sorry only administrators can save their changes");
-            return;
-        }
+      //const administrator = this.props.auth.isAdministrator();
+      //if (!administrator) {
+      //    alert("Sorry only administrators can save their changes");
+      //    return;
+      //}
         console.log("-->savePatient  "+ Object.keys(this.props));
         console.log("Doit");
-        this.postData(this.createSaveURL(), this.state.patient)
+        //this.postData(this.createSaveURL(), this.state.patient)
+
+        let payload = {...this.state.patient};
+        payload.dob = payload.dob + "T00:00Z";
+
+        this.poster.postData(this.createSaveURL(), payload);
     }
 
 
@@ -191,7 +171,7 @@ export default class PatientEdit extends React.Component {
         }
         const pres = patient.prescription;
         const addPrescription = `/patients/${patient.id}/prescription/medicine`;
-        const administrator = this.props.auth.isAdministrator();
+        const administrator = true;//this.props.auth.isAdministrator();
 
         const result = (
             <div>

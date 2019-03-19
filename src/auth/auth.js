@@ -1,5 +1,5 @@
 import auth0 from 'auth0-js';
-import {getCookie} from '../cookie.js'
+//import {getCookie} from '../cookie.js'
 
 export class Auth {
     constructor(history) {

@@ -3,6 +3,23 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import {PrescriptionTable} from './prescriptiontable.js'
 import {todayAsYYYYMMDD, getDobString} from './dateutils.js'
+import Poster from './network'
+
+class Popup extends React.Component {
+  render() {
+    return (
+      <div className='popup'>
+        <div className='popup_inner'>
+          <h1>{this.props.title}</h1>
+             {this.props.message} 
+            <br/>
+            <br/>
+            <button onClick={this.props.closePopup}>Ok</button>
+        </div>
+      </div>
+    );
+  }
+}
 
 export default class PatientNew extends React.Component {
     constructor (props) {
@@ -18,14 +35,21 @@ export default class PatientNew extends React.Component {
                        rowVersion: 1,
                        prescription: []
             },
+            showPopup: false,
+            showPopupTitle: "title here",
+            showPopupMessage: "message here."
         }
 
         this.handleFormChange = this.handleFormChange.bind(this)
         this.handleDateChange = this.handleDateChange.bind(this)
         this.save             = this.save.bind(this)
-        this.postData         = this.postData.bind(this)
         this.showValidationMessages = this.showValidationMessages.bind(this)
         this.clearValidationMessages = this.clearValidationMessages.bind(this)
+
+        this.poster = new Poster(this.successfulPost,
+                                 this.showValidationMessages,
+                                 this.showAuthorizationErrorMessage,
+                                 this.showNetworkErrorMessage);
     }
 
     createSaveURL () {
@@ -49,53 +73,18 @@ export default class PatientNew extends React.Component {
         formField.innerText = '';
     }
 
-    postData (url, patient) {
-        let payload = {...patient};
-        payload.dob = payload.dob + "T00:00Z";
-
-        console.log("postData  " + Object.keys(this.props));
-        console.log("Payload is "+ payload);
-
-        fetch(url, {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.props.auth.getAccessToken()}`
-            },
-            body: JSON.stringify(payload)
-        })
-        .then(
-            response => {
-                if (response.ok) {
-                    return response.json()
-                } else {
-                    let json_errors = response.json()
-                    json_errors.then(data => {
-                        this.showValidationMessages(data)
-                    })
-                    throw Error(response.statusText)
-                }
-            },
-            networkError => {
-                alert('Network Failure ' + networkError)
-            }
-        )
-        .then(() => {
-            this.props.history.push('/patients/list')
-        })
-        .catch((e) => {
-            console.log("There was an error" + e);
-        })
-    }
-
     save(event) {
         event.preventDefault()
         console.log("Hit save");
-        this.postData(this.createSaveURL(), this.state.patient)
+
+        let payload = {...this.state.patient};
+        payload.dob = payload.dob + "T00:00Z";
+
+        this.poster.postData(this.createSaveURL(), payload);
     }
 
-    componentDidMount () {
+    successfulPost = () => {
+        this.props.history.push('/patients/list')
     }
 
     handleDateChange (event) {
@@ -117,10 +106,31 @@ export default class PatientNew extends React.Component {
 
     handleFormChange (event) {
         let patient = this.state.patient
-        console.log("Handle change " + this.state.patient.dob);
 
         patient[event.target.name] = event.target.value
         this.setState({ patient })
+    }
+
+    togglePopup = () => {
+         this.setState({
+              showPopup: !this.state.showPopup
+            });
+    }
+
+    showAuthorizationErrorMessage = () => {
+        this.showMessage( "Authorization Error", "You are not authorized to save changes.");
+    }
+
+    showNetworkErrorMessage = () => {
+        this.showMessage( "Network Error", "There was an issue with the network.");
+    }
+
+    showMessage = (title, message) => {
+        this.setState({
+             showPopup: !this.state.showPopup,
+             showPopupTitle: title,
+             showPopupMessage: message
+        });
     }
 
     render () {
@@ -170,7 +180,15 @@ export default class PatientNew extends React.Component {
                         <Link to={`${addPrescription}`} ><button>Add Prescription</button></Link>
                     </div>
                 </div>
+
             </form>
+            {this.state.showPopup ? 
+                <Popup title={this.state.showPopupTitle}
+                       message={this.state.showPopupMessage}
+                       closePopup={this.togglePopup}
+                />
+                : null
+            }
             </div>)
         return result
     }
