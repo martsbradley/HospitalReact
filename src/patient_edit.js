@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import {PrescriptionTable} from './prescriptiontable.js'
 import {todayAsYYYYMMDD, getDobString} from './dateutils.js'
 import Poster from './network'
+import {showValidationMessages, clearValidationMessages} from './validationmessage'
 
 export default class PatientEdit extends React.Component {
     constructor (props) {
@@ -28,10 +29,8 @@ export default class PatientEdit extends React.Component {
         this.handleFormChange = this.handleFormChange.bind(this)
         this.handleDateChange = this.handleDateChange.bind(this)
 
-        this.clearValidationMessages = this.clearValidationMessages.bind(this)
 
         this.poster = new Poster(this.successfulPost,
-                                 this.showValidationMessages,
                                  this.showAuthorizationErrorMessage ,
                                  this.showNetworkErrorMessage);
     }
@@ -79,23 +78,6 @@ export default class PatientEdit extends React.Component {
             })
     }
 
-    showValidationMessages = (validations) => {
-
-        const errors = validations.errors
-
-        for (var i = 0; i < errors.length; i++) {
-            const name = errors[i].field
-            const message = errors[i].message
-            const formField = document.querySelector("span[name='" + name + ".errors']")
-            formField.innerText = message
-        }
-    }
-
-    clearValidationMessages(aFieldName) {
-        const formField = document.querySelector("span[name='" + aFieldName + ".errors']")
-        formField.innerText = '';
-    }
-
     successfulPost = () => {
         this.props.history.push('/patients/list')
     }
@@ -139,10 +121,10 @@ export default class PatientEdit extends React.Component {
 
             let validations = {errors: [{field: "dob",message:"Date of Birth is mandatory"}]};
 
-            this.showValidationMessages(validations);
+            showValidationMessages(validations);
         }
         else {
-            this.clearValidationMessages("dob");
+            clearValidationMessages("dob");
         }
 
         this.handleFormChange(event);

@@ -13,16 +13,22 @@ export class HomePage extends React.Component {
         return (<div>
               <h1>Primary Aims</h1>
                   <ol>
-                      <li>Secure.</li>
+                      <li>Secure CSRF?</li>
                       <li>Works.</li>
                   </ol>
 
             <h2>TODO</h2>
               <ol>
+                  <li>Limit total patients in database to avoid denial of service</li>
+
                   <li>Saved details of those that log in</li>
+
                   <li>Anyone can view the patients, but only admins can make updates.</li>
+
                   <li>Only buttons appropriate for the permissions are shown</li>
+
                   <li>Get authentication enabled integration tests going again.</li> 
+
                   <li>Before release... Dump the JSF side of it for now - disable via web.xml</li>
               </ol>
 

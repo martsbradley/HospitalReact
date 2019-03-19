@@ -4,8 +4,13 @@ import { Link } from 'react-router-dom'
 import {PrescriptionTable} from './prescriptiontable.js'
 import {todayAsYYYYMMDD, getDobString} from './dateutils.js'
 import Poster from './network'
+import {showValidationMessages, clearValidationMessages} from './validationmessage'
 
 class Popup extends React.Component {
+
+    /** Popup decides whether to show or not
+     * it stores the state for that decision.
+     */
   render() {
     return (
       <div className='popup'>
@@ -43,34 +48,14 @@ export default class PatientNew extends React.Component {
         this.handleFormChange = this.handleFormChange.bind(this)
         this.handleDateChange = this.handleDateChange.bind(this)
         this.save             = this.save.bind(this)
-        this.showValidationMessages = this.showValidationMessages.bind(this)
-        this.clearValidationMessages = this.clearValidationMessages.bind(this)
 
         this.poster = new Poster(this.successfulPost,
-                                 this.showValidationMessages,
                                  this.showAuthorizationErrorMessage,
                                  this.showNetworkErrorMessage);
     }
 
     createSaveURL () {
         return  '/firstcup/rest/hospital/patient'
-    }
-
-    showValidationMessages (validations) {
-
-        const errors = validations.errors
-
-        for (var i = 0; i < errors.length; i++) {
-            const name = errors[i].field
-            const message = errors[i].message
-            const formField = document.querySelector("span[name='" + name + ".errors']")
-            formField.innerText = message
-        }
-    }
-
-    clearValidationMessages(aFieldName) {
-        const formField = document.querySelector("span[name='" + aFieldName + ".errors']")
-        formField.innerText = '';
     }
 
     save(event) {
@@ -95,10 +80,10 @@ export default class PatientNew extends React.Component {
 
             let validations = {errors: [{field: "dob",message:"Date of Birth is mandatory"}]};
 
-            this.showValidationMessages(validations);
+            showValidationMessages(validations);
         }
         else {
-            this.clearValidationMessages("dob");
+            clearValidationMessages("dob");
         }
 
         this.handleFormChange(event);
@@ -112,9 +97,9 @@ export default class PatientNew extends React.Component {
     }
 
     togglePopup = () => {
-         this.setState({
-              showPopup: !this.state.showPopup
-            });
+        this.setState({
+            showPopup: !this.state.showPopup
+        });
     }
 
     showAuthorizationErrorMessage = () => {

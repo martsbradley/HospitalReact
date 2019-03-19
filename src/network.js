@@ -1,13 +1,13 @@
+import {showValidationMessages} from './validationmessage'
 
 export default class Poster {
 
     constructor(successFunc, 
-                showValidationFunc,
                 showAuthorizationMessage, 
                 showNetworkErrorMessage) 
     {
-        this.successFunc = successFunc  
-        this.showValidationFunc = showValidationFunc;
+        this.successFunc = successFunc;
+        this.showValidationFunc = showValidationMessages;
         this.showAuthorizationMessage = showAuthorizationMessage;
         this.showNetworkErrorMessage = showNetworkErrorMessage;
     }
