@@ -99,7 +99,6 @@ export default class PrescriptionAdd extends React.Component {
         .catch(() => {
           alert('There were errors')
         })
-
     }
 
     handleFilterChange(event) {

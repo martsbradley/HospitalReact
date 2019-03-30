@@ -5,26 +5,7 @@ import {PrescriptionTable} from './prescriptiontable.js'
 import {todayAsYYYYMMDD, getDobString} from './dateutils.js'
 import Poster from './network'
 import {showValidationMessages, clearValidationMessages} from './validationmessage'
-
-class Popup extends React.Component {
-
-    /** Popup decides whether to show or not
-     * it stores the state for that decision.
-     */
-  render() {
-    return (
-      <div className='popup'>
-        <div className='popup_inner'>
-          <h1>{this.props.title}</h1>
-             {this.props.message} 
-            <br/>
-            <br/>
-            <button onClick={this.props.closePopup}>Ok</button>
-        </div>
-      </div>
-    );
-  }
-}
+import PopupMessage from './popup_message'
 
 export default class PatientNew extends React.Component {
     constructor (props) {
@@ -162,16 +143,15 @@ export default class PatientNew extends React.Component {
                     <div className="form-group">
                         <button type="submit" >Submit</button>
                         <Link to="/patients/list"><button>Cancel</button></Link>
-                        <Link to={`${addPrescription}`} ><button>Add Prescription</button></Link>
                     </div>
                 </div>
 
             </form>
             {this.state.showPopup ? 
-                <Popup title={this.state.showPopupTitle}
-                       message={this.state.showPopupMessage}
-                       closePopup={this.togglePopup}
-                />
+                <PopupMessage title={this.state.showPopupTitle}
+                              message={this.state.showPopupMessage}
+                              closePopup={this.togglePopup}>
+                </PopupMessage>
                 : null
             }
             </div>)

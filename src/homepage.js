@@ -19,16 +19,14 @@ export class HomePage extends React.Component {
 
             <h2>TODO</h2>
               <ol>
-                  <li>Limit total patients in database to avoid denial of service</li>
-
-                  <li>Saved details of those that log in</li>
-
-                  <li>Anyone can view the patients, but only admins can make updates.</li>
-
-                  <li>Only buttons appropriate for the permissions are shown</li>
-
+                  <li>How to get this running directly from the wildfly server</li>
                   <li>Get authentication enabled integration tests going again.</li> 
+              </ol>
 
+            <h2>Needs Tested</h2>
+
+              <ol>
+                  <li>Anyone can view the patients, but only admins can make updates.</li>
                   <li>Before release... Dump the JSF side of it for now - disable via web.xml</li>
               </ol>
 
@@ -41,6 +39,10 @@ export class HomePage extends React.Component {
 
               <h2>Done</h2>
               <ol>
+                  <li>Saved details of those that log in</li>
+                  <li>Limit total patients in database to avoid denial of service</li>
+                  <li>All buttons are shown, they are stopped at the server.This is just a showcase
+                      so want to show every logged in user what is avaiable.</li>
                   <li>Add prescription and finish that out.</li>
                   <li>Locking so that folks cannot write over each others changes (Done for patients).</li>
                   <li>jwt token held in httponly cookie</li>
