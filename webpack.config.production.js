@@ -3,6 +3,9 @@ const dotenv = require('dotenv');
 const fs = require('fs');
 const path = require('path'); 
 
+
+  
+
 module.exports = (env) => {
     // Default to production if the provided environment is missing 
     //
@@ -59,11 +62,16 @@ module.exports = (env) => {
         filename: 'bundle.js'
       },
       plugins: [
+         new webpack.HotModuleReplacementPlugin(),
          new webpack.DefinePlugin(details)
       ],
       devServer: {
         contentBase: './dist',
+        hot: true,
         historyApiFallback: true,
+        proxy: {
+            '/firstcup': 'http://localhost:8080'
+        }
       }
     }
 };
