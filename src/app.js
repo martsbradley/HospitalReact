@@ -49,15 +49,15 @@ export default class App extends React.Component {
                     <Route path="/loginfailure"       component={LoginFailure} />
                     <Route path="/loginsessionexpired" component={LoginSessionExpired} />
 
-                    <Route path="/login"         component={() => { window.location = '/firstcup/login';    return null;} }/>
-                    <Route path="/logout"        component={() => { window.location = '/firstcup/logout';    return null;} }/>
+                    <Route path="/login"         component={() => { window.location = AUTH0_LOGIN_URL_ENV;    return null;} }/>
+                    <Route path="/logout"        component={() => { window.location = AUTH0_LOGOUT_URL_ENV;    return null;} }/>
                     <Route path="/auth0callback" component={() => 
                                        { console.log("YEA SEEING THIS HERE RIGHT HERE");
                                          console.log("this.props.location" + Object.keys(this.props.location));
                                          console.log("this.props.location.pathname" +this.props.location.pathname);
                                          console.log("this.props.location.hash" +this.props.location.hash);
                                          console.log("this.props.location.search" +this.props.location.search);
-                                         window.location = '/firstcup/auth0callback' + this.props.location.search;
+                                         window.location = AUTH0_CALLBACK_ENV + this.props.location.search;
                                          return null;} }/>
                 </Switch>
             </div>
