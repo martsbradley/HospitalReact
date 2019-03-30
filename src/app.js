@@ -3,7 +3,6 @@ import { Route, Switch} from 'react-router-dom'
 import {HomePage as MyHouse} from './homepage'
 import {PatientTable} from './patient'
 import {Navigation} from './navigation'
-import {Auth} from './auth/auth'
 import {UserDetails} from './auth/userdetails'
 import {Logout} from './logout'
 import {LoginFailure} from './loginfailure.js'
@@ -17,9 +16,7 @@ export default class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.auth = new Auth(props.history);
         this.userDetails = new UserDetails(props.history);
-        console.log("App.this.auth " + this.auth);
     }
 
     myPatientTable = () => {
@@ -41,7 +38,7 @@ export default class App extends React.Component {
             
             <div className="container">
                 <Switch>
-                    <Route exact path="/" render={props => <MyHouse auth={this.auth} {...props}/> }    />
+                    <Route exact path="/" render={props => <MyHouse {...props}/> }    />
                     <AuthenticatedRoute path="/patients"  auth={this.userDetails} component={this.myPatientTable}  />
 
                     <Route path="/logoutsuccess"      component={Logout} />

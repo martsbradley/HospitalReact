@@ -53,5 +53,4 @@ export class HomePage extends React.Component {
 }
 
 HomePage.propTypes = {
-    auth : PropTypes.object,
 }
