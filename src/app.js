@@ -23,11 +23,10 @@ export default class App extends React.Component {
         return <ErrorBoundary><PatientTable auth={this.userDetails} {...this.props} /></ErrorBoundary>;
     }
 
-
     successfulLogin = () => {
-        this.userDetails.startLogoutTimer();
+        //this.userDetails.startLogoutTimer();
         this.props.history.push('/');
-        console.log("Starting login timer and moving user to front page.");
+        console.log("Starting yes   login timer and moving user to front page.");
         return null;
     }
 
@@ -48,14 +47,6 @@ export default class App extends React.Component {
 
                     <Route path="/login"         component={() => { window.location = AUTH0_LOGIN_URL_ENV;    return null;} }/>
                     <Route path="/logout"        component={() => { window.location = AUTH0_LOGOUT_URL_ENV;    return null;} }/>
-                    <Route path="/auth0callback" component={() => 
-                                       { console.log("YEA SEEING THIS HERE RIGHT HERE");
-                                         console.log("this.props.location" + Object.keys(this.props.location));
-                                         console.log("this.props.location.pathname" +this.props.location.pathname);
-                                         console.log("this.props.location.hash" +this.props.location.hash);
-                                         console.log("this.props.location.search" +this.props.location.search);
-                                         window.location = AUTH0_CALLBACK_ENV + this.props.location.search;
-                                         return null;} }/>
                 </Switch>
             </div>
         </div>

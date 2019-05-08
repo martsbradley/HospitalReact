@@ -60,7 +60,7 @@ export default class PrescriptionConfirm extends React.Component {
         const prescription  = {startDate: startFormatted,
                                endDate:   endFormatted,
                                amount: "twice daily"};
-        const url =  `/firstcup/rest/hospital/patient/${patientId}/medicine/${medicineId}`;
+        const url =  `/rest/hospital/patient/${patientId}/medicine/${medicineId}`;
         console.log(url);
         this.postData(url, prescription);
     }

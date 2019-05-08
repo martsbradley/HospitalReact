@@ -12,9 +12,11 @@ module.exports = (env) => {
          new webpack.HotModuleReplacementPlugin()
       ],
       devServer: {
+        clientLogLevel: 'info',
         hot: true,
         proxy: {
-            '/firstcup': 'http://localhost:8080'
+            '/firstcup': { target: 'https://localhost:8443',           secure: false},
+            '/rest':     { target: 'https://localhost:8443/firstcup/', secure: false}
         }
       }
     });

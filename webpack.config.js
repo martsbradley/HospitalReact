@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const dotenv = require('dotenv');
 const fs = require('fs');
 const path = require('path'); 
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = (env) => {
     // Default to production if the provided environment is missing 
@@ -55,11 +56,15 @@ module.exports = (env) => {
       },
       output: {
         path: __dirname + '/dist',
-        publicPath: '/',
+        //publicPath: '/',
         filename: 'bundle.js'
       },
       plugins: [
-         new webpack.DefinePlugin(details)
+         new webpack.DefinePlugin(details),
+         new HtmlWebpackPlugin({
+                              template: "./src/index.html",
+                              title:  "Bitch"
+                          })
       ],
       devServer: {
         contentBase: './dist',

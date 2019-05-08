@@ -11,7 +11,7 @@ export class HomePage extends React.Component {
     render () {
 
         return (<div>
-              <h1>Primary Aims</h1>
+              <h1>AAAAGH Primary Aims</h1>
                   <ol>
                       <li>Secure CSRF?</li>
                       <li>Works.</li>
@@ -19,7 +19,13 @@ export class HomePage extends React.Component {
 
             <h2>TODO</h2>
               <ol>
-                  <li>How to get this running directly from the wildfly server</li>
+                  <li>Wildfly working in Docker</li>
+                  <li>Postgres working in Docker</li>
+                  <li>Update the certificate on the website.</li>
+                  <li>404 page.</li>
+                  <li>Remove JSF</li>
+                  <li>Error messages for validations</li>
+                  <li>Reactive design for mobile.</li>
                   <li>Get authentication enabled integration tests going again.</li> 
               </ol>
 
@@ -39,6 +45,7 @@ export class HomePage extends React.Component {
 
               <h2>Done</h2>
               <ol>
+                  <li>How to get this running directly from the wildfly server</li>
                   <li>Saved details of those that log in</li>
                   <li>Limit total patients in database to avoid denial of service</li>
                   <li>All buttons are shown, they are stopped at the server.This is just a showcase

@@ -36,7 +36,7 @@ export default class PatientNew extends React.Component {
     }
 
     createSaveURL () {
-        return  '/firstcup/rest/hospital/patient'
+        return  '/rest/hospital/patient'
     }
 
     save(event) {

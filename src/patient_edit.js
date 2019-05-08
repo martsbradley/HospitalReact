@@ -37,12 +37,12 @@ export default class PatientEdit extends React.Component {
 
     createLoadURL () {
         const patientId = this.state.patientId
-        let result = `/firstcup/rest/hospital/patient/${patientId}`
+        let result = `/rest/hospital/patient/${patientId}`
         return result
     }
 
     createSaveURL () {
-        return '/firstcup/rest/hospital/patient'
+        return '/rest/hospital/patient'
     }
 
     loadPatient () {

@@ -14,8 +14,9 @@
     "react-router-dom": "^4.3.1"
   },
   "scripts": {
-    "start": "webpack-dev-server --env.ENVIRONMENT=development --config ./webpack.config.development.js --progress --mode development --port 3000 --https --cert=/home/martin/Software/JavaScript/HospitalReact/certs/cert.pem --key=/home/martin/Software/JavaScript/HospitalReact/certs/key.pem",
-    "build": "webpack-dev-server --env.ENVIRONMENT=production --config ./webpack.config.js --progress --mode development --port 3000 --https --cert=/home/martin/Software/JavaScript/HospitalReact/certs/cert.pem --key=/home/martin/Software/JavaScript/HospitalReact/certs/key.pem",
+    "start": "webpack-dev-server --env.ENVIRONMENT=development --config ./webpack.config.development.js --progress --mode development --port 3000",
+    "starthttps": "webpack-dev-server --env.ENVIRONMENT=development --config ./webpack.config.development.js --progress --mode development --port 3000 --https --cert=/home/martin/Software/JavaScript/HospitalReact/certs/cert.pem --key=/home/martin/Software/JavaScript/HospitalReact/certs/key.pem",
+    "build": "webpack --env.ENVIRONMENT=production --config ./webpack.config.production.js --progress --mode production",
     "test": "jest"
   },
   "devDependencies": {
@@ -25,6 +26,7 @@
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
     "css-loader": "^2.1.0",
+    "html-webpack-plugin": "^3.2.0",
     "jest": "^24.1.0",
     "style-loader": "^0.23.1",
     "webpack": "^4.29.0",

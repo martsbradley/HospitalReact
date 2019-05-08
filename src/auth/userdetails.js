@@ -9,6 +9,7 @@ export class UserDetails {
     isLoggedIn = () => {
         const userStatus = Cookies.get('userStatus');
         const result = userStatus === "loggedIn"
+        console.log("isLoggedIn " + result);
         return result;
     }
 
@@ -16,6 +17,8 @@ export class UserDetails {
         const isLoggedIn = this.isLoggedIn();
         const groups     = Cookies.get('auth0Groups');
 
+        //console.log("userDetail isLoggedIn "+ isLoggedIn);
+        //console.log("userDetail groups "+ groups);
         let result =  isLoggedIn && groups.includes(groupName);
         return result;
     }

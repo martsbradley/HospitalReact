@@ -20,7 +20,7 @@ export default class PrescriptionAdd extends React.Component {
         this.handleFilterChange = this.handleFilterChange.bind(this);
         this.handleFormChange = this.handleFormChange.bind(this);
         this.createLoadURL = this.createLoadURL.bind(this);
-        this.urlPrefix = '/firstcup/rest/hospital/medicines/';
+        this.urlPrefix = '/rest/hospital/medicines/';
         this.loadTable = this.loadTable.bind(this);
         this.totalMedsURL = this.totalMedsURL.bind(this)
         this.pageChange  = this.pageChange.bind(this);
