@@ -35,7 +35,7 @@ export default class PatientList extends React.Component {
     this.totalURL = this.totalURL.bind(this)
     this.loadPatients = this.loadPatients.bind(this)
     this.pageChange = this.pageChange.bind(this)
-    this.urlPrefix = '/firstcup/rest/hospital/patients'
+    this.urlPrefix = '/rest/hospital/patients'
   }
 
   totalURL () {

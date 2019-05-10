@@ -25,8 +25,8 @@ export default class App extends React.Component {
 
     successfulLogin = () => {
         //this.userDetails.startLogoutTimer();
-        this.props.history.push('/');
         console.log("Starting yes   login timer and moving user to front page.");
+        this.props.history.push('/');
         return null;
     }
 
@@ -45,8 +45,8 @@ export default class App extends React.Component {
                     <Route path="/loginfailure"       component={LoginFailure} />
                     <Route path="/loginsessionexpired" component={LoginSessionExpired} />
 
-                    <Route path="/login"         component={() => { window.location = AUTH0_LOGIN_URL_ENV;    return null;} }/>
-                    <Route path="/logout"        component={() => { window.location = AUTH0_LOGOUT_URL_ENV;    return null;} }/>
+                    <Route path="/login"  component={() => { window.location = AUTH0_LOGIN_URL_ENV;  return null;} }/>
+                    <Route path="/logout" component={() => { window.location = AUTH0_LOGOUT_URL_ENV; return null;} }/>
                 </Switch>
             </div>
         </div>

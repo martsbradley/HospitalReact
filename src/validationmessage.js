@@ -13,12 +13,29 @@ export function showValidationMessages(validations) {
     for (var i = 0; i < errors.length; i++) {
         const name = errors[i].field
         const message = errors[i].message
-        const formField = document.querySelector("span[name='" + name + ".errors']")
-        formField.innerText = message
+
+        var formField = document.querySelector("span[name='" + name + ".errors']")
+
+        if (formField == null) {
+            formField = document.querySelector("span[name='page.error']")
+        }
+
+        if (formField != null) {
+            formField.innerText = message
+        }
+        else {
+            alert(message);
+        }
     }
 }
 
 export function clearValidationMessages(aFieldName) {
     const formField = document.querySelector("span[name='" + aFieldName + ".errors']")
-    formField.innerText = '';
+
+    if (formField != null) {
+        formField.innerText = '';
+    }
+    else {
+        alert("Cannot find clear field '" + aFieldName + "' to clear it.");
+    }
 }

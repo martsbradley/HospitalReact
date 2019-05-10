@@ -140,6 +140,11 @@ export default class PatientNew extends React.Component {
                     <div className="form-group">
                         <PrescriptionTable list={pres} />
                     </div>
+
+                    <div className="form-group">
+                        <span className="errors" name="page.error"></span>
+                    </div>
+
                     <div className="form-group">
                         <button type="submit" >Submit</button>
                         <Link to="/patients/list"><button>Cancel</button></Link>

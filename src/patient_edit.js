@@ -5,6 +5,7 @@ import {PrescriptionTable} from './prescriptiontable.js'
 import {todayAsYYYYMMDD, getDobString} from './dateutils.js'
 import Poster from './network'
 import {showValidationMessages, clearValidationMessages} from './validationmessage'
+import PopupMessage from './popup_message'
 
 export default class PatientEdit extends React.Component {
     constructor (props) {
@@ -20,6 +21,9 @@ export default class PatientEdit extends React.Component {
                        dob: todayAsYYYYMMDD(),
                        prescription: []
             },
+            showPopup: false,
+            showPopupTitle: "title here",
+            showPopupMessage: "message here."
         }
 
         this.createLoadURL = this.createLoadURL.bind(this)
@@ -29,10 +33,15 @@ export default class PatientEdit extends React.Component {
         this.handleFormChange = this.handleFormChange.bind(this)
         this.handleDateChange = this.handleDateChange.bind(this)
 
-
         this.poster = new Poster(this.successfulPost,
                                  this.showAuthorizationErrorMessage ,
                                  this.showNetworkErrorMessage);
+    }
+
+    togglePopup = () => {
+        this.setState({
+            showPopup: !this.state.showPopup
+        });
     }
 
     createLoadURL () {
@@ -83,11 +92,21 @@ export default class PatientEdit extends React.Component {
     }
 
     showAuthorizationErrorMessage = () => {
-        alert( "Authorization Error You are not authorized to save changes.");
+        //alert( "Authorization Error You are not authorized to save changes.");
+        this.showMessage( "Authorization Error You are not authorized to save changes.");
     }
 
     showNetworkErrorMessage = () => {
-        alert( "Network Error There was an issue with the network.");
+        //alert( "Network Error There was an issue with the network.");
+        this.showMessage( "Network Error", "There was an issue with the network.");
+    }
+
+    showMessage = (title, message) => {
+        this.setState({
+             showPopup: !this.state.showPopup,
+             showPopupTitle: title,
+             showPopupMessage: message
+        });
     }
 
     savePatient (event) {
@@ -153,12 +172,16 @@ export default class PatientEdit extends React.Component {
         }
         const pres = patient.prescription;
         const addPrescription = `/patients/${patient.id}/prescription/medicine`;
-        const administrator = true;//this.props.auth.isAdministrator();
+        const administrator = true;
 
         const result = (
             <div>
             <form onSubmit={this.savePatient}>
+
+
                 <div className="col-md-6 form-line">
+
+
                     <div className="form-group">
                         <label htmlFor="forename">Forename</label>
                         <input type="text" className="form-control" name="forename" value={patient.forename}
@@ -180,6 +203,11 @@ export default class PatientEdit extends React.Component {
                     <div className="form-group">
                         <PrescriptionTable list={pres} />
                     </div>
+
+                    <div className="form-group">
+                        <span className="errors" name="page.error"></span>
+                    </div>
+
                     <div className="form-group">
                         <button type="submit">Submit</button>
 
@@ -191,6 +219,13 @@ export default class PatientEdit extends React.Component {
                     </div>
                 </div>
             </form>
+            {this.state.showPopup ? 
+                <PopupMessage title={this.state.showPopupTitle}
+                              message={this.state.showPopupMessage}
+                              closePopup={this.togglePopup}>
+                </PopupMessage>
+                : null
+            }
             </div>)
         return result
     }

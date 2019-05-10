@@ -15,8 +15,10 @@ module.exports = (env) => {
         clientLogLevel: 'info',
         hot: true,
         proxy: {
-            '/firstcup': { target: 'https://localhost:8443',           secure: false},
-            '/rest':     { target: 'https://localhost:8443/firstcup/', secure: false}
+            '/auth0callback': { target: 'https://localhost:8443', secure: false},
+            '/login':         { target: 'https://localhost:8443', secure: false},
+            '/logout':        { target: 'https://localhost:8443', secure: false},
+            '/rest':          { target: 'https://localhost:8443', secure: false}
         }
       }
     });

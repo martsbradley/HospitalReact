@@ -16,35 +16,23 @@ export class HomePage extends React.Component {
                       <li>Secure CSRF?</li>
                       <li>Works.</li>
                   </ol>
+            Why is the timer not showing on the JS console during login....?
+
+            Now the site is not running on firstcup...
+
 
             <h2>TODO</h2>
               <ol>
-                  <li>Wildfly working in Docker</li>
-                  <li>Postgres working in Docker</li>
-                  <li>Update the certificate on the website.</li>
                   <li>404 page.</li>
-                  <li>Remove JSF</li>
+                  <li>Shwo the same Unauthorized across all pages</li>
                   <li>Error messages for validations</li>
-                  <li>Reactive design for mobile.</li>
                   <li>Get authentication enabled integration tests going again.</li> 
               </ol>
 
-            <h2>Needs Tested</h2>
-
-              <ol>
-                  <li>Anyone can view the patients, but only admins can make updates.</li>
-                  <li>Before release... Dump the JSF side of it for now - disable via web.xml</li>
-              </ol>
-
-              <h2>Maybe Sometime</h2>
-              <ol>
-                  <li>Change it to use redux library.</li>
-                  <li>Fix the styling in both browsers.</li>
-                  <li>Learn about reactive for mobile.</li>
-              </ol>
 
               <h2>Done</h2>
               <ol>
+                  <li>Anyone can view the patients, but only admins can make updates.</li>
                   <li>How to get this running directly from the wildfly server</li>
                   <li>Saved details of those that log in</li>
                   <li>Limit total patients in database to avoid denial of service</li>
@@ -54,6 +42,9 @@ export class HomePage extends React.Component {
                   <li>Locking so that folks cannot write over each others changes (Done for patients).</li>
                   <li>jwt token held in httponly cookie</li>
                   <li>Setting up a TLS certificate and storing the bearer token in a cookie..</li>
+                  <li>Before release... Dump the JSF side of it for now - disable via web.xml</li>
+                  <li>Wildfly working in Docker</li>
+                  <li>Postgres working in Docker</li>
               </ol>
             </div>);
     }
