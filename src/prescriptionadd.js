@@ -44,7 +44,7 @@ export default class PrescriptionAdd extends React.Component {
 
     totalMedsURL () {
         const filter =  this.props.filter;
-        return this.urlPrefix + `/total?filter=${filter}`;
+        return this.urlPrefix + `total?filter=${filter}`;
     }
 
     createLoadURL(aActivePage) {

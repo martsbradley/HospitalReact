@@ -11,41 +11,43 @@ export class HomePage extends React.Component {
     render () {
 
         return (<div>
-              <h1>AAAAGH Primary Aims</h1>
-                  <ol>
-                      <li>Secure CSRF?</li>
-                      <li>Works.</li>
-                  </ol>
-            Why is the timer not showing on the JS console during login....?
+              <h1>Aims</h1>
+            <p>
+              This site was created to allow me to try out some modern technologies like:
+             <ul>
+                 <li>React</li>
+                 <li>Docker</li>
+                 <li>AWS</li>
+                 <li>Postgresql</li>
+                 <li>Rest</li>
+                 <li>Jboss (Wildfly)</li>
+                 <li>Open authentication with Auth0.</li>
+                 <li> LetsEncrypt certifcates</li>
+            </ul>
 
-            Now the site is not running on firstcup...
+            </p>
 
+            <p>
+            The site stores fake patients details, no real details are included.
 
-            <h2>TODO</h2>
-              <ol>
-                  <li>404 page.</li>
-                  <li>Shwo the same Unauthorized across all pages</li>
-                  <li>Error messages for validations</li>
-                  <li>Get authentication enabled integration tests going again.</li> 
-              </ol>
+            Patients can be created and prescriptions to be added to them.
+            </p>
 
+            <p>
+            The public can log in and see the contents of the database.
+            You can log in by your Gmail account, your password will be kept secret by google.
+            </p>
 
-              <h2>Done</h2>
-              <ol>
-                  <li>Anyone can view the patients, but only admins can make updates.</li>
-                  <li>How to get this running directly from the wildfly server</li>
-                  <li>Saved details of those that log in</li>
-                  <li>Limit total patients in database to avoid denial of service</li>
-                  <li>All buttons are shown, they are stopped at the server.This is just a showcase
-                      so want to show every logged in user what is avaiable.</li>
-                  <li>Add prescription and finish that out.</li>
-                  <li>Locking so that folks cannot write over each others changes (Done for patients).</li>
-                  <li>jwt token held in httponly cookie</li>
-                  <li>Setting up a TLS certificate and storing the bearer token in a cookie..</li>
-                  <li>Before release... Dump the JSF side of it for now - disable via web.xml</li>
-                  <li>Wildfly working in Docker</li>
-                  <li>Postgres working in Docker</li>
-              </ol>
+            <p>
+            Only authorized users that can make updates to the database,
+            contact Martin if you want to try that.  If you don&#39;t know him, sorry you are out of luck.
+            </p>
+
+            <h2>You might not notice.</h2>
+            <ul>
+                <li>Optimistic locking shows a message if a patient was updated while you were about to change it.</li>
+                <li>Two Patients cannot have the same, just wanted to implement that.</li>
+            </ul>
             </div>);
     }
 }
