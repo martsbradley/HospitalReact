@@ -1,44 +1,47 @@
 import React from 'react'
 import BackButton from './backbutton.js'
 import {addTimeZone} from './dateutils.js'
+import PopupMessage from './popup_message'
+import Poster from './network'
 
 export default class PrescriptionConfirm extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = { showPopup: false,
+                       showPopupTitle: "title here",
+                       showPopupMessage: "message here."
+        }
+
+        this.poster = new Poster(this.successfulPost,
+                                 this.showAuthorizationErrorMessage,
+                                 this.showNetworkErrorMessage);
     }
 
-    postData = (url, payload) => {
+    successfulPost = () => {
+        this.props.history.push(`/patients/edit/${this.props.patientId}`)
+    }
 
-        console.log("Post payload " +JSON.stringify(payload));
+    showAuthorizationErrorMessage = () => {
+        this.showMessage( "Authorization Error", "You are not authorized to save changes.");
+    }
 
-        fetch(url, {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        })
-            .then(
-                response => {
-                    if (response.ok) {
-                        return "OK dude";
-                    } else {
-                        console.log("Should really handle this");
-                        throw Error(response.statusText)
-                    }
-                },
-                networkError => {
-                    alert('Network Failure ' + networkError)
-                }
-            )
-            .then(() => {
-                this.props.history.push(`/patients/edit/${this.props.patientId}`)
-            }
-            )
-            .catch((e) => {
-                console.log("There was an error during send." + e);
-            })
+    showNetworkErrorMessage = () => {
+        this.showMessage( "Network Error", "There was an issue with the network.");
+    }
+
+    showMessage = (title, message) => {
+        this.setState({
+             showPopup: !this.state.showPopup,
+             showPopupTitle: title,
+             showPopupMessage: message
+        });
+    }
+
+    togglePopup = () => {
+        this.setState({
+            showPopup: !this.state.showPopup
+        });
     }
 
     savePrescription= (event) => {
@@ -62,7 +65,8 @@ export default class PrescriptionConfirm extends React.Component {
                                amount: "twice daily"};
         const url =  `/rest/hospital/patient/${patientId}/medicine/${medicineId}`;
         console.log(url);
-        this.postData(url, prescription);
+        this.poster.postData(url, prescription);
+        console.log("here");
     }
 
 
@@ -93,6 +97,13 @@ export default class PrescriptionConfirm extends React.Component {
                     </div>
                 </div>
             </form>
+            {this.state.showPopup ? 
+                <PopupMessage title={this.state.showPopupTitle}
+                              message={this.state.showPopupMessage}
+                              closePopup={this.togglePopup}>
+                </PopupMessage>
+                : null
+            }
         </div>);
     }
 }

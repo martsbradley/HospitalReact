@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import {PrescriptionTable} from './prescriptiontable.js'
+import {ImageTable} from './imagetable.js'
 import {todayAsYYYYMMDD, getDobString} from './dateutils.js'
 import Poster from './network'
 import {showValidationMessages, clearValidationMessages} from './validationmessage'
@@ -21,12 +22,14 @@ export default class PatientEdit extends React.Component {
                        dob: todayAsYYYYMMDD(),
                        prescription: []
             },
+            images: [],
             showPopup: false,
             showPopupTitle: "title here",
             showPopupMessage: "message here."
         }
 
         this.createLoadURL = this.createLoadURL.bind(this)
+        this.createImagesURL = this.createImagesURL.bind(this)
         this.loadPatient = this.loadPatient.bind(this)
         this.savePatient = this.savePatient.bind(this)
 
@@ -50,42 +53,87 @@ export default class PatientEdit extends React.Component {
         return result
     }
 
+    createImagesURL() {
+        const patientId = this.state.patientId
+        let result = `/rest/hospital/patient/${patientId}/images`
+        return result
+    }
+
     createSaveURL () {
         return '/rest/hospital/patient'
     }
 
     loadPatient () {
-        let url = this.createLoadURL()
+     // let url = this.createLoadURL()
 
-        fetch(url)
-            .then(response => {
-                if (response.ok) {
-                    return response.json()
-                } else {
-                    this.setState({ error: true })
-                    throw Error(response.statusText)
-                }
-            },
-                networkError => {
-                    console.log('Network Failure ' + networkError)
-                }
-            )
-            .then(patient => {
-                // There is on JSON Date
-                // So date comes in as a "yyyy-MM-ddT00:00Z
-                // Now get the yyyy-MM-dd part of the string only.
-                //patient.dob = new Date(patient.dob).toISOString().split('T')[0];
-                patient.dob = getDobString(patient.dob);
+     // fetch(url)
+     //     .then(response => {
+     //         if (response.ok) {
+     //             return response.json()
+     //         } else {
+     //             this.setState({ error: true })
+     //             throw Error(response.statusText)
+     //         }
+     //     },
+     //         networkError => {
+     //             console.log('Network Failure ' + networkError)
+     //         }
+     //     )
+     //     .then(patient => {
+     //         // There is on JSON Date
+     //         // So date comes in as a "yyyy-MM-ddT00:00Z
+     //         // Now get the yyyy-MM-dd part of the string only.
+     //         //patient.dob = new Date(patient.dob).toISOString().split('T')[0];
+     //         patient.dob = getDobString(patient.dob);
 
-                this.setState({ patient: patient,
-                    loaded: true
-                })
-            }
-            )
-            .catch(exn => {
-                console.log('forget about it: ' + exn.statusText)
-            })
+     //         this.setState({ patient: patient,
+     //             loaded: true
+     //         })
+     //     }
+     //     )
+     //     .catch(exn => {
+     //         console.log('forget about it: ' + exn.statusText)
+     //     })
+
+     const loadPatient = fetch(this.createLoadURL());
+     const loadImages = fetch(this.createImagesURL());
+
+     Promise.all([loadPatient, loadImages])
+      .then(responses => {
+        // All the headers have arrived.
+        if (responses[0].ok && responses[1].ok) {
+          return Promise.all([responses[0].json(), responses[1].json()])
+        } else {
+          throw Error([responses[0].statusText(), responses[1].statusText()])
+        }
+      },
+      networkError => {
+        alert('Network Failure ' + networkError)
+      }
+      )
+      .then(dataArray => {
+        // The data from the response bodies has arrived.
+        const patient = dataArray[0];
+        const images  = dataArray[1];
+
+
+        // There is on JSON Date
+        // So date comes in as a "yyyy-MM-ddT00:00Z
+        // Now get the yyyy-MM-dd part of the string only.
+        //patient.dob = new Date(patient.dob).toISOString().split('T')[0];
+        patient.dob = getDobString(patient.dob);
+
+        this.setState({ patient: patient,
+                        images: images,
+                        loaded: true
+        });
+      }
+      )
+      .catch(() => {
+        alert('There were errors')
+      })
     }
+
 
     successfulPost = () => {
         this.props.history.push('/patients/list')
@@ -171,7 +219,9 @@ export default class PatientEdit extends React.Component {
             return "";
         }
         const pres = patient.prescription;
+        const images = this.state.images;
         const addPrescription = `/patients/${patient.id}/prescription/medicine`;
+        const addImage        = `/patients/${patient.id}/addimage`;
         const administrator = true;
 
         const result = (
@@ -203,6 +253,9 @@ export default class PatientEdit extends React.Component {
                     <div className="form-group">
                         <PrescriptionTable list={pres} />
                     </div>
+                    <div className="form-group">
+                        <ImageTable list={images} />
+                    </div>
 
                     <div className="form-group">
                         <span className="errors" name="page.error"></span>
@@ -213,7 +266,8 @@ export default class PatientEdit extends React.Component {
 
                         <Link to="/patients/list"><button>Cancel</button></Link>
                         { administrator ? 
-                          <Link to={`${addPrescription}`} ><button>Add Prescription</button></Link>
+                          <span><Link to={`${addPrescription}`} ><button>Add Prescription</button></Link>
+                          <Link to={`${addImage}`} ><button>Add Image</button></Link></span>
                           : null
                         }
                     </div>

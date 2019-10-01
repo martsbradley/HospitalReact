@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function ValidationMessage(props) {
     if (props.when) {
-        return <div>{props.what}</div>
+        return <div><span className="errors">{props.what}</span></div>
     }
     return "";
 }

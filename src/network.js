@@ -29,19 +29,19 @@ export default class Poster {
                 if (response.ok) {
                     return response.json()
                 } else {
-                    console.log("Response was not ok");
+                    console.log("Response had status " + response.status);
                     if (response.status === 401)
                     {
                         this.showAuthorizationMessage();
+                        throw Error("Authorization failed");
                     }
 
                     let json_errors = response.json()
-                    console.log(json_errors);
+
                     json_errors.then(data => {
                         this.showValidationFunc(data)
                     })
-                    console.log("throwing");
-                    throw Error(response.statusText)
+                    throw Error("Unknown error had response status " + response.statusText)
                 }
             },
             networkError => {

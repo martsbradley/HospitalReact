@@ -6,6 +6,7 @@ import PatientList from './patient_list.js'
 import PropTypes from 'prop-types';
 import Prescription from './prescription.js'
 import ErrorBoundary from './errorboundary.js'
+import AddImage from './addimage.js'
 
 export class PatientTable extends React.Component {
   constructor (props) {
@@ -30,6 +31,11 @@ export class PatientTable extends React.Component {
     return result;
   }
 
+  addImage = (props) => {
+    let result = <AddImage auth={this.props.auth} {...props}/>;
+    return result;
+  }
+
 
   render () {
       console.log("INside render " + Object.keys(this.props));
@@ -38,6 +44,7 @@ export class PatientTable extends React.Component {
       <Switch>
         <Route path="/patients/list" render={(props) => this.listPatients(props)} />
         <Route path="/patients/:patientId/prescription" render={(props) => this.addPrescription(props)} />
+        <Route path="/patients/:patientId/addimage" render={(props) => this.addImage(props)} />
 
         <Route path="/patients/edit/:gistId" 
                render = {(props) => this.editPatient(props, this.props.auth)}>
