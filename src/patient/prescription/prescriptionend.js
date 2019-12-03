@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import BackButton from './backbutton.js'
-import ValidationMessage from './validationmessage.js'
+import BackButton from '../../backbutton.js'
+import ValidationMessage from '../../validationmessage.js'
 
 export default class PrescriptionEnd extends React.Component {
     constructor(props) {

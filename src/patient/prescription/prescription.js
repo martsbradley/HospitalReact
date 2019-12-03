@@ -9,7 +9,7 @@ import format from 'date-fns/format'
 import parse from 'date-fns/parse'
 import isBefore from 'date-fns/is_before'
 import differenceInDays from 'date-fns/difference_in_days'
-import {tomorrowAsYYYYMMDD, todayAsYYYYMMDD, dateFormat} from './dateutils.js'
+import {tomorrowAsYYYYMMDD, todayAsYYYYMMDD, dateFormat} from '../../dateutils.js'
 
 function NoMatch() {
   return (

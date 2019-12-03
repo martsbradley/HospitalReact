@@ -1,8 +1,8 @@
 import React from 'react'
-import BackButton from './backbutton.js'
-import {addTimeZone} from './dateutils.js'
-import PopupMessage from './popup_message'
-import Poster from './network'
+import BackButton from '../../backbutton.js'
+import {addTimeZone} from '../../dateutils.js'
+import PopupMessage from '../../popup_message'
+import Poster from '../../network'
 
 export default class PrescriptionConfirm extends React.Component {
     constructor(props) {

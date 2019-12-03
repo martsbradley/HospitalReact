@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import Pagination from 'react-js-pagination'
 import { Link } from 'react-router-dom'
-import ValidationMessage from './validationmessage.js'
-import Medicine from './medicine.js'
+import ValidationMessage from '../../validationmessage.js'
+import Medicine from '../../medicine.js'
 
 
 export default class PrescriptionAdd extends React.Component {

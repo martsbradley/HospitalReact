@@ -122,8 +122,11 @@ export default class PatientList extends React.Component {
                    : null
                 }
             </div>
-            <div className="myright">
-                <Pagination activePage={this.state.activePage}
+            <div className="float-right">
+                <Pagination 
+                        itemClass="page-item"
+                        linkClass="page-link"
+                            activePage={this.state.activePage}
                             itemsCountPerPage={this.state.itemOnPage}
                             totalItemsCount={this.state.totalItemsCount}
                             pageRangeDisplayed={15}

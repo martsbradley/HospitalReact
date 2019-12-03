@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
-import ValidationMessage from './validationmessage.js'
-import Medicine from './medicine.js'
+import ValidationMessage from '../../validationmessage.js'
+import Medicine from '../../medicine.js'
 
 export default class PrescriptionStart extends React.Component {
     constructor(props) {
