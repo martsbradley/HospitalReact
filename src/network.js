@@ -14,7 +14,7 @@ export default class Poster {
 
     postData = (url, payload) => {
 
-        //console.log("postData  " + Object.keys(payload));
+        console.log("postData  " + Object.keys(payload));
 
         fetch(url, {
             method: 'post',

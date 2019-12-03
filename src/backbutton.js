@@ -7,7 +7,9 @@ export default class BackButton extends React.Component {
         this.goBack = this.goBack.bind(this);
     }
 
-    goBack() {
+    goBack(event) {
+        event.preventDefault();
+        console.log("back pressed using history");
         this.props.history.goBack();
     }
 

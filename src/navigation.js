@@ -18,6 +18,7 @@ export class Navigation extends Component {
                }
 
                <li><SignInOutButton auth={this.props.auth}/></li>
+
             </ul>
            </nav>);
     }

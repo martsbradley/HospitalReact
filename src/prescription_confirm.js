@@ -45,6 +45,7 @@ export default class PrescriptionConfirm extends React.Component {
     }
 
     savePrescription= (event) => {
+        console.log("submitted prescription confirm");
         event.preventDefault();
 
         const patientId    = this.props.patientId;

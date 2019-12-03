@@ -18,8 +18,10 @@ export default class PrescriptionEnd extends React.Component {
     }
 
     saveDate(event) {
+        console.log("prescriptionend saveDate");
         event.preventDefault();
         if (this.props.canMoveNextPage()) {
+            console.log("history push confirmed");
             this.props.history.push('confirmed')
         }
         else {

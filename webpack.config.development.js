@@ -12,13 +12,11 @@ module.exports = (env) => {
          new webpack.HotModuleReplacementPlugin()
       ],
       devServer: {
-        clientLogLevel: 'info',
+        clientLogLevel: 'silent',
         hot: true,
         proxy: {
-            '/auth0callback': { target: 'https://localhost:8443', secure: false},
-            '/login':         { target: 'https://localhost:8443', secure: false},
-            '/logout':        { target: 'https://localhost:8443', secure: false},
-            '/rest':          { target: 'https://localhost:8443', secure: false}
+            '/rest' : { target: 'https://localhost', secure: false},
+            '/auth' : { target: 'https://localhost/authentication-war/', secure: false}
         }
       }
     });

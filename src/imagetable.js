@@ -13,7 +13,7 @@ export function ImageTable(props) {
     const table = (
         <table className='table table-bordered'>
             <thead className='thead-dark'>
-            <tr>
+            <tr key="{1}">
                 <th scope="col">Image</th>
             </tr>
             </thead>

@@ -6,6 +6,7 @@ import {Navigation} from './navigation'
 import {UserDetails} from './auth/userdetails'
 import {Logout} from './logout'
 import {LoginFailure} from './loginfailure.js'
+import {LoginScreen} from './loginscreen.js'
 import AuthenticatedRoute from './authenticatedroute'
 import {LoginSessionExpired} from './loginsessionexpired.js'
 //import PropTypes from 'prop-types';
@@ -30,26 +31,36 @@ export default class App extends React.Component {
         return null;
     }
 
+    login = () => {
+        return <LoginScreen auth={this.userDetails} />;
+
+    }
+
     render() {
       return (
         <div>
-            <Navigation auth={this.userDetails}/>
-            
             <div className="container">
                 <Switch>
-                    <Route exact path="/" render={props => <MyHouse {...props}/> }    />
-                    <AuthenticatedRoute path="/patients"  auth={this.userDetails} component={this.myPatientTable}  />
+                    <Route exact path="/" 
+                                render={props => <MyHouse {...props}
+                                auth={this.userDetails}           /> }    />
+                    <AuthenticatedRoute path="/patients"  
+                                        auth={this.userDetails} 
+                                        component={this.myPatientTable}  />
 
-                    <Route path="/logoutsuccess"      component={Logout} />
-                    <Route path="/loginsuccess"       component={this.successfulLogin} />
-                    <Route path="/loginfailure"       component={LoginFailure} />
-                    <Route path="/loginsessionexpired" component={LoginSessionExpired} />
+                    <Route path="/logoutsuccess"       component={Logout}/>
+                    <Route path="/loginsuccess"        component={this.successfulLogin}/>
+                    <Route path="/loginfailure"        component={LoginFailure}/>
+                    <Route path="/loginsessionexpired" component={LoginSessionExpired}/>
+                    <Route path="/login"               component={
+                                           () => <LoginScreen auth={this.userDetails} />}/>
 
-                    <Route path="/login"  component={() => { window.location = AUTH0_LOGIN_URL_ENV;  return null;} }/>
-                    <Route path="/logout" component={() => { window.location = AUTH0_LOGOUT_URL_ENV; return null;} }/>
                 </Switch>
             </div>
         </div>
       );
     }
 }
+
+//                  <Route path="/login"  component={() => { window.location = AUTH0_LOGIN_URL_ENV;  return null;} }/>
+//                  <Route path="/logout" component={() => { window.location = AUTH0_LOGOUT_URL_ENV; return null;} }/> -->

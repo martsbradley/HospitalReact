@@ -9,7 +9,7 @@ export class UserDetails {
     isLoggedIn = () => {
         const userStatus = Cookies.get('userStatus');
         const result = userStatus === "loggedIn"
-        console.log("isLoggedIn " + result);
+        //console.log("isLoggedIn " + result);
         return result;
     }
 

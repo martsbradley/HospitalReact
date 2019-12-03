@@ -1,6 +1,7 @@
 import React  from 'react'
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import {Navigation} from './navigation'
 
 export class HomePage extends React.Component {
 
@@ -10,35 +11,40 @@ export class HomePage extends React.Component {
 
     render () {
 
-        return (<div>
-              <h1>Overview</h1>
-            <p>
-              This site was created to allow me to try out some modern technologies such as:
-             <ul>
-                 <li>React.</li>
-                 <li>Docker.</li>
-                 <li>AWS.</li>
-                 <li>Postgresql.</li>
-                 <li>Rest.</li>
-                 <li>Wildfly (JBoss).</li>
-                 <li>Auth0 Authentication.</li>
-                 <li>LetsEncrypt.</li>
-            </ul>
+        return (
+        
+        <div>
+            <Navigation auth={this.props.auth}/>
+        
+                <h1>Overview</h1>
+                <p>
+                This site was created to allow me to try out some modern
+                technologies such as:
+                </p>
+                <ul>
+                    <li>React.</li>
+                    <li>Docker.</li>
+                    <li>AWS.</li>
+                    <li>Postgresql.</li>
+                    <li>Rest.</li>
+                    <li>Wildfly (JBoss).</li>
+                    <li>Auth0 Authentication.</li>
+                    <li>LetsEncrypt.</li>
+                </ul>
 
-            </p>
+                <p>
+                This site stores phony patients details, no real details are included.
 
-            <p>
-            The site stores phony patients details, no real details are included.
+                New patient records can be created and patients can be given
+                prescriptions.
+                </p>
 
-            New patient records can be created and patients can be given prescriptions.
-            </p>
+                <p> Authorized users can make updates.</p>
 
-            <p> Authorized users can make updates.</p>
-
-            ** This site stores cookies.  If you do not agree to this please navigate away from this site. **
-            </div>);
+                ** This site stores cookies.  If you do not agree to this please navigate away from this site. **
+        </div>);
+        }
     }
-}
 
-HomePage.propTypes = {
+    HomePage.propTypes = {
 }

@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import Prescription from './prescription.js'
 import ErrorBoundary from './errorboundary.js'
 import AddImage from './addimage.js'
+import {Navigation} from './navigation'
 
 export class PatientTable extends React.Component {
   constructor (props) {
@@ -38,23 +39,26 @@ export class PatientTable extends React.Component {
 
 
   render () {
-      console.log("INside render " + Object.keys(this.props));
 
     let result = (
+    <div>
+      <Navigation auth={this.props.auth}/> 
+
       <Switch>
-        <Route path="/patients/list" render={(props) => this.listPatients(props)} />
-        <Route path="/patients/:patientId/prescription" render={(props) => this.addPrescription(props)} />
-        <Route path="/patients/:patientId/addimage" render={(props) => this.addImage(props)} />
+          <Route path="/patients/list" render={(props) => this.listPatients(props)} />
+          <Route path="/patients/:patientId/prescription" render={(props) => this.addPrescription(props)} />
+          <Route path="/patients/:patientId/addimage" render={(props) => this.addImage(props)} />
 
-        <Route path="/patients/edit/:gistId" 
-               render = {(props) => this.editPatient(props, this.props.auth)}>
-        </Route>
+          <Route path="/patients/edit/:gistId" 
+                render = {(props) => this.editPatient(props, this.props.auth)}>
+          </Route>
 
-        <Route path="/patients/new/" 
-               render={(props) => this.newPatient(props, this.props.auth)}>
-        </Route>
+          <Route path="/patients/new/" 
+                render={(props) => this.newPatient(props, this.props.auth)}>
+          </Route>
 
       </Switch>
+    </div>
     )
     return result
   }

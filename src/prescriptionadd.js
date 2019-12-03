@@ -29,6 +29,7 @@ export default class PrescriptionAdd extends React.Component {
 
     onSubmit(event) {
 
+      console.log("prescriptionadd submitted");
         if (this.props.canMoveNextPage()) {
             console.log("Can move to the next page!");
             this.setState({showWarning: false});
