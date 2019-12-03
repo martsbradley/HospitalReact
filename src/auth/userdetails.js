@@ -1,4 +1,5 @@
 import * as Cookies from 'js-cookie'
+import Poster from '../network';
 
 export class UserDetails {
     constructor(history) {
@@ -36,6 +37,16 @@ export class UserDetails {
                                     1000*expiresAfterSeconds);
     }
 
+    loginSuccess = () => {
+        console.log("redirect to homepage.");
+        this.history.push('/');
+        console.log("pushed /");
+    }
+
+    loginfailure = () => {
+        this.history.push('/loginfailure');
+    }
+
     login = () => {
         console.log("redirect the page to the real log in");
         this.history.push('/login');
@@ -43,9 +54,17 @@ export class UserDetails {
     }
 
     logout = () => {
-        console.log("redirect to the real logout");
-        this.history.push('/logout');
-        console.log("pushed /loout");
+        var poster = new Poster(() => {},
+                                () => {alert("fail1");},
+                                () => {alert("fail2")});
+        poster.deleteMethod();
+
+        let user = { username: '', password:  ''};
+
+        poster.postData('/auth/verifyuser',user);
+
+        this.history.push('/logoutsuccess');
+        console.log("pushed /logoutsuccess");
     }
 
 

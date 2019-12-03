@@ -24,6 +24,15 @@ export default class App extends React.Component {
         return <ErrorBoundary><PatientTable auth={this.userDetails} {...this.props} /></ErrorBoundary>;
     }
 
+    loginFailure = () => {
+        return <ErrorBoundary><LoginFailure auth={this.userDetails} {...this.props} /></ErrorBoundary>;
+    }
+
+    logoutSuccess = () => {
+        console.log("Now show logout success page");
+        return <ErrorBoundary><Logout auth={this.userDetails} {...this.props} /></ErrorBoundary>; 
+    }
+
     successfulLogin = () => {
         //this.userDetails.startLogoutTimer();
         console.log("Starting yes   login timer and moving user to front page.");
@@ -48,9 +57,9 @@ export default class App extends React.Component {
                                         auth={this.userDetails} 
                                         component={this.myPatientTable}  />
 
-                    <Route path="/logoutsuccess"       component={Logout}/>
-                    <Route path="/loginsuccess"        component={this.successfulLogin}/>
-                    <Route path="/loginfailure"        component={LoginFailure}/>
+                    <Route path="/logoutsuccess"       component={this.logoutSuccess}/>
+
+                    <Route path="/loginfailure"        component={this.loginFailure}/>
                     <Route path="/loginsessionexpired" component={LoginSessionExpired}/>
                     <Route path="/login"               component={
                                            () => <LoginScreen auth={this.userDetails} />}/>
@@ -62,5 +71,6 @@ export default class App extends React.Component {
     }
 }
 
+//                  <Route path="/loginsuccess"        component={this.successfulLogin}/>
 //                  <Route path="/login"  component={() => { window.location = AUTH0_LOGIN_URL_ENV;  return null;} }/>
 //                  <Route path="/logout" component={() => { window.location = AUTH0_LOGOUT_URL_ENV; return null;} }/> -->

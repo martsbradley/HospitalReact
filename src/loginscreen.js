@@ -1,6 +1,7 @@
 import React from 'react'
 import Poster from './network'
 import { Link } from 'react-router-dom'
+import {Navigation} from './navigation'
 
 export class LoginScreen extends React.Component {
 
@@ -16,29 +17,24 @@ export class LoginScreen extends React.Component {
         };
 
         this.handleFormChange = this.handleFormChange.bind(this)
-        this.createSaveURL = this.createSaveURL.bind(this)
+        this.loginURL = this.loginURL.bind(this)
 
         this.signInWithUserPassword= this.signInWithUserPassword.bind(this)
-        this.targetURL= this.targetURL.bind(this)
 
         this.poster = new Poster(this.successfulPost,
-                                 this.showAuthorizationErrorMessage ,
-                                 this.showNetworkErrorMessage);
+                                 this.showErrorMessage ,
+                                 this.showErrorMessage);
     }
 
     successfulPost = () => {
-        alert( "Logged in Successfully.");
+        this.auth.loginSuccess();
     }
 
-    showAuthorizationErrorMessage = () => {
-        alert( "Authorization Error You are not authorized to save changes.");
+    showErrorMessage = () => {
+        this.auth.loginfailure()
     }
 
-    showNetworkErrorMessage = () => {
-        alert( "Authorization Error You are not authorized to save changes.");
-    }
-
-    createSaveURL() {
+    loginURL() {
         return '/auth/verifyuser';
     }
 
@@ -57,11 +53,7 @@ export class LoginScreen extends React.Component {
 
         let payload = {...this.state.user};
 
-        this.poster.postData(this.createSaveURL(), payload);
-    }
-
-    targetURL () {
-        return '/rest/hospital/authenticate';
+        this.poster.postData(this.loginURL(), payload);
     }
 
     render () {
@@ -71,6 +63,8 @@ export class LoginScreen extends React.Component {
         }
 
         const result = (
+            <div>
+            <Navigation auth={this.props.auth} onLoginscreen={true}/> 
             <form onSubmit={this.signInWithUserPassword}>
 
                 <h1> Who are you</h1>
@@ -95,6 +89,7 @@ export class LoginScreen extends React.Component {
                     </div>
                 </div>
             </form>
+            </div>
         );
         return result;
     }

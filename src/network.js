@@ -10,6 +10,11 @@ export default class Poster {
         this.showValidationFunc = showValidationMessages;
         this.showAuthorizationMessage = showAuthorizationMessage;
         this.showNetworkErrorMessage = showNetworkErrorMessage;
+        this.method = 'post';
+    }
+
+    deleteMethod = () => {
+        this.method = 'delete';
     }
 
     postData = (url, payload) => {
@@ -17,7 +22,7 @@ export default class Poster {
         console.log("postData  " + Object.keys(payload));
 
         fetch(url, {
-            method: 'post',
+            method: this.method,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'

@@ -7,17 +7,21 @@ export class Navigation extends Component {
 
     render() {
         const isAuthenticated = this.props.auth.isAuthenticated();
+        const isOnLoginScreen = this.props.isOnLoginScreen;
 
         return (<nav> 
             <ul>
                <li><NavLink exact activeClassName='isactive' to="/">Home</NavLink></li>
 
-               { isAuthenticated ? 
+               { !this.props.onLoginscreen && isAuthenticated ? 
                  <li><NavLink activeClassName='isactive' to="/patients/list">Patients</NavLink></li>
                  : null 
                }
 
-               <li><SignInOutButton auth={this.props.auth}/></li>
+               { !this.props.onLoginscreen ?
+                <li><SignInOutButton auth={this.props.auth}/></li>
+                :null
+                }
 
             </ul>
            </nav>);

@@ -16,7 +16,7 @@ module.exports = (env) => {
         hot: true,
         proxy: {
             '/rest' : { target: 'https://localhost', secure: false},
-            '/auth' : { target: 'https://localhost/authentication-war/', secure: false}
+            '/auth' : { target: 'https://localhost/', secure: false}
         }
       }
     });
