@@ -40,11 +40,6 @@ export default class App extends React.Component {
         return null;
     }
 
-    login = () => {
-        return <LoginScreen auth={this.userDetails} />;
-
-    }
-
     render() {
       return (
         <div>
@@ -63,6 +58,7 @@ export default class App extends React.Component {
                     <Route path="/loginsessionexpired" component={LoginSessionExpired}/>
                     <Route path="/login"               component={
                                            () => <LoginScreen auth={this.userDetails} />}/>
+                    <Route path="/logout"              component={this.logoutSuccess} />}/>
 
                 </Switch>
             </div>

@@ -47,12 +47,6 @@ export class UserDetails {
         this.history.push('/loginfailure');
     }
 
-    login = () => {
-        console.log("redirect the page to the real log in");
-        this.history.push('/login');
-        console.log("pushed /login");
-    }
-
     logout = () => {
         var poster = new Poster(() => {},
                                 () => {alert("fail1");},
@@ -62,9 +56,7 @@ export class UserDetails {
         let user = { username: '', password:  ''};
 
         poster.postData('/auth/verifyuser',user);
-
-        this.history.push('/logoutsuccess');
-        console.log("pushed /logoutsuccess");
+        console.log("Called logout on server");
     }
 
 

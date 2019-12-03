@@ -3,6 +3,11 @@ import {Navigation} from './navigation'
 
 export class Logout extends React.Component {
 
+    constructor(props) {
+        super(props);
+        props.auth.logout();
+    }
+
     render () { 
         let result = 
                 <div>
