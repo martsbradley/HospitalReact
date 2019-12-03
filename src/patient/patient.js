@@ -4,10 +4,10 @@ import PatientEdit from './patient_edit.js'
 import PatientNew from './patient_new.js'
 import PatientList from './patient_list.js'
 import PropTypes from 'prop-types';
-import Prescription from './prescription.js'
-import ErrorBoundary from './errorboundary.js'
-import AddImage from './addimage.js'
-import {Navigation} from './navigation'
+import Prescription from '../prescription.js'
+import ErrorBoundary from '../errorboundary.js'
+import AddImage from '../addimage.js'
+import {Navigation} from '../navigation'
 
 export class PatientTable extends React.Component {
   constructor (props) {

@@ -1,7 +1,7 @@
 import React from 'react'
-import Poster from './network'
+import Poster from '../network'
 import { Link } from 'react-router-dom'
-import {Navigation} from './navigation'
+import {Navigation} from '../navigation'
 
 export class LoginScreen extends React.Component {
 

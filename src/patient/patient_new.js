@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
-import {PrescriptionTable} from './prescriptiontable.js'
-import {todayAsYYYYMMDD, getDobString} from './dateutils.js'
-import Poster from './network'
-import {showValidationMessages, clearValidationMessages} from './validationmessage'
-import PopupMessage from './popup_message'
+import {PrescriptionTable} from '../prescriptiontable.js'
+import {todayAsYYYYMMDD, getDobString} from '../dateutils.js'
+import Poster from '../network'
+import {showValidationMessages, clearValidationMessages} from '../validationmessage'
+import PopupMessage from '../popup_message'
 
 export default class PatientNew extends React.Component {
     constructor (props) {
