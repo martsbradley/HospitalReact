@@ -10,13 +10,14 @@ function PatientRow (props) {
 
   let editIcon = <i className="fas fa-user-edit fa-2x"></i>;
   return (<tr>
-    <td>{pat.id}</td>
+    <td className="d-none d-sm-table-cell">{pat.id}</td>
     <td>{pat.forename}</td>
-    <td>{pat.surname}</td>
-    <td>{pat.dob}</td>
+    <td className="d-none d-sm-table-cell">{pat.surname}</td>
+    <td className="d-none d-sm-table-cell">{pat.dob}</td>
     <td><Link to={`/patients/edit/${id}`}>{editIcon}</Link></td>
   </tr>)
 }
+
 
 PatientRow.propTypes = {
     pat : PropTypes.object
@@ -138,10 +139,10 @@ export default class PatientList extends React.Component {
         <table className='table table-bordered'>
                    <thead className='thead-dark'>
             <tr>
-              <th scope="col">Id</th>
+              <th scope="col" className="d-none d-sm-table-cell">Id</th>
               <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">DOB</th>
+              <th scope="col" className="d-none d-sm-table-cell">Last</th>
+              <th scope="col" className="d-none d-sm-table-cell">DOB</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>

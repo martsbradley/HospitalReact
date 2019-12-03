@@ -8,10 +8,10 @@ export function PrescriptionTable(props) {
     if (prescriptions) {
         detail = prescriptions.map(p =>
             <tr key={p.id}>
-            <td>{p.id}</td>
+            <td className="d-none d-sm-table-cell">{p.id}</td>
             <td>{p.medicine.name}</td>
-            <td>{p.medicine.manufacturer}</td>
-            <td>{p.amount}</td>
+            <td className="d-none d-sm-table-cell">{p.medicine.manufacturer}</td>
+            <td className="d-none d-sm-table-cell">{p.amount}</td>
             <td><i className="far fa-trash-alt fa-2x"></i></td>
             </tr>)
     }
@@ -19,10 +19,10 @@ export function PrescriptionTable(props) {
     const table = (<table className='table table-bordered'>
         <thead className='thead-dark'>
         <tr>
-        <th scope="col">Id</th>
+        <th scope="col" className="d-none d-sm-table-cell">Id</th>
         <th scope="col">Name</th>
-        <th scope="col">Manufacturer</th>
-        <th scope="col">Amount</th>
+        <th scope="col" className="d-none d-sm-table-cell">Manufacturer</th>
+        <th scope="col" className="d-none d-sm-table-cell">Amount</th>
         <th scope="col">Action</th>
         </tr>
         </thead>
