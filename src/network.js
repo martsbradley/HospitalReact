@@ -61,4 +61,39 @@ export default class Poster {
             console.log("Catch there was an error" + e);
         })
     }
+
+    goFetch = (url, payload) => {
+
+        console.log("postData  " + Object.keys(payload));
+
+        let request = fetch(url,{
+                                    method: this.method,
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(payload)
+                                })
+        return request;
+    }
+
+ ///handleResponse = (response) => {
+ ///    if (response.ok) {
+ ///        return response.json()
+ ///    } else {
+ ///        console.log("Response had status " + response.status);
+ ///        if (response.status === 401)
+ ///        {
+ ///            this.showAuthorizationMessage();
+ ///            throw Error("Authorization failed");
+ ///        }
+
+ ///        let json_errors = response.json()
+
+ ///        json_errors.then(data => {
+ ///            this.showValidationFunc(data)
+ ///        })
+ ///        throw Error("Unknown error had response status " + response.statusText)
+ ///    }
+ ///}
 }

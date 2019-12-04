@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
-import {PrescriptionTable} from './prescription/prescriptiontable.js'
 import {todayAsYYYYMMDD, getDobString} from '../dateutils.js'
 import Poster from '../network'
 import {showValidationMessages, clearValidationMessages} from '../validationmessage'
@@ -112,8 +111,6 @@ export default class PatientNew extends React.Component {
         if (patient.dob === null) {
             return "";
         }
-        const pres = patient.prescription;
-        const addPrescription = `/patients/${patient.id}/prescription/medicine`;
 
         const result = (
             <div>
@@ -136,9 +133,6 @@ export default class PatientNew extends React.Component {
                         <input type="date" className="form-control" name="dob" value={patient.dob}
                         onChange={this.handleDateChange}/>
                         <span className="errors" name="dob.errors"></span>
-                    </div>
-                    <div className="form-group">
-                        <PrescriptionTable list={pres} />
                     </div>
 
                     <div className="form-group">

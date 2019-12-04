@@ -7,6 +7,7 @@ import {UserDetails} from './auth/userdetails'
 import {Logout} from './login/logout'
 import {LoginFailure} from './login/loginfailure.js'
 import {LoginScreen} from './login/loginscreen.js'
+import {Marty} from './login/marty.js'
 import AuthenticatedRoute from './authenticatedroute'
 import {LoginSessionExpired} from './loginsessionexpired.js'
 //import PropTypes from 'prop-types';
@@ -40,11 +41,19 @@ export default class App extends React.Component {
         return null;
     }
 
+    saveDataToLocalStorage = (e) => {
+        alert("hi there" + e);
+        e.preventDefault();
+    }
+
     render() {
+        //console.log("Marty" + MARTY_KEY);
+
       return (
         <div>
             <div className="container">
                 <Switch>
+
                     <Route exact path="/" 
                                 render={props => <MyHouse {...props}
                                 auth={this.userDetails}           /> }    />
@@ -66,7 +75,3 @@ export default class App extends React.Component {
       );
     }
 }
-
-//                  <Route path="/loginsuccess"        component={this.successfulLogin}/>
-//                  <Route path="/login"  component={() => { window.location = AUTH0_LOGIN_URL_ENV;  return null;} }/>
-//                  <Route path="/logout" component={() => { window.location = AUTH0_LOGOUT_URL_ENV; return null;} }/> -->

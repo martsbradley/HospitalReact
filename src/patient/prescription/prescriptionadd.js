@@ -28,19 +28,16 @@ export default class PrescriptionAdd extends React.Component {
     }
 
     onSubmit(event) {
-
       console.log("prescriptionadd submitted");
-        if (this.props.canMoveNextPage()) {
-            console.log("Can move to the next page!");
-            this.setState({showWarning: false});
-            console.log("History is a " + typeof(this.props.history));
-            this.props.history.push('setStartDate')
-        }
-        else {
-            this.setState({showWarning: true});
-        }
+
+      if (this.props.canMoveNextPage()) {
+          console.log("Can move to the next page!");
+          console.log("History is a " + typeof(this.props.history));
+      }
+      else {
+        this.setState({showWarning: true});
         event.preventDefault();
-        event.target.reset();//??????????? why...
+      }
     }
 
     totalMedsURL () {
@@ -137,7 +134,7 @@ export default class PrescriptionAdd extends React.Component {
         let result = (<div>
             
             <h1>Prescription Select Medicine</h1>
-            <form onSubmit={this.onSubmit}>
+            <form>
 
 
                 <div className="col-md-6">
@@ -146,18 +143,20 @@ export default class PrescriptionAdd extends React.Component {
                             <label htmlFor="filter">Filter:</label>
                             {filterElement }
                         </div>
-                        <div style={{float:'right'}}>
-                            <Pagination activePage={this.props.activePage}
-                              itemsCountPerPage={this.state.numItemsOnPage}
-                              totalItemsCount={this.state.totalItemsCount}
-                              pageRangeDisplayed={5}
-                              onChange={this.pageChange} 
-                              innerClass="pagination pages" />
+                        <div className="bordered">
+                            <Pagination itemClass="page-item"
+                                        linkClass="page-link"
+                                        activePage={this.props.activePage}
+                                        itemsCountPerPage={this.state.numItemsOnPage}
+                                        totalItemsCount={this.state.totalItemsCount}
+                                        pageRangeDisplayed={5}
+                                        onChange={this.pageChange} 
+                                        innerClass="pagination pages" />
 
+                          <Medicine meds={meds} 
+                                    selectedMedicine={this.props.selectedMedicine} 
+                                    mouseClicked={this.props.mouseClicked} />
                         </div>
-                        <Medicine meds={meds} 
-                                  selectedMedicine={this.props.selectedMedicine} 
-                                  mouseClicked={this.props.mouseClicked} />
 
                     </div>
                     <div style={{clear: 'right'}} className="form-line">
@@ -167,7 +166,9 @@ export default class PrescriptionAdd extends React.Component {
                     <div className="form-line">
                         <div className="form-group">
                             <Link to={`/patients/edit/${this.props.patientId}`}><button>Cancel</button></Link>
-                            <input type="submit" value="Next"></input>
+                            <Link to={'setStartDate'}>
+                                <button onClick={this.onSubmit}>Next</button>
+                            </Link>
                         </div>
                     </div>
                 </div>

@@ -10,7 +10,7 @@ export function PrescriptionTable(props) {
             <tr key={p.id}>
             <td className="d-none d-sm-table-cell">{p.id}</td>
             <td>{p.medicine.name}</td>
-            <td className="d-none d-sm-table-cell">{p.medicine.manufacturer}</td>
+            <td className="d-none d-md-table-cell">{p.medicine.manufacturer}</td>
             <td className="d-none d-sm-table-cell">{p.amount}</td>
             <td><i className="far fa-trash-alt fa-2x"></i></td>
             </tr>)
@@ -21,7 +21,7 @@ export function PrescriptionTable(props) {
         <tr>
         <th scope="col" className="d-none d-sm-table-cell">Id</th>
         <th scope="col">Name</th>
-        <th scope="col" className="d-none d-sm-table-cell">Manufacturer</th>
+        <th scope="col" className="d-none d-md-table-cell">Manufacturer</th>
         <th scope="col" className="d-none d-sm-table-cell">Amount</th>
         <th scope="col">Action</th>
         </tr>

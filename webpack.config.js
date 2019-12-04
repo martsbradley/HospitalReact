@@ -63,7 +63,7 @@ module.exports = (env) => {
          new webpack.DefinePlugin(details),
          new HtmlWebpackPlugin({
                               template: "./src/index.html",
-                              title:  "Bitch"
+                              title:  "Title"
                           })
       ],
       devServer: {

@@ -12,9 +12,9 @@ export default class Medicine extends React.Component {
             detail = meds.map(p =>
               <tr className={this.props.selectedMedicine === p.id? "selected": ""}
                    onClick={() => this.props.mouseClicked(p)} key={p.id}>
-                <td>{p.id}</td>
+                <td className="d-none d-sm-table-cell">{p.id}</td>
                 <td>{p.name}</td>
-                <td>{p.manufacturer}</td>
+                <td className="d-none d-lg-table-cell">{p.manufacturer}</td>
               </tr>)
         }
 
@@ -28,9 +28,9 @@ export default class Medicine extends React.Component {
             
           <thead className=''>
             <tr>
-              <th scope="col">Id</th>
+              <th scope="col" className="d-none d-sm-table-cell">Id</th>
               <th scope="col">Name</th>
-              <th scope="col">Manufacturer</th>
+              <th scope="col" className="d-none d-lg-table-cell">Manufacturer</th>
             </tr>
           </thead>
           <tbody>{detail}</tbody></table>)

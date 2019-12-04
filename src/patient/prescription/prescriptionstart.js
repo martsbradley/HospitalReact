@@ -19,12 +19,9 @@ export default class PrescriptionStart extends React.Component {
     }
 
     saveDate(event) {
-        event.preventDefault();
-        if (this.props.canMoveNextPage()) {
-            this.props.history.push('setEndDate')
-        }
-        else {
+        if (!this.props.canMoveNextPage()) {
             this.setState({showWarning: true});
+            event.preventDefault();
         }
     }
     render () {
@@ -33,7 +30,7 @@ export default class PrescriptionStart extends React.Component {
         return (<div>
             <h1>Prescription Select Start Date</h1>
 
-            <form onSubmit={this.saveDate}>
+            <form>
                 <div className="col-md-6 form-line">
                   <div className="form-group">
                       <label htmlFor="medicine" >Medicine</label>
@@ -53,7 +50,9 @@ export default class PrescriptionStart extends React.Component {
                   </div>
                   <div className="form-group">
                     <Link to="medicine"><button>Back</button></Link>
-                    <input type="submit" value="Next"></input>
+                    <Link to={'setEndDate'}>
+                        <button onClick={this.saveDate}>Next</button>
+                    </Link>
                   </div>
                 </div>
             </form>

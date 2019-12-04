@@ -1,5 +1,5 @@
 import React from 'react'
-import BackButton from '../../backbutton.js'
+import { Link,Redirect } from 'react-router-dom'
 import {addTimeZone} from '../../dateutils.js'
 import PopupMessage from '../../popup_message'
 import Poster from '../../network'
@@ -8,21 +8,16 @@ export default class PrescriptionConfirm extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { showPopup: false,
+        this.state = { worked : false, 
+                       showPopup: false,
                        showPopupTitle: "title here",
                        showPopupMessage: "message here."
         }
 
-        this.poster = new Poster(this.successfulPost,
-                                 this.showAuthorizationErrorMessage,
-                                 this.showNetworkErrorMessage);
-    }
-
-    successfulPost = () => {
-        this.props.history.push(`/patients/edit/${this.props.patientId}`)
     }
 
     showAuthorizationErrorMessage = () => {
+        console.log("Auth error");
         this.showMessage( "Authorization Error", "You are not authorized to save changes.");
     }
 
@@ -42,11 +37,11 @@ export default class PrescriptionConfirm extends React.Component {
         this.setState({
             showPopup: !this.state.showPopup
         });
-    }
+    };
 
-    savePrescription= (event) => {
-        console.log("submitted prescription confirm");
+    savePrescription = async (event) => {
         event.preventDefault();
+        console.log("submitted prescription confirm");
 
         const patientId    = this.props.patientId;
         const medicineId   = this.props.medicine.id;
@@ -56,22 +51,43 @@ export default class PrescriptionConfirm extends React.Component {
         const endFormatted   = addTimeZone(this.props.endDate);
  
         console.log("Save the prescription");
-        console.log(patientId);
-        console.log(medicineName);
-        console.log(startFormatted);
-        console.log(endFormatted);
+        console.log(patientId + " " + medicineName + " " + startFormatted);
 
         const prescription  = {startDate: startFormatted,
                                endDate:   endFormatted,
                                amount: "twice daily"};
+
         const url =  `/rest/hospital/patient/${patientId}/medicine/${medicineId}`;
-        console.log(url);
-        this.poster.postData(url, prescription);
-        console.log("here");
+
+        const poster = new Poster(  () => {},
+                                    this.showAuthorizationErrorMessage,
+                                    this.showNetworkErrorMessage);
+
+        const response = await poster.goFetch(url, prescription);
+
+        if (response.ok) {
+            let output = response.json();
+            console.log("output is " + output);
+
+            this.setState({
+                worked: true 
+            });
+        }
+        else {
+            console.log("Response not ok :-(");
+            
+            console.log("Response had status " + response.status);
+
+            if (response.status === 401)
+                this.showAuthorizationErrorMessage();
+        }
     }
 
-
     render () {
+        if (this.state.worked === true) {
+            return <Redirect to={`/patients/edit/${this.props.patientId}`} />
+        }
+
         return (<div>
             <h1>Prescription Confirm Details</h1>
 
@@ -93,8 +109,11 @@ export default class PrescriptionConfirm extends React.Component {
                              readOnly disabled value={this.props.endDate}/>
                     </div>
                     <div className="form-group">
-                      <BackButton text="Previous" {...this.props}/>
-                      <input type="submit" value="Finish"></input>
+                    <Link to="setEndDate"><button>Back</button></Link>
+
+                    <button type="submit" >Confirm</button>
+                   
+                   
                     </div>
                 </div>
             </form>
@@ -108,3 +127,7 @@ export default class PrescriptionConfirm extends React.Component {
         </div>);
     }
 }
+//<Link to={`/patients/edit/${this.props.patientId}`} onclick={this.savePrescription}>
+//</Link>
+
+                    //<Link to={`/patients/edit/${this.props.patientId}`}></Link>

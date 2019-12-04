@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import BackButton from '../../backbutton.js'
+import { Link } from 'react-router-dom'
 import ValidationMessage from '../../validationmessage.js'
 
 export default class PrescriptionEnd extends React.Component {
@@ -18,13 +18,8 @@ export default class PrescriptionEnd extends React.Component {
     }
 
     saveDate(event) {
-        console.log("prescriptionend saveDate");
-        event.preventDefault();
-        if (this.props.canMoveNextPage()) {
-            console.log("history push confirmed");
-            this.props.history.push('confirmed')
-        }
-        else {
+        if (!this.props.canMoveNextPage()) {
+            event.preventDefault();
             this.setState({showWarning: true});
         }
     }
@@ -34,7 +29,7 @@ export default class PrescriptionEnd extends React.Component {
         return (<div>
             <h1>Prescription Select End Date</h1>
 
-            <form onSubmit={this.saveDate}>
+            <form>
               <div className="col-md-6 form-line">
                   <div className="form-group">
                       <label htmlFor="medicine" >Medicine</label>
@@ -56,8 +51,13 @@ export default class PrescriptionEnd extends React.Component {
                           <ValidationMessage when={isBlocking} what="Must be after start date"/>
                     </div>
                     <div className="form-group">
-                      <BackButton text="Previous" {...this.props}/>
-                      <input type="submit" value="Next"></input>
+
+
+                    <Link to="setStartDate"><button>Back</button></Link>
+                    <Link to={'confirmed'}>
+                        <button onClick={this.saveDate}>Next</button>
+                    </Link>
+
                     </div>
                 </div>
             </form>

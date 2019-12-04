@@ -13,7 +13,7 @@ function PatientRow (props) {
     <td className="d-none d-sm-table-cell">{pat.id}</td>
     <td>{pat.forename}</td>
     <td className="d-none d-sm-table-cell">{pat.surname}</td>
-    <td className="d-none d-sm-table-cell">{pat.dob}</td>
+    <td className="d-none d-md-table-cell">{pat.dob}</td>
     <td><Link to={`/patients/edit/${id}`}>{editIcon}</Link></td>
   </tr>)
 }
@@ -142,7 +142,7 @@ export default class PatientList extends React.Component {
               <th scope="col" className="d-none d-sm-table-cell">Id</th>
               <th scope="col">First</th>
               <th scope="col" className="d-none d-sm-table-cell">Last</th>
-              <th scope="col" className="d-none d-sm-table-cell">DOB</th>
+              <th scope="col" className="d-none d-md-table-cell">DOB</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
