@@ -49,8 +49,7 @@ export default class App extends React.Component {
         //console.log("Marty" + MARTY_KEY);
 
       return (
-        <div>
-            <div className="container">
+            <div className="container-fluid">
                 <Switch>
 
                     <Route exact path="/" 
@@ -70,7 +69,6 @@ export default class App extends React.Component {
 
                 </Switch>
             </div>
-        </div>
       );
     }
 }

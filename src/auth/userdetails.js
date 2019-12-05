@@ -37,16 +37,6 @@ export class UserDetails {
                                     1000*expiresAfterSeconds);
     }
 
-    loginSuccess = () => {
-        console.log("redirect to homepage.");
-        this.history.push('/');
-        console.log("pushed /");
-    }
-
-    loginfailure = () => {
-        this.history.push('/loginfailure');
-    }
-
     logout = () => {
         var poster = new Poster(() => {},
                                 () => {alert("fail1");},

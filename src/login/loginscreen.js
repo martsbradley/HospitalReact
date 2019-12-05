@@ -1,6 +1,6 @@
 import React from 'react'
 import Poster from '../network'
-import { Link } from 'react-router-dom'
+import { Link,Redirect } from 'react-router-dom'
 import {Navigation} from '../navigation'
 
 export class LoginScreen extends React.Component {
@@ -12,6 +12,8 @@ export class LoginScreen extends React.Component {
         this.auth = props.auth;
         console.log("LoginScreen has the auth " +this.auth);
         this.state = { error: false,
+                       logginPassed: false,
+                       logginFailed: false,
                        user: { username: '',
                                password:  ''}
         };
@@ -19,7 +21,7 @@ export class LoginScreen extends React.Component {
         this.handleFormChange = this.handleFormChange.bind(this)
         this.loginURL = this.loginURL.bind(this)
 
-        this.signInWithUserPassword= this.signInWithUserPassword.bind(this)
+        this.onSubmit= this.onSubmit.bind(this)
 
         this.poster = new Poster(this.successfulPost,
                                  this.showErrorMessage ,
@@ -27,11 +29,13 @@ export class LoginScreen extends React.Component {
     }
 
     successfulPost = () => {
-        this.auth.loginSuccess();
+        console.log("setting loginPassed as true")
+        this.setState({logginPassed: true});
     }
 
     showErrorMessage = () => {
-        this.auth.loginfailure()
+        console.log("setting loginFailed as true")
+        this.setState({logginFailed: true});
     }
 
     loginURL() {
@@ -46,10 +50,11 @@ export class LoginScreen extends React.Component {
         this.setState({ user })
     }
 
-    signInWithUserPassword (event) {
+    onSubmit (event) {
+        console.log("here in onSubmit");
         event.preventDefault();
 
-        console.log("-->signInWithUserPassword  "+ Object.keys(this.props));
+        console.log("-->onSubmit  "+ Object.keys(this.props));
 
         let payload = {...this.state.user};
 
@@ -61,13 +66,21 @@ export class LoginScreen extends React.Component {
         if (error) {
             return <p>There was an error calling the service</p>
         }
+                       
+        if (this.state.logginFailed === true) {
+            return <Redirect to="/loginfailure"/>
+        }
 
+        if (this.state.logginPassed === true) {
+            return <Redirect to="/patients/list"/>
+        }
         const result = (
+
             <div>
             <Navigation auth={this.props.auth} onLoginscreen={true}/> 
-            <form onSubmit={this.signInWithUserPassword}>
+            <form onSubmit={this.onSubmit}>
 
-                <h1> Who are you</h1>
+                <h1>Please Login</h1>
                 <div className="col-md-6 form-line">
                     <div className="form-group">
                         <label htmlFor="username">Username</label>
@@ -83,9 +96,9 @@ export class LoginScreen extends React.Component {
                     </div>
 
                     <div className="form-group">
-                        <button type="submit">Submit</button>
 
                         <Link to="/patients/list"><button>Cancel</button></Link>
+                        <button type="submit">Login</button>
                     </div>
                 </div>
             </form>
