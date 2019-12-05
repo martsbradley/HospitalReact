@@ -8,7 +8,7 @@ export default class PrescriptionConfirm extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { worked : false, 
+        this.state = { success : false, 
                        showPopup: false,
                        showPopupTitle: "title here",
                        showPopupMessage: "message here."
@@ -70,7 +70,7 @@ export default class PrescriptionConfirm extends React.Component {
             console.log("output is " + output);
 
             this.setState({
-                worked: true 
+                success: true 
             });
         }
         else {
@@ -84,7 +84,7 @@ export default class PrescriptionConfirm extends React.Component {
     }
 
     render () {
-        if (this.state.worked === true) {
+        if (this.state.success === true) {
             return <Redirect to={`/patients/edit/${this.props.patientId}`} />
         }
 
@@ -109,11 +109,9 @@ export default class PrescriptionConfirm extends React.Component {
                              readOnly disabled value={this.props.endDate}/>
                     </div>
                     <div className="form-group">
-                    <Link to="setEndDate"><button>Back</button></Link>
+                        <Link to="setEndDate"><button>Back</button></Link>
 
-                    <button type="submit" >Confirm</button>
-                   
-                   
+                        <button type="submit" >Confirm</button>
                     </div>
                 </div>
             </form>

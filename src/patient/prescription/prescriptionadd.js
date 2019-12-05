@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import Pagination from 'react-js-pagination'
-import { Link } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import ValidationMessage from '../../validationmessage.js'
 import Medicine from '../../medicine.js'
 
@@ -11,6 +11,7 @@ export default class PrescriptionAdd extends React.Component {
         super(props);
 
         this.state = {  
+          success: false,
           showWarning: false,
           meds: [],
           loaded: false,
@@ -27,18 +28,6 @@ export default class PrescriptionAdd extends React.Component {
         this.onSubmit  = this.onSubmit.bind(this);
     }
 
-    onSubmit(event) {
-      console.log("prescriptionadd submitted");
-
-      if (this.props.canMoveNextPage()) {
-          console.log("Can move to the next page!");
-          console.log("History is a " + typeof(this.props.history));
-      }
-      else {
-        this.setState({showWarning: true});
-        event.preventDefault();
-      }
-    }
 
     totalMedsURL () {
         const filter =  this.props.filter;
@@ -114,10 +103,27 @@ export default class PrescriptionAdd extends React.Component {
       this.setState({ formData })
     }
 
+    onSubmit(event) {
+      console.log("prescriptionadd submitted");
+
+      if (this.props.canMoveNextPage()) {
+          console.log("Can move to the next page!");
+          console.log("History is a " + typeof(this.props.history));
+        this.setState({success: true});
+      }
+      else {
+        this.setState({showWarning: true});
+      }
+    }
+
     render () {
         const meds = this.state.meds;
 
         const isBlocking = this.state.showWarning;
+
+        if (this.state.success === true) {
+            return <Redirect to="setStartDate"/>
+        }
         //
         let filterElement = <input type="text" style={{display: 'inline'}} 
                                    name="filter" value={this.props.filter}
@@ -134,9 +140,7 @@ export default class PrescriptionAdd extends React.Component {
         let result = (<div>
             
             <h1>Prescription Select Medicine</h1>
-            <form>
-
-
+            <form onSubmit={this.onSubmit}>
                 <div className="col-md-6">
                     <div className="form-line">
                         <div style={{display:'inline'}}>
@@ -166,9 +170,7 @@ export default class PrescriptionAdd extends React.Component {
                     <div className="form-line">
                         <div className="form-group">
                             <Link to={`/patients/edit/${this.props.patientId}`}><button>Cancel</button></Link>
-                            <Link to={'setStartDate'}>
-                                <button onClick={this.onSubmit}>Next</button>
-                            </Link>
+                            <button type="submit">Next</button>
                         </div>
                     </div>
                 </div>
