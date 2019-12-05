@@ -109,10 +109,11 @@ export default class PrescriptionAdd extends React.Component {
       if (this.props.canMoveNextPage()) {
           console.log("Can move to the next page!");
           console.log("History is a " + typeof(this.props.history));
-        this.setState({success: true});
+          this.setState({success: true});
       }
       else {
         this.setState({showWarning: true});
+        event.preventDefault();
       }
     }
 

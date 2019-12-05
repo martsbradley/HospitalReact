@@ -7,7 +7,6 @@ import {UserDetails} from './auth/userdetails'
 import {Logout} from './login/logout'
 import {LoginFailure} from './login/loginfailure.js'
 import {LoginScreen} from './login/loginscreen.js'
-import {Marty} from './login/marty.js'
 import AuthenticatedRoute from './authenticatedroute'
 import {LoginSessionExpired} from './loginsessionexpired.js'
 //import PropTypes from 'prop-types';
