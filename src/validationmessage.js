@@ -8,13 +8,18 @@ export default function ValidationMessage(props) {
 }
 
 export function showValidationMessages(validations) {
-    const errors = validations.errors
+    const errors = validations;
 
     for (var i = 0; i < errors.length; i++) {
         const name = errors[i].field
         const message = errors[i].message
 
-        var formField = document.querySelector("span[name='" + name + ".errors']")
+        console.log("name in validation is " + name);
+        const lookingFor = 'span[name="' + name + '.errors"]';
+
+        var formField = document.querySelector(lookingFor)
+
+        console.log("formField is " + formField + " when looking for '" + lookingFor + "'");
 
         if (formField == null) {
             formField = document.querySelector("span[name='page.error']")

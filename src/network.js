@@ -41,12 +41,15 @@ export default class Poster {
                         throw Error("Authorization failed");
                     }
 
-                    let json_errors = response.json()
 
+                    let json_errors = response.json()
+                    console.log("json_errors is " + json_errors);
                     json_errors.then(data => {
+                        console.log("is ... " + data);
                         this.showValidationFunc(data)
                     })
-                    throw Error("Unknown error had response status " + response.statusText)
+                    console.log("throwing error ");
+                    //throw Error("Unknown error had response status " + response.statusText)
                 }
             },
             networkError => {

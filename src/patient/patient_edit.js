@@ -5,8 +5,8 @@ import {PrescriptionTable} from './prescription/prescriptiontable.js'
 import {ImageTable} from '../imagetable.js'
 import {todayAsYYYYMMDD, getDobString} from '../dateutils.js'
 import Poster from '../network'
-import {showValidationMessages, clearValidationMessages} from '../validationmessage'
 import PopupMessage from '../popup_message'
+import {showValidationMessages} from '../validationmessage'
 
 export default class PatientEdit extends React.Component {
     constructor (props) {
@@ -157,22 +157,68 @@ export default class PatientEdit extends React.Component {
         });
     }
 
-    savePatient (event) {
+    async savePatient (event) {
         event.preventDefault();
 
-      //const administrator = this.props.auth.isAdministrator();
-      //if (!administrator) {
-      //    alert("Sorry only administrators can save their changes");
-      //    return;
-      //}
         console.log("-->savePatient  "+ Object.keys(this.props));
-        console.log("Doit");
-        //this.postData(this.createSaveURL(), this.state.patient)
 
         let payload = {...this.state.patient};
         payload.dob = payload.dob + "T00:00Z";
 
-        this.poster.postData(this.createSaveURL(), payload);
+        const response = await this.poster.goFetch(this.createSaveURL(), payload);
+
+        if (response.ok) {
+            let output = response.json();
+            console.log("output is " + output);
+
+            this.setState({
+                success: true 
+            });
+        }
+        else {
+            let json_errors = response.json()
+            console.log("here json_errors is " + json_errors);
+            json_errors.then(data => {
+                console.log("here is ... " + data);
+
+                this.showValidationMessages(data, "savePatient.patientBean");
+            })
+            console.log("throwing error ");
+
+        }
+    }
+
+    showValidationMessages= (validations, prefix) =>{
+        const errors = validations;
+
+        for (var i = 0; i < errors.length; i++) {
+            const field = errors[i].field
+            const message = errors[i].message
+
+            console.log("field in validation is " + field);
+
+            if (field.startsWith(prefix)){
+                field = field.substring(prefix.length + 1);
+            }
+            console.log("field is now " + field);
+
+            const lookingFor = 'span[class="errors"][name="' + field + '"]';
+
+            var formField = document.querySelector(lookingFor)
+
+            console.log("formField is " + formField + " when looking for '" + lookingFor + "'");
+
+            if (formField == null) {
+                formField = document.querySelector("span[name='page.error']")
+            }
+
+            if (formField != null) {
+                formField.innerText = message
+            }
+            else {
+                alert(message);
+            }
+        }
     }
 
 
@@ -224,31 +270,29 @@ export default class PatientEdit extends React.Component {
         const addImage        = `/patients/${patient.id}/addimage`;
         const administrator = true;
 
+
+
         const result = (
             <div>
             <form onSubmit={this.savePatient}>
-
-
                 <div className="col-md-6 form-line">
-
-
                     <div className="form-group">
                         <label htmlFor="forename">Forename</label>
                         <input type="text" className="form-control" name="forename" value={patient.forename}
                         onChange={this.handleFormChange}/>
-                        <span className="errors" name="forename.errors"></span>
+                        <span className="errors" name="forename"></span>
                     </div>
                     <div className="form-group">
                         <label htmlFor="surname">Surname</label>
                         <input type="text" className="form-control" name="surname" value={patient.surname}
                         onChange={this.handleFormChange}/>
-                        <span className="errors" name="surname.errors"></span>
+                        <span className="errors" name="surname"></span>
                     </div>
                     <div className="form-group">
                         <label htmlFor="dob" >Date of Birth</label>
                         <input type="date" className="form-control" name="dob" value={patient.dob}
                         onChange={this.handleDateChange}/>
-                        <span className="errors" name="dob.errors"></span>
+                        <span className="errors" name="dob"></span>
                     </div>
                     <div className="form-group">
                         <PrescriptionTable list={pres} />

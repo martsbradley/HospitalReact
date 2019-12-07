@@ -120,7 +120,7 @@ export default class PatientNew extends React.Component {
                         <label htmlFor="forename">Forename</label>
                         <input type="text" className="form-control" name="forename" value={patient.forename}
                         onChange={this.handleFormChange}/>
-                        <span className="errors" name="forename.errors"></span>
+                        <span className="errors" name="savePatient.patientBean.forename.errors"></span>
                     </div>
                     <div className="form-group">
                         <label htmlFor="surname">Surname</label>
