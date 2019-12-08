@@ -34,6 +34,40 @@ export function showValidationMessages(validations) {
     }
 }
 
+export function showPrefixValidationMessages(validations, prefix){
+    const errors = validations;
+
+    for (var i = 0; i < errors.length; i++) {
+        const field = errors[i].field
+        const message = errors[i].message
+
+        console.log("field in validation is " + field);
+
+        if (field.startsWith(prefix)){
+            field = field.substring(prefix.length + 1);
+        }
+        console.log("field is now " + field);
+
+        const lookingFor = 'span[class="errors"][name="' + field + '"]';
+
+        var formField = document.querySelector(lookingFor)
+
+        console.log("formField is " + formField + " when looking for '" + lookingFor + "'");
+
+        if (formField == null) {
+            formField = document.querySelector("span[name='page.error']")
+        }
+
+        if (formField != null) {
+            formField.innerText = message
+        }
+        else {
+            alert(message);
+        }
+    }
+}
+
+
 export function clearValidationMessages(aFieldName) {
     const formField = document.querySelector("span[name='" + aFieldName + ".errors']")
 

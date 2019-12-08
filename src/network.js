@@ -100,3 +100,36 @@ export default class Poster {
  ///    }
  ///}
 }
+
+export async function postGeneric(info){
+    try {
+
+        const poster  = new Poster (()  =>{},
+                                    ()  =>{},
+                                    ()  =>{});
+
+        const response = await poster.goFetch(info.url, info.payload);
+
+        if (response.ok) {
+            let json = response.json();
+            console.log("response.ok is " + json);
+
+            info.success(json);
+        }
+        else {
+            console.log("response status is " + response.status);
+            if (response.status === 401) {
+                info.failureAuthentication();
+            }
+            else {
+                let json = await response.json()
+                console.log("Got the json");
+                if (json) {
+                    info.failure(json);
+                }
+            }
+        }
+    }catch (e) {
+        info.error();
+    }
+}

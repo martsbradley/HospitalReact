@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import {PrescriptionTable} from './prescription/prescriptiontable.js'
 import {ImageTable} from '../imagetable.js'
 import {todayAsYYYYMMDD, getDobString} from '../dateutils.js'
-import Poster from '../network'
+import {postGeneric} from '../network'
 import PopupMessage from '../popup_message'
-import {showValidationMessages} from '../validationmessage'
+import {showPrefixValidationMessages} from '../validationmessage'
+import PatientForm from './patient_info.js'
 
 export default class PatientEdit extends React.Component {
     constructor (props) {
@@ -15,8 +16,8 @@ export default class PatientEdit extends React.Component {
         console.log("PatientEdit gistId " + props.match.params.gistId);
 
         this.state = { error: false,
+            success: false,
             patientId: props.match.params.gistId,
-            loaded: false,
             patient: { forename: '',
                        surname: '',
                        dob: todayAsYYYYMMDD(),
@@ -28,75 +29,16 @@ export default class PatientEdit extends React.Component {
             showPopupMessage: "message here."
         }
 
-        this.createLoadURL = this.createLoadURL.bind(this)
-        this.createImagesURL = this.createImagesURL.bind(this)
-        this.loadPatient = this.loadPatient.bind(this)
-        this.savePatient = this.savePatient.bind(this)
-
         this.handleFormChange = this.handleFormChange.bind(this)
         this.handleDateChange = this.handleDateChange.bind(this)
-
-        this.poster = new Poster(this.successfulPost,
-                                 this.showAuthorizationErrorMessage ,
-                                 this.showNetworkErrorMessage);
     }
 
-    togglePopup = () => {
-        this.setState({
-            showPopup: !this.state.showPopup
-        });
-    }
 
-    createLoadURL () {
-        const patientId = this.state.patientId
-        let result = `/rest/hospital/patient/${patientId}`
-        return result
-    }
+    loadPatient = () => {
 
-    createImagesURL() {
-        const patientId = this.state.patientId
-        let result = `/rest/hospital/patient/${patientId}/images`
-        return result
-    }
-
-    createSaveURL () {
-        return '/rest/hospital/patient'
-    }
-
-    loadPatient () {
-     // let url = this.createLoadURL()
-
-     // fetch(url)
-     //     .then(response => {
-     //         if (response.ok) {
-     //             return response.json()
-     //         } else {
-     //             this.setState({ error: true })
-     //             throw Error(response.statusText)
-     //         }
-     //     },
-     //         networkError => {
-     //             console.log('Network Failure ' + networkError)
-     //         }
-     //     )
-     //     .then(patient => {
-     //         // There is on JSON Date
-     //         // So date comes in as a "yyyy-MM-ddT00:00Z
-     //         // Now get the yyyy-MM-dd part of the string only.
-     //         //patient.dob = new Date(patient.dob).toISOString().split('T')[0];
-     //         patient.dob = getDobString(patient.dob);
-
-     //         this.setState({ patient: patient,
-     //             loaded: true
-     //         })
-     //     }
-     //     )
-     //     .catch(exn => {
-     //         console.log('forget about it: ' + exn.statusText)
-     //     })
-
-     const loadPatient = fetch(this.createLoadURL());
-     const loadImages = fetch(this.createImagesURL());
+     const patientId = this.state.patientId
+     const loadPatient = fetch(`/rest/hospital/patient/${patientId}`);
+     const loadImages = fetch(`/rest/hospital/patient/${patientId}/images`);
 
      Promise.all([loadPatient, loadImages])
       .then(responses => {
@@ -124,19 +66,13 @@ export default class PatientEdit extends React.Component {
         patient.dob = getDobString(patient.dob);
 
         this.setState({ patient: patient,
-                        images: images,
-                        loaded: true
+                        images: images
         });
       }
       )
       .catch(() => {
         alert('There were errors')
       })
-    }
-
-
-    successfulPost = () => {
-        this.props.history.push('/patients/list')
     }
 
     showAuthorizationErrorMessage = () => {
@@ -148,6 +84,11 @@ export default class PatientEdit extends React.Component {
         //alert( "Network Error There was an issue with the network.");
         this.showMessage( "Network Error", "There was an issue with the network.");
     }
+    togglePopup = () => {
+        this.setState({
+            showPopup: !this.state.showPopup
+        });
+    }
 
     showMessage = (title, message) => {
         this.setState({
@@ -157,70 +98,44 @@ export default class PatientEdit extends React.Component {
         });
     }
 
-    async savePatient (event) {
+    savePatient = async (event) => {
         event.preventDefault();
 
-        console.log("-->savePatient  "+ Object.keys(this.props));
+        console.log("-->SAVE PATIENT  "+ Object.keys(this.props));
 
         let payload = {...this.state.patient};
         payload.dob = payload.dob + "T00:00Z";
+        let info = { url: '/rest/hospital/patient',
+                 payload: payload,
+                 success: this.successFn,
+                 failure: this.failureFn,
+                 failureAuthentication: this.failureAuthentication,
+                 error:   this.errorFn
+        };
 
-        const response = await this.poster.goFetch(this.createSaveURL(), payload);
-
-        if (response.ok) {
-            let output = response.json();
-            console.log("output is " + output);
-
-            this.setState({
-                success: true 
-            });
-        }
-        else {
-            let json_errors = response.json()
-            console.log("here json_errors is " + json_errors);
-            json_errors.then(data => {
-                console.log("here is ... " + data);
-
-                this.showValidationMessages(data, "savePatient.patientBean");
-            })
-            console.log("throwing error ");
-
-        }
+        postGeneric(info);
     }
 
-    showValidationMessages= (validations, prefix) =>{
-        const errors = validations;
-
-        for (var i = 0; i < errors.length; i++) {
-            const field = errors[i].field
-            const message = errors[i].message
-
-            console.log("field in validation is " + field);
-
-            if (field.startsWith(prefix)){
-                field = field.substring(prefix.length + 1);
-            }
-            console.log("field is now " + field);
-
-            const lookingFor = 'span[class="errors"][name="' + field + '"]';
-
-            var formField = document.querySelector(lookingFor)
-
-            console.log("formField is " + formField + " when looking for '" + lookingFor + "'");
-
-            if (formField == null) {
-                formField = document.querySelector("span[name='page.error']")
-            }
-
-            if (formField != null) {
-                formField.innerText = message
-            }
-            else {
-                alert(message);
-            }
-        }
+    successFn = (json) => {
+        this.setState({
+            success: true 
+        });
+    }
+    failureFn = (json) => {
+        console.log(json);
+        showPrefixValidationMessages(json, "savePatient.patientBean");
     }
 
+    failureAuthentication = () => {
+        this.setState({
+            error: true 
+        });
+    }
+
+    errorFn = (e) => {
+        console.log("Exception caught " + e);
+        console.log(e);
+    }
 
     componentDidMount () {
         this.loadPatient(this.state.patientId)
@@ -252,9 +167,14 @@ export default class PatientEdit extends React.Component {
     }
 
     render () {
+
+        if (this.state.success === true) {
+            return <Redirect to="/patients/list" />
+        }
         const error = this.state.error
-        if (error) {
-            return <p>There was an error calling the service</p>
+
+        if (this.state.error === true) {
+            return <Redirect to="/loginsessionexpired" />
         }
 
         const patient = this.state.patient;
@@ -270,30 +190,12 @@ export default class PatientEdit extends React.Component {
         const addImage        = `/patients/${patient.id}/addimage`;
         const administrator = true;
 
-
-
         const result = (
             <div>
             <form onSubmit={this.savePatient}>
+                <PatientForm patient={patient} 
+                            handleFormChange={this.handleFormChange}/>
                 <div className="col-md-6 form-line">
-                    <div className="form-group">
-                        <label htmlFor="forename">Forename</label>
-                        <input type="text" className="form-control" name="forename" value={patient.forename}
-                        onChange={this.handleFormChange}/>
-                        <span className="errors" name="forename"></span>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="surname">Surname</label>
-                        <input type="text" className="form-control" name="surname" value={patient.surname}
-                        onChange={this.handleFormChange}/>
-                        <span className="errors" name="surname"></span>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="dob" >Date of Birth</label>
-                        <input type="date" className="form-control" name="dob" value={patient.dob}
-                        onChange={this.handleDateChange}/>
-                        <span className="errors" name="dob"></span>
-                    </div>
                     <div className="form-group">
                         <PrescriptionTable list={pres} />
                     </div>

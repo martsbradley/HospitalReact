@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import {todayAsYYYYMMDD, getDobString} from '../dateutils.js'
 import Poster from '../network'
 import {showValidationMessages, clearValidationMessages} from '../validationmessage'
+import PatientForm from './patient_info.js'
+
 import PopupMessage from '../popup_message'
 
 export default class PatientNew extends React.Component {
@@ -115,26 +117,10 @@ export default class PatientNew extends React.Component {
         const result = (
             <div>
             <form onSubmit={this.save}>
-                <div className="col-md-6 form-line">
-                    <div className="form-group">
-                        <label htmlFor="forename">Forename</label>
-                        <input type="text" className="form-control" name="forename" value={patient.forename}
-                        onChange={this.handleFormChange}/>
-                        <span className="errors" name="savePatient.patientBean.forename.errors"></span>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="surname">Surname</label>
-                        <input type="text" className="form-control" name="surname" value={patient.surname}
-                        onChange={this.handleFormChange}/>
-                        <span className="errors" name="surname.errors"></span>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="dob" >Date of Birth</label>
-                        <input type="date" className="form-control" name="dob" value={patient.dob}
-                        onChange={this.handleDateChange}/>
-                        <span className="errors" name="dob.errors"></span>
-                    </div>
+                <PatientForm patient={patient} 
+                             handleFormChange={this.handleFormChange}/>
 
+                <div className="col-md-6 form-line">
                     <div className="form-group">
                         <span className="errors" name="page.error"></span>
                     </div>
