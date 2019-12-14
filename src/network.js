@@ -110,6 +110,8 @@ export async function postGeneric(info){
 
         const response = await poster.goFetch(info.url, info.payload);
 
+        console.log("await goFetch done");
+
         if (response.ok) {
             let json = response.json();
             console.log("response.ok is " + json);
@@ -130,6 +132,7 @@ export async function postGeneric(info){
             }
         }
     }catch (e) {
-        info.error();
+        console.log("postGeneric catch");
+        info.error(e);
     }
 }

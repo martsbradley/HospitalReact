@@ -75,13 +75,7 @@ export default class PatientEdit extends React.Component {
       })
     }
 
-    showAuthorizationErrorMessage = () => {
-        //alert( "Authorization Error You are not authorized to save changes.");
-        this.showMessage( "Authorization Error You are not authorized to save changes.");
-    }
-
     showNetworkErrorMessage = () => {
-        //alert( "Network Error There was an issue with the network.");
         this.showMessage( "Network Error", "There was an issue with the network.");
     }
     togglePopup = () => {
@@ -110,7 +104,7 @@ export default class PatientEdit extends React.Component {
                  success: this.successFn,
                  failure: this.failureFn,
                  failureAuthentication: this.failureAuthentication,
-                 error:   this.errorFn
+                 error:   this.networkFailure
         };
 
         postGeneric(info);
@@ -132,9 +126,10 @@ export default class PatientEdit extends React.Component {
         });
     }
 
-    errorFn = (e) => {
+    networkFailure = (e) => {
         console.log("Exception caught " + e);
         console.log(e);
+        this.showNetworkErrorMessage();
     }
 
     componentDidMount () {
@@ -192,6 +187,13 @@ export default class PatientEdit extends React.Component {
 
         const result = (
             <div>
+            {this.state.showPopup ? 
+                <PopupMessage title={this.state.showPopupTitle}
+                              message={this.state.showPopupMessage}
+                              closePopup={this.togglePopup}>
+                </PopupMessage>
+                : null
+            }
             <form onSubmit={this.savePatient}>
                 <PatientForm patient={patient} 
                             handleFormChange={this.handleFormChange}/>
@@ -219,13 +221,6 @@ export default class PatientEdit extends React.Component {
                     </div>
                 </div>
             </form>
-            {this.state.showPopup ? 
-                <PopupMessage title={this.state.showPopupTitle}
-                              message={this.state.showPopupMessage}
-                              closePopup={this.togglePopup}>
-                </PopupMessage>
-                : null
-            }
             </div>)
         return result
     }
