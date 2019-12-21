@@ -5,4 +5,15 @@ import countReducer from './countReducers';
     //incrementReducer
 //});// it will combine all reducers...
 
-export default countReducer;;
+
+
+function appReducer(state, action) {
+    return {
+        "count": countReducer(state.count, action)
+        };
+}
+
+
+
+
+export default appReducer;

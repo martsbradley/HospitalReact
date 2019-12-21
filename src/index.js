@@ -9,21 +9,12 @@ import DrawItComp from './counter/drawItContainer';
 
 console.log("Please load here.  ok ");
 
-try {
-    load();
-
-    console.log("well ok.. success");
-
-} catch (e) {
-    console.log("caught exception " + e);
-}
-
 
 const store = configureStore();
 
 ReactDOM.render(<BrowserRouter basename='/'>
                 <ReduxProvider store={store}>
-                    <DrawItComp ></DrawItComp>
+                    <DrawItComp></DrawItComp>
                  </ReduxProvider>
                 </BrowserRouter>,
                 document.getElementById('root'));

@@ -1,23 +1,18 @@
 import * as types from '../actions/actionTypes';
 
 //step 2: creating the reducer function for the first action....
-export default function countReducer(state , action){
+export default function countReducer(count , action){
     let countval = 0;
     switch(action.type){
         case types.INCREMENT_COUNT:
-            countval = state.count;
-            countval++;
-
-            return {"count": countval};
+            return ++count;
         case types.RESET_COUNT:
-            return {"count": 0};
+            return  0;
 
         case types.DECREMENT_COUNT:
-            countval = state.count;
-            countval--;
-
-            return {"count": countval};
+            return --count;
         default:
-            return state;
+            return count;
     }
 }
+
