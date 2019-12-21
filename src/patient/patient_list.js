@@ -2,6 +2,7 @@ import React from 'react'
 import Pagination from 'react-js-pagination'
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
+//import loadPatientData from '../api/PatientAPI';
 
 function PatientRow (props) {
   let pat = props.pat;
@@ -57,39 +58,48 @@ export default class PatientList extends React.Component {
     this.loadPatients(activePage)
   }
 
+
   loadPatients (aActivePage) {
+//    loadCourses();
+    //loadPatientData();
 
-    const loadPatients = fetch(this.pagingURL(aActivePage));
-    const countPatients = fetch(this.totalURL());
+  //const loadPatients = fetch(this.pagingURL(aActivePage));
+  //const countPatients = fetch(this.totalURL());
 
-    Promise.all([loadPatients, countPatients])
-      .then(responses => {
-        // All the headers have arrived.
-        if (responses[0].ok && responses[1].ok) {
-          //console.log("total coming as " + responses[1]);
-          return Promise.all([responses[0].json(), responses[1].json()])
-        } else {
-          throw Error([responses[0].statusText(), responses[1].statusText()])
-        }
-      },
-      networkError => {
-        alert('Network Failure ' + networkError)
-      }
-      )
-      .then(dataArray => {
-        // The data from the response bodies has arrived.
-        const patients = dataArray[0]
-        const total = dataArray[1]
-        console.log("Found the total meds to be " + total);
+  //let patientsResp = await loadPatients;
+  //let countResp = await countPatients;
 
-        this.setState({ patients: patients,
-          activePage: aActivePage,
-          totalItemsCount: total })
-      }
-      )
-      .catch(() => {
-        alert('There were errors')
-      })
+  //if (!patientsResp.ok) {}
+  //    throw Error(patientsResp.statusText());
+  //}
+  //if (!patientsResp.ok) {}
+  //    throw Error(patientsResp.statusText());
+  //}
+
+
+  //if (!responses[1].ok 
+  //      //console.log("total coming as " + responses[1]);
+  //      return Promise.all([responses[0].json(), responses[1].json()])
+  //    } else {
+  //  },
+  //  networkError => {
+  //    alert('Network Failure ' + networkError)
+  //  }
+  //  )
+  //  .then(dataArray => {
+  //    // The data from the response bodies has arrived.
+  //    const patients = dataArray[0]
+  //    const total = dataArray[1]
+  //    console.log("Found the total meds to be " + total);
+
+  //    this.setState({ patients: patients,
+  //      activePage: aActivePage,
+  //      totalItemsCount: total })
+  //  }
+  //  )
+  //  .catch(() => {
+  //    alert('There were errors')
+  //  })
   }
 
   componentDidMount () {
