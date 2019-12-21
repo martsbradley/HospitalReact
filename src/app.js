@@ -12,6 +12,7 @@ import {LoginSessionExpired} from './loginsessionexpired.js'
 //import PropTypes from 'prop-types';
 import './index.css'
 import ErrorBoundary from './errorboundary.js'
+import DrawItComp from './counter/drawItContainer';
 
 export default class App extends React.Component {
 
@@ -55,7 +56,10 @@ export default class App extends React.Component {
                     <Route exact path="/" 
                                 render={props => <MyHouse {...props}
                                 auth={this.userDetails}           /> }    />
-                    <AuthenticatedRoute path="/patients"  
+
+                    <Route path="/count"   component={DrawItComp} />
+
+                    <AuthenticatedRoute path="/patients"
                                         auth={this.userDetails} 
                                         component={this.myPatientTable}  />
 

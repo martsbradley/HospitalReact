@@ -5,7 +5,6 @@ import App from './app'
 import load from './api/PatientAPI';
 import configureStore from './redux/configureStore';
 import {Provider as ReduxProvider} from 'react-redux';
-import DrawItComp from './counter/drawItContainer';
 
 console.log("Please load here.  ok ");
 
@@ -14,7 +13,7 @@ const store = configureStore();
 
 ReactDOM.render(<BrowserRouter basename='/'>
                 <ReduxProvider store={store}>
-                    <DrawItComp></DrawItComp>
+                    <App/>
                  </ReduxProvider>
                 </BrowserRouter>,
                 document.getElementById('root'));
