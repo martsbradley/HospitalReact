@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import PatientList from './patientList.js';
-import * as patientActions from '../redux/actions/patientActions';
+import * as patientActions from '../../redux/actions/patientActions';
 
 function mapStateToProps(state) {
     const patient = state.patient;

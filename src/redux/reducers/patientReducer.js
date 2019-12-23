@@ -14,10 +14,6 @@ export default function patientReducer(patient , action){
             const patientState = {...patient,
                                  list       : action.patients,
                                  totalItems : action.total};
-            //patientState['list'] = action.patients;
-            //patientState['pageDetail'].totalItems = action.total;
-            //console.log("Reduced...");
-            //console.log(patientState);
             return patientState;
 
         case types.PATIENTS_CHANGE_PAGE:

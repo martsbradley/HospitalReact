@@ -23,9 +23,6 @@ export class Navigation extends Component {
                     <li className="nav-item active">
                         <NavLink exact className="nav-link" activeClassName='isactive' activeClassName='isactive' to="/count">Count</NavLink>
                     </li>
-                    <li className="nav-item active">
-                        <NavLink exact className="nav-link" activeClassName='isactive' activeClassName='isactive' to="/reduxpat">ReduxPat</NavLink>
-                    </li>
 
                     { !this.props.onLoginscreen && isAuthenticated ? 
                             <li className="nav-item">

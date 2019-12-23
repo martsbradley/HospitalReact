@@ -2,12 +2,11 @@ import React from 'react'
 import {Route, Switch} from 'react-router-dom'
 import PatientEdit from './patient_edit.js'
 import PatientNew from './patient_new.js'
-import PatientList from './patient_list.js'
+import PatientList from './list/patientListContainer'
 import PropTypes from 'prop-types';
 import Prescription from './prescription/prescription.js'
 import ErrorBoundary from '../errorboundary.js'
 import AddImage from '../addimage.js'
-import {Navigation} from '../navigation'
 
 export class PatientTable extends React.Component {
   constructor (props) {
@@ -23,7 +22,7 @@ export class PatientTable extends React.Component {
   }
 
   listPatients = (props) => {
-    let result =<div> <PatientList auth={this.props.auth} {...props} /> </div>
+    let result =<div> <PatientList {...props} /> </div>
     return result;
   }
 
@@ -42,10 +41,9 @@ export class PatientTable extends React.Component {
 
     let result = (
     <div>
-      <Navigation auth={this.props.auth}/> 
 
       <Switch>
-          <Route path="/patients/list" render={(props) => this.listPatients(props)} />
+          <Route path="/patients/list"                  render={(props) => this.listPatients(props)} />
           <Route path="/patients/:patientId/prescription" render={(props) => this.addPrescription(props)} />
           <Route path="/patients/:patientId/addimage" render={(props) => this.addImage(props)} />
 

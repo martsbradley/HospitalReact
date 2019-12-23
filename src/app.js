@@ -13,7 +13,6 @@ import {LoginSessionExpired} from './loginsessionexpired.js'
 import './index.css'
 import ErrorBoundary from './errorboundary.js'
 import DrawItComp from './counter/drawItContainer';
-import PatientRedux from './reduxPatient/patientListContainer';
 
 export default class App extends React.Component {
 
@@ -22,9 +21,6 @@ export default class App extends React.Component {
         this.userDetails = new UserDetails(props.history);
     }
 
-    myPatientTable = () => {
-        return <ErrorBoundary><PatientTable auth={this.userDetails} {...this.props} /></ErrorBoundary>;
-    }
 
     loginFailure = () => {
         return <ErrorBoundary><LoginFailure auth={this.userDetails} {...this.props} /></ErrorBoundary>;
@@ -52,6 +48,7 @@ export default class App extends React.Component {
 
       return (
             <div className="container-fluid">
+                <Navigation auth={this.userDetails}/>
                 <Switch>
 
                     <Route exact path="/" 
@@ -61,11 +58,8 @@ export default class App extends React.Component {
                     <Route path="/count"   component={DrawItComp} />
 
                     <AuthenticatedRoute path="/patients"
-                                        auth={this.userDetails} 
-                                        component={this.myPatientTable}  />
-
-
-                    <Route path="/reduxpat"       component={PatientRedux} />
+                                        auth={this.userDetails}
+                                        component={PatientTable}  />
 
 
                     <Route path="/logoutsuccess"       component={this.logoutSuccess}/>
@@ -81,3 +75,5 @@ export default class App extends React.Component {
       );
     }
 }
+
+//import PatientRedux from './patient/list/patientListContainer';

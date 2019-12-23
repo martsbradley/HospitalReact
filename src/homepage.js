@@ -11,11 +11,11 @@ export class HomePage extends React.Component {
 
     render () {
 
+            //<Navigation auth={this.props.auth}/>
         return (
         
         <div>
-            <Navigation auth={this.props.auth}/>
-        
+
                 <h1>Overview</h1>
                 <p>
                 This site was created to allow me to try out some modern
