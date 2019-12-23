@@ -1,10 +1,8 @@
 import * as types from '../actions/actionTypes';
 
 function changePage(patient, action) {
-    console.log(`ChangePage reducer ${action.pageNumber}`);
     const patientState = {...patient,
                           pageNumber: action.pageNumber};
-    console.log(patientState);
     return patientState;
 }
 

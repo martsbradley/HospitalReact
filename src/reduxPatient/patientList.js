@@ -23,12 +23,15 @@ PatientRow.propTypes = {
     pat : PropTypes.object
 }
 
-export default function patientList({patients, activePage,itemsPerPage, totalItemsCount, loadPatients, changePage, ...props}) {
-
-
+export default function patientList({patients,
+                                     activePage,
+                                     itemsPerPage,
+                                     totalItemsCount,
+                                     loadPatients,
+                                     changePage,
+                                     ...props}) {
     useEffect(() => {
         // Update the document title using the browser API
-        document.title = `You clicked times ${activePage} and ${itemsPerPage}`;
         loadPatients(activePage,itemsPerPage);
     },[activePage]);
 

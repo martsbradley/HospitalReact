@@ -17,13 +17,11 @@ export function changePageAction(pageNumber) {
 
 export function loadPatientsAction(startPage, itemsOnPage) {
 
-    console.log(`loadPatientsAction begins ${startPage} and ${itemsOnPage}`);
     const promise = loadPatients(startPage, itemsOnPage);
 
   return dispatch => { promise.then(
           ([patients,total]) => {
-              console.log(`got it back ${Array.isArray(patients)}`);
-              dispatch(loadPatientsSuccess(patients, total))
+              dispatch(loadPatientsSuccess(patients, total));
           })
   };
 }

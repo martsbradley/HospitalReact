@@ -39,8 +39,8 @@ export default async function loadThePatients(pageToShow, itemsOnPage ) {
 
   const total = await countPatientsResponse.json();
 
-  console.log(`Got ${total} patients ${patients}`);
-  console.log(patients);
+  //console.log(`Got ${total} patients ${patients}`);
+  //console.log(patients);
   return [patients,total];
 }
 
