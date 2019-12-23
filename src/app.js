@@ -13,6 +13,7 @@ import {LoginSessionExpired} from './loginsessionexpired.js'
 import './index.css'
 import ErrorBoundary from './errorboundary.js'
 import DrawItComp from './counter/drawItContainer';
+import PatientRedux from './reduxPatient/patientListContainer';
 
 export default class App extends React.Component {
 
@@ -62,6 +63,10 @@ export default class App extends React.Component {
                     <AuthenticatedRoute path="/patients"
                                         auth={this.userDetails} 
                                         component={this.myPatientTable}  />
+
+
+                    <Route path="/reduxpat"       component={PatientRedux} />
+
 
                     <Route path="/logoutsuccess"       component={this.logoutSuccess}/>
 

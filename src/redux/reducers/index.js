@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import countReducer from './countReducers';
+import patientReducer from './patientReducer';
 // called as courses, because of default export from courseReducer
 //const rootReducer = combineReducers({
     //incrementReducer
@@ -9,7 +10,8 @@ import countReducer from './countReducers';
 
 function appReducer(state, action) {
     return {
-        "count": countReducer(state.count, action)
+        "count": countReducer(state.count, action),
+        "patient": patientReducer(state.patient, action)
         };
 }
 

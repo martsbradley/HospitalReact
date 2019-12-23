@@ -6,12 +6,15 @@ import initialstore from './initialstore';
 
 export default function configureStore(){
 
-    const composeEnhancers =
-     window.__REDUX_DEVTOOLS_EXTENTION_COMPOSE__ || compose;
+
+    const middleWare = applyMiddleware(thunk,reduxImmutableStateInvariant());
+
+    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENTION_COMPOSE__ || compose;
+
     //add support for redux devtools...
     return createStore(
         rootReducer,
         initialstore,
-        composeEnhancers(applyMiddleware(thunk,reduxImmutableStateInvariant()))
+        composeEnhancers(middleWare)
         );
 }

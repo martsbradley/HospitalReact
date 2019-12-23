@@ -8,10 +8,9 @@ function totalURL() {
   return totalURL;
 }
 
-function pageURL() {
-  const start = 1;
-  const itemOnPage = 5;
-  const pageURL = urlPrefix() + `?start=${start}&max=${itemOnPage}`;
+function pageURL(pageToShow, itemsOnPage) {
+  let start = (pageToShow - 1) * itemsOnPage
+  const pageURL = urlPrefix() + `?start=${start}&max=${itemsOnPage}`;
   return pageURL;
 }
 
@@ -22,17 +21,18 @@ function checkResponseOK(response, url) {
     throw new Error(message);
   }
 }
+export default async function loadThePatients(pageToShow, itemsOnPage ) {
+  //console.log(`callURLS running fetches`);
 
+  const patientsURL = pageURL(pageToShow, itemsOnPage);
 
-async function callURLS() {
-  console.log(`callURLS running fetches`);
-  const loadPatients = fetch(pageURL());
+  const loadPatients = fetch(patientsURL);
   const countPatients = fetch(totalURL());
 
   const patientsResponse = await loadPatients;
   const countPatientsResponse = await countPatients;
 
-  checkResponseOK(patientsResponse, pageURL());
+  checkResponseOK(patientsResponse, patientsURL);
   checkResponseOK(countPatientsResponse, totalURL());
 
   const patients = await patientsResponse.json();
@@ -44,15 +44,3 @@ async function callURLS() {
   return [patients,total];
 }
 
-
-export default function loadThePatients() {
-  let result = null;
-  try {
-    result = callURLS();
-    console.log("after callURLS");
-  } catch (e) {
-    console.log("Problem" + e);
-    throw e;
-  }
-  return result;
-}

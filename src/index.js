@@ -6,16 +6,11 @@ import load from './api/PatientAPI';
 import configureStore from './redux/configureStore';
 import {Provider as ReduxProvider} from 'react-redux';
 
-console.log("Please load here.  ok ");
-
-
 const store = configureStore();
 
 ReactDOM.render(<BrowserRouter basename='/'>
                 <ReduxProvider store={store}>
                     <App/>
-                 </ReduxProvider>
+                </ReduxProvider>
                 </BrowserRouter>,
                 document.getElementById('root'));
-
-               //      <Route component={App}/>
