@@ -8,60 +8,18 @@ import Prescription from './prescription/prescription.js'
 import ErrorBoundary from '../errorboundary.js'
 import AddImage from '../addimage.js'
 
-export class PatientTable extends React.Component {
-  constructor (props) {
-    super(props)
-    console.log("PatientTable constructor " + Object.keys(props));
-  }
-
-  newPatient (props, auth) {
-     return <ErrorBoundary><PatientNew auth={auth} {...props} /></ErrorBoundary>
-  }
-  editPatient= (props, auth) => {
-      return <ErrorBoundary><PatientEdit auth={auth} {...props} /></ErrorBoundary>; 
-  }
-
-  listPatients = (props) => {
-    let result =<div> <PatientList {...props} /> </div>
-    return result;
-  }
-
-  addPrescription = (props) => {
-    let result = <Prescription auth={this.props.auth} {...props} />;
-    return result;
-  }
-
-  addImage = (props) => {
-    let result = <AddImage auth={this.props.auth} {...props}/>;
-    return result;
-  }
-
-
-  render () {
+export function PatientTable() {
 
     let result = (
-    <div>
-
-      <Switch>
-          <Route path="/patients/list"                  render={(props) => this.listPatients(props)} />
-          <Route path="/patients/:patientId/prescription" render={(props) => this.addPrescription(props)} />
-          <Route path="/patients/:patientId/addimage" render={(props) => this.addImage(props)} />
-
-          <Route path="/patients/edit/:gistId" 
-                render = {(props) => this.editPatient(props, this.props.auth)}>
-          </Route>
-
-          <Route path="/patients/new/" 
-                render={(props) => this.newPatient(props, this.props.auth)}>
-          </Route>
-
-      </Switch>
-    </div>
+    <ErrorBoundary>
+        <Switch>
+            <Route path="/patients/list"                    component={PatientList} />
+            <Route path="/patients/:patientId/prescription" component={Prescription} />
+            <Route path="/patients/:patientId/addimage"     component={AddImage} />
+            <Route path="/patients/edit/:gistId"            component={PatientEdit} />
+            <Route path="/patients/new/"                    component={PatientNew} />
+        </Switch>
+    </ErrorBoundary>
     )
-    return result
-  }
-}
-
-PatientTable.propTypes = {
-    auth  : PropTypes.object
+    return result;
 }
