@@ -1,21 +1,14 @@
 import { combineReducers } from 'redux';
 import countReducer from './countReducers';
 import patientReducer from './patientReducer';
-// called as courses, because of default export from courseReducer
-//const rootReducer = combineReducers({
-    //incrementReducer
-//});// it will combine all reducers...
+import errorReducer from './errorReducer';
+import userReducer from './userReducer';
 
-
-
-function appReducer(state, action) {
+export default function appReducer(state, action) {
     return {
-        "count": countReducer(state.count, action),
-        "patient": patientReducer(state.patient, action)
+        "count"     :  countReducer(state.count, action),
+        "patient"   :  patientReducer(state.patient, action),
+        "error"     :  errorReducer(state.error, action),
+        "userStatus":  userReducer(state.userStatus, action)
         };
 }
-
-
-
-
-export default appReducer;

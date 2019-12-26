@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM  from 'react-dom'
-import {BrowserRouter, Route} from 'react-router-dom'
 import App from './app'
 import load from './api/PatientAPI';
 import configureStore from './redux/configureStore';
@@ -8,9 +7,8 @@ import {Provider as ReduxProvider} from 'react-redux';
 
 const store = configureStore();
 
-ReactDOM.render(<BrowserRouter basename='/'>
-                <ReduxProvider store={store}>
+ReactDOM.render(<ReduxProvider store={store}>
                     <App/>
-                </ReduxProvider>
-                </BrowserRouter>,
+                </ReduxProvider>,
                 document.getElementById('root'));
+

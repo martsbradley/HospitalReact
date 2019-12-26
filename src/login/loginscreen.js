@@ -1,109 +1,63 @@
-import React from 'react'
-import Poster from '../network'
-import { Link,Redirect } from 'react-router-dom'
-import {Navigation} from '../navigation'
+import React, {useState} from 'react';
+import { Link, Redirect } from 'react-router-dom';
 
-export class LoginScreen extends React.Component {
+export default function LoginScreen({isLoggedIn, loginHandler, ...props}){
 
-    constructor (props) {
-        super(props)
-        console.log("LoginScreen ");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
-        this.auth = props.auth;
-        console.log("LoginScreen has the auth " +this.auth);
-        this.state = { error: false,
-                       logginPassed: false,
-                       logginFailed: false,
-                       user: { username: '',
-                               password:  ''}
-        };
-
-        this.handleFormChange = this.handleFormChange.bind(this)
-        this.loginURL = this.loginURL.bind(this)
-
-        this.onSubmit= this.onSubmit.bind(this)
-
-        this.poster = new Poster(this.successfulPost,
-                                 this.showErrorMessage ,
-                                 this.showErrorMessage);
-    }
-
-    successfulPost = () => {
-        console.log("setting loginPassed as true")
-        this.setState({logginPassed: true});
-    }
-
-    showErrorMessage = () => {
-        console.log("setting loginFailed as true")
-        this.setState({logginFailed: true});
-    }
-
-    loginURL() {
-        return '/auth/verifyuser';
-    }
-
-    handleFormChange (event) {
-        let user = this.state.user
+    function handleFormChange (event) {
         console.log("Handle change ");
 
-        user[event.target.name] = event.target.value
-        this.setState({ user })
+        if (event.target.name === "username") {
+            setUsername(event.target.value)
+        }
+        if (event.target.name === "password") {
+            setPassword(event.target.value)
+        }
     }
 
-    onSubmit (event) {
-        console.log("here in onSubmit");
+    function onSubmit (event) {
         event.preventDefault();
 
-        console.log("-->onSubmit  "+ Object.keys(this.props));
+        loginHandler(username, password);
 
-        let payload = {...this.state.user};
-
-        this.poster.postData(this.loginURL(), payload);
+        setUsername('');
+        setPassword('');
     }
 
-    render () {
-        const error = this.state.error
-        if (error) {
-            return <p>There was an error calling the service</p>
-        }
-                       
-        if (this.state.logginFailed === true) {
-            return <Redirect to="/loginfailure"/>
-        }
+    if (isLoggedIn === true) {
+        return <Redirect to="/patients/list"/>
+    }
 
-        if (this.state.logginPassed === true) {
-            return <Redirect to="/patients/list"/>
-        }
-        const result = (
+    const result = (
+        <div>
+        <form onSubmit={onSubmit}>
+            <h1>Please Login</h1>
+            <h2>Is logged in {isLoggedIn? 'true': 'false'}</h2>
 
-            <div>
-            <Navigation auth={this.props.auth} onLoginscreen={true}/> 
-            <form onSubmit={this.onSubmit}>
-
-                <h1>Please Login</h1>
-                <div className="col-md-6 form-line">
-                    <div className="form-group">
-                        <label htmlFor="username">Username</label>
-                        <input type="text" className="form-control" name="username" value={this.state.user.username}
-                        onChange={this.handleFormChange}/>
-                        <span className="errors" name="forename.errors"></span>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Password</label>
-                        <input type="password" className="form-control" name="password" value={this.state.user.password}
-                        onChange={this.handleFormChange}/>
-                        <span className="errors" name="surname.errors"></span>
-                    </div>
-
-                    <div className="form-group">
-
-                        <Link to="/patients/list"><button>Cancel</button></Link>
-                        <button type="submit">Login</button>
-                    </div>
+            <div className="col-md-6 form-line">
+                <div className="form-group">
+                    <label htmlFor="username">Username</label>
+                    <input type="text" className="form-control" name="username" value={username}
+                    onChange={handleFormChange}/>
+                    <span className="errors" name="forename.errors"></span>
                 </div>
-            </form>
+                <div className="form-group">
+                    <label htmlFor="password">Password</label>
+                    <input type="password" className="form-control" name="password" value={password}
+                    onChange={handleFormChange}/>
+                    <span className="errors" name="surname.errors"></span>
+                </div>
+
+                <div className="form-group">
+
+                    <Link to="/patients/list"><button>Cancel</button></Link>
+                    <button type="submit">Login</button>
+                </div>
             </div>
-        );
-        return result;
-    }
+        </form>
+        </div>
+    );
+    return result;
 }

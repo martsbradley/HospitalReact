@@ -1,3 +1,4 @@
+import AuthenticationError from './Errors';
 function urlPrefix() {
   const urlPrefix = "/rest/hospital/patients";
   return urlPrefix;
@@ -15,9 +16,14 @@ function pageURL(pageToShow, itemsOnPage) {
 }
 
 function checkResponseOK(response, url) {
-  if (!response.ok) {
-    const message = `Response for ${url} had error ${response.statusText}`;
-    console.log(message);
+    if (!response.ok) {
+        const message = `Response for ${url} had error ${response.statusText}`;
+        console.log(message);
+
+        if (response.status === 401) {
+            throw new AuthenticationError(message);
+        }
+
     throw new Error(message);
   }
 }

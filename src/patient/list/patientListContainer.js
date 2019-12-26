@@ -10,7 +10,8 @@ function mapStateToProps(state) {
         patients          : patient['list'],
         activePage        : patient['pageNumber'],
         itemsPerPage      : patient['itemsPerPage'],
-        totalItemsCount   : patient['totalItems']
+        totalItemsCount   : patient['totalItems'],
+        errorInfo         : state.error
     };
 
     return result;

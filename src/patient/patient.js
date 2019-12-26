@@ -1,5 +1,5 @@
 import React from 'react'
-import {Route, Switch} from 'react-router-dom'
+import {Route, Redirect, Switch} from 'react-router-dom'
 import PatientEdit from './patient_edit.js'
 import PatientNew from './patient_new.js'
 import PatientList from './list/patientListContainer'
@@ -7,8 +7,14 @@ import PropTypes from 'prop-types';
 import Prescription from './prescription/prescription.js'
 import ErrorBoundary from '../errorboundary.js'
 import AddImage from '../addimage.js'
+import { connect } from "react-redux";
 
-export function PatientTable() {
+function PatientTable({errorInfo, ...props}) {
+
+    if (errorInfo !== "") {
+
+        return <Redirect to={errorInfo} />
+    }
 
     let result = (
     <ErrorBoundary>
@@ -23,3 +29,17 @@ export function PatientTable() {
     )
     return result;
 }
+
+function mapStateToProps(state) {
+    const patient = state.patient;
+
+    const result = {
+        errorInfo         : state.error
+    };
+
+    return result;
+}
+
+const mapDispatchToProps = null;
+
+export default connect(mapStateToProps, mapDispatchToProps)(PatientTable);

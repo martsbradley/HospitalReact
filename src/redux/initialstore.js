@@ -4,10 +4,9 @@ const initialStore =  {"count"   : 10,
                                      itemsPerPage : 5,
                                      list         : [],
                                      pageLoaded   : false},
+                       "error"     : "",
+                       "userStatus": { username          : "",
+                                       userAuthenticated : false}
                       };
-
-
-console.log("initialStore " + typeof(initialStore["dime"]));
-console.log("initialStore " + Array.isArray(initialStore["dime"]));
 
 export default initialStore;
