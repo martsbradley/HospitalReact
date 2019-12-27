@@ -28,7 +28,6 @@ export default function userReducer(userDetails , action){
     switch(action.type){
         case types.LOGIN_SUCCESS:
             return login(userDetails , action.payload);
-
         case types.LOGOUT_SUCCESS:
             return logout(userDetails);
         default:

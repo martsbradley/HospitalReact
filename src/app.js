@@ -1,15 +1,16 @@
-import React from 'react'
-import { Route, BrowserRouter, Switch} from 'react-router-dom'
-import {HomePage} from './homepage'
-import PatientTable from './patient/patient'
-import {Navigation} from './navigation'
-import {UserDetails} from './auth/userdetails'
-import {Logout} from './login/logout'
-import {LoginFailure} from './login/loginfailure.js'
-import LoginScreen from './login/loginScreenContainer'
-import AuthenticatedRoute from './authenticatedroute'
-import {LoginSessionExpired} from './loginsessionexpired.js'
-import {GeneralError, AuthenticationError} from './common/errorPages'
+import React from 'react';
+import { Route, BrowserRouter, Switch} from 'react-router-dom';
+import {HomePage} from './homepage';
+import PatientTable from './patient/patient';
+import Navigation from './navigation/navigationContainer';
+import {UserDetails} from './auth/userdetails';
+import LogoutContainer from './login/logoutScreenContainer';
+
+import {LoginFailure} from './login/loginfailure.js';
+import LoginScreen from './login/loginScreenContainer';
+import AuthenticatedRoute from './authenticatedroute';
+import {LoginSessionExpired} from './loginsessionexpired.js';
+import {GeneralError, AuthenticationError} from './common/errorPages';
 
 import './index.css'
 import ErrorBoundary from './errorboundary.js'
@@ -46,9 +47,9 @@ export default class App extends React.Component {
             <div className="container-fluid">
                 <BrowserRouter basename='/'>
                     <>
-                    <Navigation auth={this.userDetails}/>
-                    <Switch>
+                    <Navigation/>
 
+                    <Switch>
                         <Route exact path="/" component={HomePage}    />
 
                         <Route path="/count"   component={DrawItComp} />
@@ -66,7 +67,7 @@ export default class App extends React.Component {
                         <Route path="/loginsessionexpired" component={LoginSessionExpired}/>
                         <Route path="/login"               component={LoginScreen}/>
 
-                        <Route path="/logout"              component={this.logoutSuccess} />}/>
+                        <Route path="/logout"              component={LogoutContainer} />}/>
 
                     </Switch>
                     </>

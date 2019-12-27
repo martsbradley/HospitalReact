@@ -3,8 +3,6 @@ import LoginScreen from './loginscreen';
 import { connect } from "react-redux";
 
 function mapStateToProps(state) {
-  const val = state.userStatus.userAuthenticated;
-  console.log("val is " + val);
 
   return {
     isLoggedIn: state.userStatus.userAuthenticated

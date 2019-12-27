@@ -1,22 +1,19 @@
-import React from 'react'
-import {Navigation} from '../navigation'
+import React,{useEffect} from 'react'
 
-export class Logout extends React.Component {
+export default function Logout ({isLoggedIn,logoutHandler, ...props}) {
 
-    constructor(props) {
-        super(props);
-        props.auth.logout();
-    }
+    useEffect(() => {
+       console.log("Do the actual logging out here.");
+       logoutHandler();
+    },[]);
 
-    render () { 
-        let result = 
-                <div>
-                    <h1>Successful Log Out</h1>
-                    <hr/>
-                    You have been logged out successfully.
-                </div>;
+    const loggingOut ='Logging out';
+    const loggedOut ='You have been logged out successfully.';
 
-        return result;
+    let result =
+            <>
+                <h2>{isLoggedIn ? loggingOut: loggedOut}</h2>
+            </>;
 
-    }
+    return result;
 }

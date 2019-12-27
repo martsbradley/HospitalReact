@@ -1,4 +1,4 @@
-import AuthenticationError from './Errors';
+import {AuthenticationError,APIError} from './Errors';
 
 const loginURL = '/auth/verifyuser';
 
@@ -6,13 +6,13 @@ function checkResponseOK(response, url) {
     if (!response.ok) {
         const message = `Response for ${url} had error ${response.statusText}`;
         console.log(message);
-        throw new Error(message);
+        throw new APIError(response.status, message);
     }
 }
 
-function callAuthenticationEndpoint(userDetails) {
+function callEndPoint(userDetails, method) {
     const loginPromise = fetch(loginURL, {
-        method: 'post',
+        method,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -22,13 +22,33 @@ function callAuthenticationEndpoint(userDetails) {
 
     return loginPromise;
 }
+function callLoginEndpoint(userDetails) {
+     return callEndPoint(userDetails, 'post');
+}
 
+function callLogoutEndpoint(userDetails) {
+     return callEndPoint(userDetails, 'delete');
+}
 
-export default async function login(username, password) {
+export async function login(username, password) {
 
     const userDetails = { username, password};
 
-    const loginPromise = callAuthenticationEndpoint(userDetails);
+    const loginPromise = callLoginEndpoint(userDetails);
+
+    const loginResponse = await loginPromise;
+
+    checkResponseOK(loginResponse, loginURL);
+
+    const details = await loginResponse.json();
+
+    return details;
+}
+
+export async function logout() {
+    const userDetails = {};
+
+    const loginPromise = callLogoutEndpoint(userDetails);
 
     const loginResponse = await loginPromise;
 

@@ -33,8 +33,7 @@ export default function LoginScreen({isLoggedIn, loginHandler, ...props}){
     const result = (
         <div>
         <form onSubmit={onSubmit}>
-            <h1>Please Login</h1>
-            <h2>Is logged in {isLoggedIn? 'true': 'false'}</h2>
+            <h1>Login</h1>
 
             <div className="col-md-6 form-line">
                 <div className="form-group">

@@ -4,3 +4,10 @@ export default class AuthenticationError extends Error {
         this.name = "AuthenticationError";
     }
 }
+export class APIError extends Error {
+    constructor(status, message, ...rest) {
+        super(message, rest);
+        this.name = "APIError"
+        this.status = status;
+    }
+}

@@ -1,7 +1,6 @@
 import React  from 'react'
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import {Navigation} from './navigation'
 
 export class HomePage extends React.Component {
 
@@ -11,7 +10,6 @@ export class HomePage extends React.Component {
 
     render () {
 
-            //<Navigation auth={this.props.auth}/>
         return (
         
         <div>

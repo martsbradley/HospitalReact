@@ -40,8 +40,6 @@ export default function patientList({patients,
 
     return <>
         <h1>Patients</h1>
-        <h2>Active page is {activePage} </h2>
-        <h2>ErrorInfo is {errorInfo} </h2>
         <div className="tablehead">
             <div className="myleft">
                 <Link to="/patients/new/"><i className="fa fa-plus-square fa-3x"></i></Link>

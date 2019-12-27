@@ -1,5 +1,5 @@
 import * as Actions from './actionTypes';
-import login from '../../api/UserAPI';
+import {login, logout} from '../../api/UserAPI';
 import AuthenticationError from '../../api/Errors';
 import * as ErrorActions from './errorActions';
 
@@ -12,8 +12,17 @@ const loginSuccessHandler = (dispatch) => {
         });
     }
 }
+const logoutSuccessHandler = (dispatch) => {
+    return function(logoutDetail) {
+        console.log("logoutSuccessHandler");
+        console.log(logoutDetail);
+        dispatch({ type: Actions.LOGOUT_SUCCESS,
+                   payload: logoutDetail
+        });
+    }
+}
 
-const loginErrorHandler = (dispatch) => {
+const errorHandler = (dispatch) => {
    return (e) => {
         console.log("Caught Error" + e);
         dispatch(ErrorActions.errorSet("/error"));
@@ -25,6 +34,14 @@ export function userLoginAction(username, password) {
 
     return dispatch => {
         promise.then(loginSuccessHandler(dispatch))
-               .catch(loginErrorHandler(dispatch))
+               .catch(errorHandler(dispatch))
+     };
+}
+export function userLogoutAction() {
+    const promise = logout();
+
+    return dispatch => {
+        promise.then(logoutSuccessHandler(dispatch))
+               .catch(errorHandler(dispatch))
      };
 }
