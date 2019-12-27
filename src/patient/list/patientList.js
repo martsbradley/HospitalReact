@@ -10,14 +10,13 @@ function PatientRow (props) {
 
   let editIcon = <i className="fas fa-user-edit fa-2x"></i>;
   return (<tr>
-    <td className="d-none d-sm-table-cell">{pat.id}</td>
-    <td>{pat.forename}</td>
-    <td className="d-none d-sm-table-cell">{pat.surname}</td>
-    <td className="d-none d-md-table-cell">{pat.dob}</td>
-    <td><Link to={`/patients/edit/${id}`}>{editIcon}</Link></td>
-  </tr>)
+    <td style={{width: '5%'}} className="d-none d-sm-table-cell">{pat.id}</td>
+    <td style={{width: '20%'}} >{pat.forename}</td>
+    <td style={{width: '20%'}} className="d-none d-sm-table-cell">{pat.surname}</td>
+    <td style={{width: '10%'}} className="d-none d-md-table-cell">{pat.dob}</td>
+    <td style={{width: '5%'}} ><Link to={`/patients/edit/${id}`}>{editIcon}</Link></td>
+    </tr>);
 }
-
 
 PatientRow.propTypes = {
     pat : PropTypes.object
