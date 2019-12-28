@@ -28,9 +28,9 @@ export default function Navigation({ isAuthenticated, isOnLoginScreen}) {
                 { !isOnLoginScreen ?
                     <li className="nav-item">
                         {isAuthenticated ?
-                            <NavLink className="nav-link" activeClassName='isactive' to="/logout">Log Out</NavLink>
+                            <NavLink className="nav-link" activeClassName='isactive' to="/auth/logout">Log Out</NavLink>
                         :
-                            <NavLink className="nav-link" activeClassName='isactive' to="/login">Log In</NavLink>
+                            <NavLink className="nav-link" activeClassName='isactive' to="/auth/login">Log In</NavLink>
                         }
 
                     </li>

@@ -4,12 +4,8 @@ import {HomePage} from './homepage';
 import PatientTable from './patient/patient';
 import Navigation from './navigation/navigationContainer';
 import {UserDetails} from './auth/userdetails';
-import LogoutContainer from './login/logoutScreenContainer';
-
-import {LoginFailure} from './login/loginfailure.js';
-import LoginScreen from './login/loginScreenContainer';
+import Login from './login';
 import AuthenticatedRoute from './authenticatedroute';
-import {LoginSessionExpired} from './loginsessionexpired.js';
 import {GeneralError, AuthenticationError} from './common/errorPages';
 
 import './index.css'
@@ -53,22 +49,14 @@ export default class App extends React.Component {
                         <Route exact path="/" component={HomePage}    />
 
                         <Route path="/count"   component={DrawItComp} />
-                        <Route path="/error/authentication"   component={AuthenticationError} />
-                        <Route path="/error"   component={GeneralError} />
+                        <Route path="/auth"     component={Login}/>
 
                         <AuthenticatedRoute path="/patients"
                                             auth={this.userDetails}
-                                            component={PatientTable}  />
+                                                component={PatientTable}  />
 
-
-                        <Route path="/logoutsuccess"       component={this.logoutSuccess}/>
-
-                        <Route path="/loginfailure"        component={this.loginFailure}/>
-                        <Route path="/loginsessionexpired" component={LoginSessionExpired}/>
-                        <Route path="/login"               component={LoginScreen}/>
-
-                        <Route path="/logout"              component={LogoutContainer} />}/>
-
+                        <Route path="/error/authentication"   component={AuthenticationError} />
+                        <Route path="/error"   component={GeneralError} />
                     </Switch>
                     </>
                 </BrowserRouter>
