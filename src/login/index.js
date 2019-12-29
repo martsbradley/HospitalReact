@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import LoginScreen from './loginScreenContainer';
 import LogoutContainer from './logoutScreenContainer';
 import {LoginFailure} from './loginfailure.js';
-import {LoginSessionExpired} from '../loginsessionexpired.js';
 
 function Login({errorInfo, ...props}) {
 

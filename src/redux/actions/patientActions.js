@@ -1,5 +1,5 @@
 import * as Actions from './actionTypes';
-import loadPatients from '../../api/PatientAPI';
+import {loadPatients, loadPatient, savePatient} from '../../api/PatientAPI';
 import AuthenticationError from '../../api/Errors';
 import * as ErrorActions from './errorActions';
 
@@ -17,7 +17,15 @@ const loadPatientsSuccessHandler = (dispatch) => {
     }
 }
 
-const loadPatientsErrorHandler = (dispatch) => {
+const loadPatientSuccessHandler = (dispatch) => {
+    return function(payload) {
+        dispatch({ type: Actions.PATIENT_CURRENT_LOADED_SUCCESS,
+                   payload
+        });
+    }
+}
+
+const errorHandler = (dispatch) => {
    return (e) => {
         if (e instanceof AuthenticationError) {
             console.log("Caught Authentication Error");
@@ -40,6 +48,26 @@ export function loadPatientsAction(startPage, itemsOnPage) {
 
     return dispatch => {
         promise.then(loadPatientsSuccessHandler(dispatch))
-               .catch(loadPatientsErrorHandler(dispatch))
+               .catch(errorHandler(dispatch))
+     };
+}
+
+export function unLoadPatientAction() {
+    return { type: Actions.UNLOAD_PATIENT };
+}
+
+export function loadPatientAction(patientId) {
+    const promise = loadPatient(patientId);
+
+    return dispatch => {
+        promise.then(loadPatientSuccessHandler(dispatch))
+               .catch(errorHandler(dispatch))
+     };
+}
+export function savePatientAction(patient) {
+     const promise = savePatient(patient);
+
+    return dispatch => {
+        console.log("Saved patient");
      };
 }

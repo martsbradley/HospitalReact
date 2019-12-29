@@ -3,12 +3,10 @@ import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 
-let PatientForm = ({ patient: patient, 
-                     handleFormChange: handleFormChange, 
+let PatientForm = ({ patient,
+                     handleFormChange,
                      ...rest }) => {
 
-  console.log("patient is a " + Object.keys(patient));
-  console.log("handle... is a " + Object.keys(handleFormChange));
   return (
 
         <div className="col-md-6 form-line">

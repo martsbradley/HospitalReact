@@ -1,4 +1,5 @@
 import AuthenticationError from './Errors';
+import {getDobString} from '../dateutils.js'
 function urlPrefix() {
   const urlPrefix = "/rest/hospital/patients";
   return urlPrefix;
@@ -27,15 +28,15 @@ function checkResponseOK(response, url) {
     throw new Error(message);
   }
 }
-export default async function loadThePatients(pageToShow, itemsOnPage ) {
+export async function loadPatients(pageToShow, itemsOnPage ) {
   //console.log(`callURLS running fetches`);
 
   const patientsURL = pageURL(pageToShow, itemsOnPage);
 
-  const loadPatients = fetch(patientsURL);
+  const loadPatientsPromise = fetch(patientsURL);
   const countPatients = fetch(totalURL());
 
-  const patientsResponse = await loadPatients;
+  const patientsResponse = await loadPatientsPromise ;
   const countPatientsResponse = await countPatients;
 
   checkResponseOK(patientsResponse, patientsURL);
@@ -50,3 +51,49 @@ export default async function loadThePatients(pageToShow, itemsOnPage ) {
   return [patients,total];
 }
 
+
+export async function loadPatient(patientId) {
+
+    const loadPatientURL = `/rest/hospital/patient/${patientId}`;
+    const loadImagesURL = `/rest/hospital/patient/${patientId}/images`;
+
+    const loadPatient = fetch(loadPatientURL);
+    const loadImages = fetch(loadImagesURL);
+
+    const patientResponse =  await loadPatient;
+    const imagesResponse = await loadImages;
+
+    checkResponseOK(patientResponse, loadPatientURL);
+    checkResponseOK(imagesResponse, loadImagesURL);
+
+    const patient = await patientResponse.json();
+    const images = await imagesResponse.json();
+
+    patient.dob = getDobString(patient.dob);
+    patient.images = images;
+
+    return patient;
+}
+export async function savePatient(patient) {
+
+    let payload = {...patient};
+    payload.dob = payload.dob + "T00:00Z";
+    const saveURL = '/rest/hospital/patient';
+    console.log("saving...");
+    console.log(payload);
+
+    const requestPromise = fetch(saveURL,{
+                                method: 'post',
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(payload)
+                            });
+
+    const response = await requestPromise;
+
+    checkResponseOK(response, saveURL);
+    const patientSaved = await response.json();
+    return patientSaved;
+}
