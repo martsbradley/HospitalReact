@@ -1,13 +1,11 @@
 import * as types from '../actions/actionTypes';
 
 function login(userDetails , payload) {
-    console.log("Login reducer");
     console.log(payload);
     const newState = {...userDetails,
                          username          : payload.username,
                          userAuthenticated : true };
 
-    console.log("After login");
     console.log(newState);
     return newState;
 }
@@ -16,7 +14,6 @@ function logout(userDetails) {
     const newState = {...userDetails,
                          username          : '',
                          userAuthenticated : false }
-    console.log("logout");
     console.log(newState);
     return newState;
 }

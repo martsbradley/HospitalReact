@@ -52,7 +52,7 @@ export async function logout() {
 
     const loginResponse = await loginPromise;
 
-    checkResponseOK(loginResponse, loginURL);
+    checkResponseOK(loginResponse, details, loginURL);
 
     const details = await loginResponse.json();
 

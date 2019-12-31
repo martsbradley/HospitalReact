@@ -10,6 +10,8 @@ import PatientFields from './patient_info.js'
 export default function PatientForm ({loadPatient,
                                       unLoadPatient,
                                       savePatient,
+                                      clearValidations,
+                                      validation,
                                       ...props}) {
 
     const patientId = props.match.params.gistId;
@@ -27,14 +29,13 @@ export default function PatientForm ({loadPatient,
 
     //  This effect happens once only.
     useEffect(() => {
+        clearValidations();
         loadPatient(patientId);
         return () => unLoadPatient();
     },[]);
 
     function savePatientHandler (event) {
         event.preventDefault();
-        console.log("Saving");
-        console.log(patient);
 
         // Remove the images from as this is not
         // part of the patient type on the server
@@ -52,9 +53,6 @@ export default function PatientForm ({loadPatient,
         // to avoid it being given the key 'name'
         setPatient(prevPatient => ({...prevPatient,
                                    [name] : value }));
-
-        console.log("HandleFormChange.. '" + name + "'");
-        console.log(patient);
     }
 
     const addPrescription = `/patients/${patient.id}/prescription/medicine`;
@@ -64,7 +62,8 @@ export default function PatientForm ({loadPatient,
         <div>
         <form onSubmit={savePatientHandler}>
             <PatientFields patient={patient}
-                                  handleFormChange={handleFormChange}/>
+                           validation={validation}
+                           handleFormChange={handleFormChange}/>
             <div className="col-md-6 form-line">
                 <div className="form-group">
                     <PrescriptionTable list={patient.prescriptions} />
@@ -92,6 +91,5 @@ export default function PatientForm ({loadPatient,
 
 PatientForm.propTypes = {
     history : PropTypes.object,
-    match   : PropTypes.object,
-    auth    : PropTypes.object
+    match   : PropTypes.object
 }

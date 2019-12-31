@@ -78,3 +78,30 @@ export function clearValidationMessages(aFieldName) {
         alert("Cannot find clear field '" + aFieldName + "' to clear it.");
     }
 }
+
+   // put validations into way they can be shown with normal react code.
+
+export function getValidationMessages(patient, prefix, validation) {
+    const val  = {};
+    let array  = Object.keys(patient);
+    array.map(k => val[k] = '');
+
+    for (var i = 0; i < validation.length; i++) {
+        const name    = validation[i].field
+        const message = validation[i].message
+
+        let field = name;
+
+        if (name.startsWith(prefix)){
+            field = name.substring(prefix.length + 1);
+        }
+
+        if (!field in val) {
+            val[field] = message;
+        } else {
+            val[field] += '</br>'
+            val[field] = message;
+        }
+    }
+    return val;
+}

@@ -1,5 +1,5 @@
-const initialStore =  {"count"   : 10,
-                       "patient" :   {  totalItems   : 0,
+const initialStore =  {"count"       : 10,
+                       "patient"     : {  totalItems   : 0,
                                         pageNumber   : 1,
                                         itemsPerPage : 5,
                                         list         : [],
@@ -9,10 +9,12 @@ const initialStore =  {"count"   : 10,
                                                          dob: '',
                                                          prescription: [],
                                                          images: []},
-                                     },
-                       "error"     : "",
-                       "userStatus": { username          : "",
-                                       userAuthenticated : false}
+                                       },
+                       "error"       : "",
+                       "validation"  : [],
+                       "userStatus"  : { username          : "",
+                                         userAuthenticated : false
+                                       }
                       };
 
 export default initialStore;

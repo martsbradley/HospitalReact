@@ -1,5 +1,7 @@
-import AuthenticationError from './Errors';
+import {APIError} from './Errors';
 import {getDobString} from '../dateutils.js'
+import {AuthenticationError} from './Errors';
+
 function urlPrefix() {
   const urlPrefix = "/rest/hospital/patients";
   return urlPrefix;
@@ -16,17 +18,21 @@ function pageURL(pageToShow, itemsOnPage) {
   return pageURL;
 }
 
-function checkResponseOK(response, url) {
-    if (!response.ok) {
-        const message = `Response for ${url} had error ${response.statusText}`;
+function authenticationFailedCheck(response, url) {
+    if (!response.ok && response.status === 401) {
+        const message = `AuthenticationError for ${url} had error ${response.statusText}`;
         console.log(message);
+        throw new AuthenticationError(message);
+    }
+}
 
-        if (response.status === 401) {
-            throw new AuthenticationError(message);
-        }
+function checkResponseOK(response, url) {
 
-    throw new Error(message);
-  }
+    authenticationFailedCheck(response, url);
+
+    if (!response.ok) {
+        throw new Error(message);
+    }
 }
 export async function loadPatients(pageToShow, itemsOnPage ) {
   //console.log(`callURLS running fetches`);
@@ -80,7 +86,7 @@ export async function savePatient(patient) {
     payload.dob = payload.dob + "T00:00Z";
     const saveURL = '/rest/hospital/patient';
     console.log("saving...");
-    console.log(payload);
+    //console.log(payload);
 
     const requestPromise = fetch(saveURL,{
                                 method: 'post',
@@ -91,9 +97,31 @@ export async function savePatient(patient) {
                                 body: JSON.stringify(payload)
                             });
 
-    const response = await requestPromise;
+    let responsePromise = await requestPromise;
 
-    checkResponseOK(response, saveURL);
-    const patientSaved = await response.json();
-    return patientSaved;
+    let responseData = []
+
+    try {
+       responseData = await responsePromise.json();
+    } catch(e) {
+        console.log("There is no information in the body");
+    }
+
+    console.log(`ok=${responsePromise.ok} status=${responsePromise.status}`);
+
+    let isError = !responsePromise.ok;
+
+    // Errors other than validation problems are rejected so are
+    // handled by the promise.catch in calling code.
+    if (isError && responsePromise.status !== 400) {
+
+        const message = `Response for ${saveURL} had error ${responsePromise.statusText}`;
+
+        authenticationFailedCheck(responsePromise, saveURL);
+
+        throw new APIError(responsePromise.status, message, responseData)
+    }
+
+    return { isError,
+             data: responseData}
 }

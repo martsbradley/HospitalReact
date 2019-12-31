@@ -1,7 +1,8 @@
 import * as Actions from './actionTypes';
 import {loadPatients, loadPatient, savePatient} from '../../api/PatientAPI';
-import AuthenticationError from '../../api/Errors';
+import {AuthenticationError} from '../../api/Errors';
 import * as ErrorActions from './errorActions';
+import {setValidationAction} from './validationActions';
 
 export function changePageAction(pageNumber) {
     return { type: Actions.PATIENTS_CHANGE_PAGE,
@@ -25,18 +26,26 @@ const loadPatientSuccessHandler = (dispatch) => {
     }
 }
 
+function dispatchAuthError(dispatch) {
+    console.log("Caught Authentication Error");
+    console.log("dispatch is " + dispatch);
+    dispatch(ErrorActions.errorSet("/error/authentication"));
+}
+
+function handleError(dispatch, e) {
+    console.warn(e);
+    if (e instanceof AuthenticationError) {
+        console.log("Authentication Error");
+        dispatch(ErrorActions.errorSet("/error/authentication"));
+    }
+    else {
+        dispatch(ErrorActions.errorSet("/error"));
+    }
+}
+
 const errorHandler = (dispatch) => {
    return (e) => {
-        if (e instanceof AuthenticationError) {
-            console.log("Caught Authentication Error");
-            console.log("dispatch is " + dispatch);
-            dispatch(ErrorActions.errorSet("/error/authentication"));
-        }
-        else {
-            console.log("Failed man" + e);
-            console.log("dispatch is " + dispatch);
-            dispatch(ErrorActions.errorSet("/error"));
-        }
+        handleError(dispatch, e);
     }
 };
 
@@ -48,7 +57,7 @@ export function loadPatientsAction(startPage, itemsOnPage) {
 
     return dispatch => {
         promise.then(loadPatientsSuccessHandler(dispatch))
-               .catch(errorHandler(dispatch))
+               .catch(errorHandler(dispatch))// FIXME, this is wrong, errorHandler returns a funciton
      };
 }
 
@@ -61,13 +70,31 @@ export function loadPatientAction(patientId) {
 
     return dispatch => {
         promise.then(loadPatientSuccessHandler(dispatch))
-               .catch(errorHandler(dispatch))
+               .catch(e => { console.log("Here with error");
+                             console.log(e);
+                              errorHandler(dispatch);} )
      };
 }
-export function savePatientAction(patient) {
+
+export function savePatientAction(patient, history) {
      const promise = savePatient(patient);
 
     return dispatch => {
-        console.log("Saved patient");
+            promise.then(result => {
+                if (!result.isError) {
+                    console.log("Saved patient");
+                    console.log(result);
+                    history.push("/patients/list");
+                }
+                else {
+                    console.log("Save patient validation error");
+                    console.log(result);
+                    dispatch(setValidationAction(result.data));
+                }
+            })
+           .catch(myError => {
+               console.warn("Save error.");
+               handleError(dispatch, myError);
+           })
      };
 }

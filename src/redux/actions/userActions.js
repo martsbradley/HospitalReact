@@ -5,7 +5,6 @@ import * as ErrorActions from './errorActions';
 
 const loginSuccessHandler = (dispatch) => {
     return function(loginDetail) {
-        console.log("loginSuccessHandler");
         console.log(loginDetail);
         dispatch({ type: Actions.LOGIN_SUCCESS,
                    payload: loginDetail
@@ -14,7 +13,6 @@ const loginSuccessHandler = (dispatch) => {
 }
 const logoutSuccessHandler = (dispatch) => {
     return function(logoutDetail) {
-        console.log("logoutSuccessHandler");
         console.log(logoutDetail);
         dispatch({ type: Actions.LOGOUT_SUCCESS,
                    payload: logoutDetail
@@ -24,7 +22,6 @@ const logoutSuccessHandler = (dispatch) => {
 
 const errorHandler = (dispatch) => {
    return (e) => {
-        console.log("Caught Error" + e);
         dispatch(ErrorActions.errorSet("/error"));
     }
 };
