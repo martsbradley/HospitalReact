@@ -26,12 +26,6 @@ const loadPatientSuccessHandler = (dispatch) => {
     }
 }
 
-function dispatchAuthError(dispatch) {
-    console.log("Caught Authentication Error");
-    console.log("dispatch is " + dispatch);
-    dispatch(ErrorActions.errorSet("/error/authentication"));
-}
-
 function handleError(dispatch, e) {
     console.warn(e);
     if (e instanceof AuthenticationError) {
@@ -43,12 +37,6 @@ function handleError(dispatch, e) {
     }
 }
 
-const errorHandler = (dispatch) => {
-   return (e) => {
-        handleError(dispatch, e);
-    }
-};
-
 /* This action immediately calls the async network calls.
  * When the response comes back the success/failure
  * handlers are called */
@@ -57,7 +45,8 @@ export function loadPatientsAction(startPage, itemsOnPage) {
 
     return dispatch => {
         promise.then(loadPatientsSuccessHandler(dispatch))
-               .catch(errorHandler(dispatch))// FIXME, this is wrong, errorHandler returns a funciton
+               .catch(e => { handleError(dispatch, e);
+                });
      };
 }
 
@@ -70,26 +59,21 @@ export function loadPatientAction(patientId) {
 
     return dispatch => {
         promise.then(loadPatientSuccessHandler(dispatch))
-               .catch(e => { console.log("Here with error");
-                             console.log(e);
-                              errorHandler(dispatch);} )
+               .catch(e => { handleError(dispatch, e);
+                });
      };
 }
 
 export function savePatientAction(patient, history) {
-     const promise = savePatient(patient);
+    const promise = savePatient(patient);
 
     return dispatch => {
             promise.then(result => {
-                if (!result.isError) {
-                    console.log("Saved patient");
-                    console.log(result);
-                    history.push("/patients/list");
+                if (result.isError) {
+                    dispatch(setValidationAction(result.data));
                 }
                 else {
-                    console.log("Save patient validation error");
-                    console.log(result);
-                    dispatch(setValidationAction(result.data));
+                    history.push("/patients/list");
                 }
             })
            .catch(myError => {
