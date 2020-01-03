@@ -57,7 +57,7 @@ export default class Poster {
                 throw Error(networkError);
             }
         )
-        .then((json) => {
+        .then(() => {
             this.successFunc();
         })
         .catch((e) => {

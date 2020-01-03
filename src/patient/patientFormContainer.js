@@ -1,4 +1,3 @@
-import React from "react";
 import { connect } from "react-redux";
 import PatientForm from './patientForm'
 import * as patientActions from '../redux/actions/patientActions';

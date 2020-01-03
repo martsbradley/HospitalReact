@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { connect } from "react-redux";
+import PropTypes from 'prop-types';
 
 let AuthenticatedRoute = ({ isAuthenticated,
                         component: Component, 
@@ -24,8 +25,14 @@ let AuthenticatedRoute = ({ isAuthenticated,
   );
 }
 
+AuthenticatedRoute.propTypes = {
+    isAuthenticated: PropTypes.bool,
+    location: PropTypes.object
+}
+
+    //component: PropTypes.object,
+
 function mapStateToProps(state) {
-    const patient = state.patient;
 
     const result = {
         isAuthenticated         : state.userStatus.userAuthenticated

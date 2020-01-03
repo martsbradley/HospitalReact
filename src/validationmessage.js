@@ -38,7 +38,7 @@ export function showPrefixValidationMessages(validations, prefix){
     const errors = validations;
 
     for (var i = 0; i < errors.length; i++) {
-        const field = errors[i].field
+        let field = errors[i].field
         const message = errors[i].message
 
         console.log("field in validation is " + field);
@@ -96,7 +96,7 @@ export function getValidationMessages(patient, prefix, validation) {
             field = name.substring(prefix.length + 1);
         }
 
-        if (!field in val) {
+        if (field in val) {
             val[field] = message;
         } else {
             val[field] += '</br>'

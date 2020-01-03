@@ -1,12 +1,10 @@
 import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
-import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types';
 import {getValidationMessages} from '../validationmessage';
 
 let PatientForm = ({ patient,
                      handleFormChange,
-                     validation,
-                     ...rest }) => {
+                     validation}) => {
 
     const val = getValidationMessages(patient, "savePatient.patientBean", validation);
 
@@ -37,4 +35,9 @@ let PatientForm = ({ patient,
         </div>
   );
 }
+PatientForm.propTypes = {
+    patient: PropTypes.object,
+    handleFormChange: PropTypes.func,
+    validation  : PropTypes.array
+};
 export default PatientForm;

@@ -1,4 +1,4 @@
-import  React, {Component} from 'react';
+import  React from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -12,10 +12,10 @@ export default function Navigation({ isAuthenticated, isOnLoginScreen}) {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
                 <li className="nav-item active">
-                    <NavLink exact className="nav-link" activeClassName='isactive' activeClassName='isactive' to="/">Home</NavLink>
+                    <NavLink exact className="nav-link" activeClassName='isactive' to="/">Home</NavLink>
                 </li>
                 <li className="nav-item active">
-                    <NavLink exact className="nav-link" activeClassName='isactive' activeClassName='isactive' to="/count">Count</NavLink>
+                    <NavLink exact className="nav-link" activeClassName='isactive' to="/count">Count</NavLink>
                 </li>
 
                 { !isOnLoginScreen && isAuthenticated ?
@@ -43,6 +43,7 @@ export default function Navigation({ isAuthenticated, isOnLoginScreen}) {
 }
 
 Navigation.propTypes = {
-    auth  : PropTypes.object
+    isAuthenticated  : PropTypes.bool,
+    isOnLoginScreen  : PropTypes.bool
 }
 

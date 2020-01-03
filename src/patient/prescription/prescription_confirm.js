@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link,Redirect } from 'react-router-dom'
+import PropTypes from 'prop-types';
 import {addTimeZone} from '../../dateutils.js'
 import PopupMessage from '../../popup_message'
 import Poster from '../../network'
@@ -12,17 +13,17 @@ export default class PrescriptionConfirm extends React.Component {
                        showPopup: false,
                        showPopupTitle: "title here",
                        showPopupMessage: "message here."
-        }
+        };
+    }
 
+
+    showNetworkErrorMessage = () => {
+        this.showMessage( "Network Error", "There was an issue with the network.");
     }
 
     showAuthorizationErrorMessage = () => {
         console.log("Auth error");
         this.showMessage( "Authorization Error", "You are not authorized to save changes.");
-    }
-
-    showNetworkErrorMessage = () => {
-        this.showMessage( "Network Error", "There was an issue with the network.");
     }
 
     showMessage = (title, message) => {
@@ -125,7 +126,12 @@ export default class PrescriptionConfirm extends React.Component {
         </div>);
     }
 }
-//<Link to={`/patients/edit/${this.props.patientId}`} onclick={this.savePrescription}>
-//</Link>
-
-                    //<Link to={`/patients/edit/${this.props.patientId}`}></Link>
+PrescriptionConfirm.propTypes = {
+    patientId: PropTypes.string,
+    startDate: PropTypes.string,
+    endDate  : PropTypes.string,
+    medicine : PropTypes.shape({ 
+        id   :  PropTypes.number,
+        name :  PropTypes.string
+    })
+}

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
-export default function LoginScreen({isLoggedIn, loginHandler, ...props}){
+export default function LoginScreen({isLoggedIn, loginHandler}){
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");

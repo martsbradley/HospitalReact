@@ -1,10 +1,8 @@
 import React,{useEffect, useState} from 'react'
 import PropTypes from 'prop-types';
-import { Link, Redirect } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {PrescriptionTable} from './prescription/prescriptiontable.js'
 import {ImageTable} from '../imagetable.js'
-import {todayAsYYYYMMDD, getDobString} from '../dateutils.js'
-import {showPrefixValidationMessages} from '../validationmessage'
 import PatientFields from './patient_info.js'
 
 export default function PatientForm ({loadPatient,

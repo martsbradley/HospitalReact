@@ -1,7 +1,6 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types';
-import {showValidationMessages, clearValidationMessages} from './validationmessage'
+import {showValidationMessages} from './validationmessage'
 
 export default class AddImage extends React.Component {
 
@@ -101,4 +100,13 @@ export default class AddImage extends React.Component {
               </form>
             </div>)
     }
+}
+
+
+AddImage.propTypes = {
+    match: PropTypes.shape({
+        params: PropTypes.shape({
+            patientId: PropTypes.string.isRequired
+        })
+    })
 }

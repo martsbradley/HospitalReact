@@ -26,10 +26,8 @@ export default function patientList({patients,
                                      activePage,
                                      itemsPerPage,
                                      totalItemsCount,
-                                     errorInfo,
                                      loadPatients,
-                                     changePage,
-                                     ...props}) {
+                                     changePage}) {
     useEffect(() => {
         // Update the document title using the browser API
         loadPatients(activePage,itemsPerPage);
@@ -71,4 +69,12 @@ export default function patientList({patients,
           </tbody>
         </table>
     </>
+}
+patientList.propTypes = {
+    patients:  PropTypes.array,
+    activePage      : PropTypes.number,
+    itemsPerPage    : PropTypes.number,
+    totalItemsCount : PropTypes.number,
+    loadPatients    : PropTypes.func,
+    changePage      : PropTypes.func
 }

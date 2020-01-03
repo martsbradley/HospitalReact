@@ -19,9 +19,15 @@ module.exports = {
         "ecmaVersion": 2018,
         "sourceType": "module"
     },
+    "parser": "babel-eslint",
     "plugins": [
         "react"
     ],
     "rules": {
+    },
+    "settings": {
+      "react": {
+        "version": "16.2.0"
+      },
     }
 };

@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM  from 'react-dom'
 import App from './app'
-import load from './api/PatientAPI';
 import configureStore from './redux/configureStore';
 import {Provider as ReduxProvider} from 'react-redux';
 

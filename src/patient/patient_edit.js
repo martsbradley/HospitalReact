@@ -110,7 +110,7 @@ export default class PatientEdit extends React.Component {
         postGeneric(info);
     }
 
-    successFn = (json) => {
+    successFn = () => {
         this.setState({
             success: true 
         });
@@ -142,12 +142,12 @@ export default class PatientEdit extends React.Component {
         if (event.target.value === '') {
             console.log("Yea it was blank");
 
-            let validations = {errors: [{field: "dob",message:"Date of Birth is mandatory"}]};
+            //let validations = {errors: [{field: "dob",message:"Date of Birth is mandatory"}]};
 
-            showValidationMessages(validations);
+            //showValidationMessages(validations);
         }
         else {
-            clearValidationMessages("dob");
+            //clearValidationMessages("dob");
         }
 
         this.handleFormChange(event);
@@ -168,7 +168,7 @@ export default class PatientEdit extends React.Component {
         }
         const error = this.state.error
 
-        if (this.state.error === true) {
+        if (error === true) {
             return <Redirect to="/loginsessionexpired" />
         }
 

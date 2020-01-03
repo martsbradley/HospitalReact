@@ -24,6 +24,13 @@ function unloadPatient(patient) {
      return patientState;
 }
 
+function listedSuccess(patient, action) {
+    const patientState = {...patient,
+                         list       : action.patients,
+                         totalItems : action.total};
+    return patientState;
+}
+
 //step 2: creating the reducer function for the first action....
 export default function patientReducer(patient , action){
 
@@ -35,10 +42,7 @@ export default function patientReducer(patient , action){
             return unloadPatient(patient);
 
         case types.PATIENTS_LISTED_SUCCESS:
-            const patientState = {...patient,
-                                 list       : action.patients,
-                                 totalItems : action.total};
-            return patientState;
+            return listedSuccess(patient, action);
 
         case types.PATIENTS_CHANGE_PAGE:
             return changePage(patient, action);

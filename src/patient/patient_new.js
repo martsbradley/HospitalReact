@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
-import {todayAsYYYYMMDD, getDobString} from '../dateutils.js'
+import {todayAsYYYYMMDD} from '../dateutils.js'
 import Poster from '../network'
 import {showValidationMessages, clearValidationMessages} from '../validationmessage'
 import PatientForm from './patient_info.js'

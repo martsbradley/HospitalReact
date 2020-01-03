@@ -3,9 +3,8 @@ import { Route, Redirect, Switch} from 'react-router-dom';
 import { connect } from "react-redux";
 import LoginScreen from './loginScreenContainer';
 import LogoutContainer from './logoutScreenContainer';
-import {LoginFailure} from './loginfailure.js';
 
-function Login({errorInfo, ...props}) {
+function Login({errorInfo}) {
 
     if (errorInfo !== "") {
         console.log(`redirecting to ${errorInfo}`)
@@ -32,7 +31,7 @@ function Login({errorInfo, ...props}) {
     let render=  (
         <Switch>
             <Route path="/auth/login"   component={LoginScreen}/>
-            <Route path="/auth/logout"  component={LogoutContainer} />}/>
+            <Route path="/auth/logout"  component={LogoutContainer} />
 
         </Switch>
       );
@@ -43,7 +42,6 @@ function Login({errorInfo, ...props}) {
 ///         <Route path="/auth/expired" component={LoginSessionExpired}/>
 
 function mapStateToProps(state) {
-    const patient = state.patient;
 
     const result = {
         errorInfo         : state.error

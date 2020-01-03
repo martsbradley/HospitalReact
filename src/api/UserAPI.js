@@ -1,4 +1,4 @@
-import {AuthenticationError,APIError} from './Errors';
+import {APIError} from './Errors';
 
 const loginURL = '/auth/verifyuser';
 

@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux';
 import countReducer from './countReducers';
 import patientReducer from './patientReducer';
 import errorReducer from './errorReducer';

@@ -10,7 +10,7 @@ import ErrorBoundary from '../errorboundary.js'
 import AddImage from '../addimage.js'
 import { connect } from "react-redux";
 
-function PatientTable({errorInfo, ...props}) {
+function PatientTable({errorInfo}) {
 
     if (errorInfo !== "") {
 
@@ -31,9 +31,11 @@ function PatientTable({errorInfo, ...props}) {
     )
     return result;
 }
+PatientTable.propTypes = {
+    errorInfo: PropTypes.string
+};
 
 function mapStateToProps(state) {
-    const patient = state.patient;
 
     const result = {
         errorInfo         : state.error
@@ -43,5 +45,6 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = null;
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(PatientTable);

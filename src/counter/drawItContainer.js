@@ -1,4 +1,3 @@
-import React from "react";
 import { connect } from "react-redux";
 import DrawIt from './drawIt.js';
 import * as countActions from '../redux/actions/countActions';

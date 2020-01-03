@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 
 export default class PopupMessage extends React.Component {
 
@@ -15,4 +16,9 @@ export default class PopupMessage extends React.Component {
           </div>
         );
     }
+}
+PopupMessage.propTypes = {
+    title : PropTypes.string,
+    message   : PropTypes.string,
+    closePopup   : PropTypes.function
 }

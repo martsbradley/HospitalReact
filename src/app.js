@@ -3,18 +3,16 @@ import { Route, BrowserRouter, Switch} from 'react-router-dom';
 import {HomePage} from './homepage';
 import PatientTable from './patient/patient';
 import Navigation from './navigation/navigationContainer';
-import {UserDetails} from './auth/userdetails';
 import Login from './login';
 import AuthenticatedRoute from './authenticatedroute';
 import {GeneralError, AuthenticationError} from './common/errorPages';
 
 import './index.css'
-import ErrorBoundary from './errorboundary.js'
 import DrawItComp from './counter/drawItContainer';
 
-export default function ({...props}){
+export default function App(){
 
-    console.log("Marty" + MARTY_KEY);
+    //console.log("Marty" + MARTY_KEY);
 
     return (
         <div className="container-fluid">

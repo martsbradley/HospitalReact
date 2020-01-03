@@ -2,7 +2,13 @@ import * as types from '../actions/actionTypes';
 
 function login(userDetails , payload) {
     console.log(payload);
-    const newState = {...userDetails,
+
+
+
+
+
+
+    const newState = { ...userDetails,
                          username          : payload.username,
                          userAuthenticated : true };
 

@@ -1,6 +1,6 @@
 import React,{useEffect} from 'react'
 
-export default function Logout ({isLoggedIn,logoutHandler, ...props}) {
+export default function Logout ({isLoggedIn,logoutHandler}) {
 
     useEffect(() => {
        console.log("Do the actual logging out here.");

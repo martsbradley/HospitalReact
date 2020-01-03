@@ -1,6 +1,5 @@
 import * as Actions from './actionTypes';
 import {login, logout} from '../../api/UserAPI';
-import AuthenticationError from '../../api/Errors';
 import * as ErrorActions from './errorActions';
 
 const loginSuccessHandler = (dispatch) => {
@@ -21,7 +20,7 @@ const logoutSuccessHandler = (dispatch) => {
 }
 
 const errorHandler = (dispatch) => {
-   return (e) => {
+   return () => {
         dispatch(ErrorActions.errorSet("/error"));
     }
 };

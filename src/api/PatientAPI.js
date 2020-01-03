@@ -18,15 +18,6 @@ function authenticationFailedCheck(response, url) {
     }
 }
 
-function checkResponseOK(response, url) {
-
-    authenticationFailedCheck(response, url);
-
-    if (!response.ok) {
-        throw new Error(message);
-    }
-}
-
 function isErrorResponse(responsePromise, url) {
 
     console.log(`ok=${responsePromise.ok} status=${responsePromise.status}`);
@@ -56,7 +47,10 @@ export async function loadPatients(pageToShow, itemsOnPage ) {
     const countPatientsResponse = await countPatients;
 
     let isError = isErrorResponse(patientsResponse, patientsURL);
-    isError = isError ? isError: isErrorResponse(countPatientsResponse, totalURL);
+
+    if (!isError) {
+        isError = isErrorResponse(countPatientsResponse, totalURL);
+    }
 
     let patients, total;
     try {
@@ -84,7 +78,10 @@ export async function loadPatient(patientId) {
     const imagesResponse = await loadImages;
 
     let isError = isErrorResponse(patientResponse, loadPatientURL);
-    isError = isError ? isError: isErrorResponse(imagesResponse, loadImagesURL);
+
+    if (!isError) {
+        isError = isErrorResponse(imagesResponse, loadImagesURL);
+    }
 
     let patient;
     let images;
