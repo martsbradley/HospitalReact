@@ -1,15 +1,12 @@
+import {emptyPatient} from '../patient/emptyPatient';
+
 const initialStore =  {"count"       : 10,
                        "patient"     : {  totalItems   : 0,
                                         pageNumber   : 1,
                                         itemsPerPage : 5,
                                         list         : [],
                                         pageLoaded   : false,
-                                        current      : { forename: '',
-                                                         surname: '',
-                                                         dob: '',
-                                                         prescription: [],
-                                                         rowVersion: 0,
-                                                         images: []},
+                                        current      : emptyPatient,
                                        },
                        "error"       : "",
                        "validation"  : [],

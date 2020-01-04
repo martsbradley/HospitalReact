@@ -12,10 +12,14 @@ export default function PatientForm({loadPatient,
                                      validation,
                                      ...props}) {
 
-
     // patient is an unnamed prop so that can have a constant named
     // patient.
     const [patient, setPatient] = useState({...props.patient});
+    let title= 'New Patient';
+
+    if (props.match && props.match.params.patientId) {
+        title = 'Edit Patient';
+    }
 
     // The patient comes in from redux into the props and then
     // is stored inside the state effect.
@@ -26,12 +30,11 @@ export default function PatientForm({loadPatient,
 
     //  This effect happens once only.
     useEffect(() => {
-        console.log("useEffect");
         clearValidations();
 
         // Load the patient when editing.
-        const patientId = props.match.params.patientId;
-        if (patientId !== undefined) {
+        if (props.match && props.match.params.patientId) {
+            const patientId = props.match.params.patientId;
             loadPatient(patientId);
         }
 
@@ -62,7 +65,9 @@ export default function PatientForm({loadPatient,
     const addPrescription = `/patients/${patient.id}/prescription/medicine`;
     const addImage        = `/patients/${patient.id}/addimage`;
 
-    const title = 'Edit Patient';
+//  console.log("Before render the title is '" + title + "'"); 
+//  console.log("Running useEffect");
+//  console.log("in effect " + title);
 
     const result = (
         <div>
