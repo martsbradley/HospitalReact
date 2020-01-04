@@ -14,11 +14,12 @@ function currentPatientLoaded(patient, action){
 
 function unloadPatient(patient) {
     const patientState =  {...patient,
-                              current : { forename: '',
-                                      surname: '',
-                                      dob: '',
-                                      prescription: [],
-                                      images: []
+                              current : { forename : '',
+                                      surname      : '',
+                                      dob          : '',
+                                      prescription : [],
+                                      rowVersion   : 0,
+                                      images       : []
                                     },
                           };
      return patientState;

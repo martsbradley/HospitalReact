@@ -5,14 +5,13 @@ import {PrescriptionTable} from './prescription/prescriptiontable.js'
 import {ImageTable} from '../imagetable.js'
 import PatientFields from './patient_info.js'
 
-export default function PatientForm ({loadPatient,
-                                      unLoadPatient,
-                                      savePatient,
-                                      clearValidations,
-                                      validation,
-                                      ...props}) {
+export default function PatientForm({loadPatient,
+                                     unLoadPatient,
+                                     savePatient,
+                                     clearValidations,
+                                     validation,
+                                     ...props}) {
 
-    const patientId = props.match.params.gistId;
 
     // patient is an unnamed prop so that can have a constant named
     // patient.
@@ -27,8 +26,15 @@ export default function PatientForm ({loadPatient,
 
     //  This effect happens once only.
     useEffect(() => {
+        console.log("useEffect");
         clearValidations();
-        loadPatient(patientId);
+
+        // Load the patient when editing.
+        const patientId = props.match.params.patientId;
+        if (patientId !== undefined) {
+            loadPatient(patientId);
+        }
+
         return () => unLoadPatient();
     },[]);
 
@@ -56,8 +62,11 @@ export default function PatientForm ({loadPatient,
     const addPrescription = `/patients/${patient.id}/prescription/medicine`;
     const addImage        = `/patients/${patient.id}/addimage`;
 
+    const title = 'Edit Patient';
+
     const result = (
         <div>
+        <h1>{title}</h1>
         <form onSubmit={savePatientHandler}>
             <PatientFields patient={patient}
                            validation={validation}
