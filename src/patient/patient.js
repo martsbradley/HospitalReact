@@ -1,6 +1,5 @@
 import React from 'react'
 import {Route, Redirect, Switch} from 'react-router-dom'
-import PatientEdit from './patient_edit.js'
 import PatientNew from './patient_new.js'
 import PatientForm from './patientFormContainer'
 import PatientList from './list/patientListContainer'
@@ -23,7 +22,6 @@ function PatientTable({errorInfo}) {
             <Route path="/patients/list"                    component={PatientList} />
             <Route path="/patients/:patientId/prescription" component={Prescription} />
             <Route path="/patients/:patientId/addimage"     component={AddImage} />
-            <Route path="/patients/edit/:gistId"            component={PatientEdit} />
             <Route path="/patients/form/:gistId"            component={PatientForm} />
             <Route path="/patients/new/"                    component={PatientNew} />
         </Switch>

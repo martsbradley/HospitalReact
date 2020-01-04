@@ -27,7 +27,8 @@ let AuthenticatedRoute = ({ isAuthenticated,
 
 AuthenticatedRoute.propTypes = {
     isAuthenticated: PropTypes.bool,
-    location: PropTypes.object
+    location: PropTypes.object,
+    component: PropTypes.func
 }
 
     //component: PropTypes.object,
