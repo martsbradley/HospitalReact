@@ -27,44 +27,53 @@ describe('<PatientForm />', () => {
 
     it('Title "Edit Patient" when patientId param provided', () => {
 
-       const wrapper = mount(
-           <BrowserRouter>
-               <PatientForm
-                       match={{params: {patientId: 1}, 
-                                        isExact: true, 
-                                        path: "", 
-                                        url: ""}} 
-                       loadPatient={doesNothing}
-                       unLoadPatient={doesNothing}
-                       savePatient={doesNothing}
-                       clearValidations={doesNothing}
-                       validation={validation} 
-                       patient={emptyPatient} />
-           </BrowserRouter>
-       );
+        const wrapper = mount(
+            <BrowserRouter>
+                <PatientForm
+                        match={{params: {patientId: 1}, 
+                                         isExact: true, 
+                                         path: "", 
+                                         url: ""}} 
+                        loadPatient={doesNothing}
+                        unLoadPatient={doesNothing}
+                        savePatient={doesNothing}
+                        clearValidations={doesNothing}
+                        validation={validation} 
+                        patient={emptyPatient} />
+            </BrowserRouter>
+        );
+        
+        const firstHeading     = wrapper.find('h1').at(0);
+        const firstHeadingText = firstHeading.childAt(0).text();
 
-       const firstHeading     = wrapper.find('h1').at(0);
-       const firstHeadingText = firstHeading.childAt(0).text();
+        expect(firstHeadingText).toBe("Edit Patient");
 
-       expect(firstHeadingText).toBe("Edit Patient");
+
+        elementIdHasText(wrapper,'#addImg','Add Image');
+        elementIdHasText(wrapper,'#addtabs','Add Prescription');
     })
 
+    function elementIdHasText(wrapper, id, expectedText){
+        const tabs = wrapper.find(id).at(0);
+        expect(tabs.text()).toBe(expectedText);
+    }
+
     it('Title "New Patient" when patientId param omitted', () => {
-       const wrapper = mount(
-           <BrowserRouter>
-               <PatientForm
-                       loadPatient={doesNothing}
-                       unLoadPatient={doesNothing}
-                       savePatient={doesNothing}
-                       clearValidations={doesNothing}
-                       validation={validation} 
-                       patient={emptyPatient} />
-           </BrowserRouter>
-       );
-
-       const firstHeading     = wrapper.find('h1').at(0);
-       const firstHeadingText = firstHeading.childAt(0).text();
-
-       expect(firstHeadingText).toBe("New Patient");
+        const wrapper = mount(
+            <BrowserRouter>
+                <PatientForm
+                        loadPatient={doesNothing}
+                        unLoadPatient={doesNothing}
+                        savePatient={doesNothing}
+                        clearValidations={doesNothing}
+                        validation={validation} 
+                        patient={emptyPatient} />
+            </BrowserRouter>
+        );
+        
+        const firstHeading     = wrapper.find('h1').at(0);
+        const firstHeadingText = firstHeading.childAt(0).text();
+        
+        expect(firstHeadingText).toBe("New Patient");
     })
 })

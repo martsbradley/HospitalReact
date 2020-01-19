@@ -29,14 +29,19 @@ export function userLoginAction(username, password) {
     const promise = login(username, password);
 
     return dispatch => {
+        dispatch({type:Actions.BEGIN_API_CALL});
+
         promise.then(loginSuccessHandler(dispatch))
                .catch(errorHandler(dispatch))
      };
 }
+
 export function userLogoutAction() {
     const promise = logout();
 
     return dispatch => {
+        dispatch({type:Actions.BEGIN_API_CALL});
+
         promise.then(logoutSuccessHandler(dispatch))
                .catch(errorHandler(dispatch))
      };

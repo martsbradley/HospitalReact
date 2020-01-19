@@ -19,6 +19,8 @@ const loadPatientsSuccessHandler = (dispatch) => {
 }
 
 const loadPatientSuccessHandler = (dispatch) => {
+    console.log("Thats done");
+
     return function(payload) {
         dispatch({ type: Actions.PATIENT_CURRENT_LOADED_SUCCESS,
                    payload
@@ -44,9 +46,10 @@ export function loadPatientsAction(startPage, itemsOnPage) {
     const promise = loadPatients(startPage, itemsOnPage);
 
     return dispatch => {
+        dispatch({type:Actions.BEGIN_API_CALL});
         promise.then(loadPatientsSuccessHandler(dispatch))
                .catch(e => { handleError(dispatch, e);
-                });
+        });
      };
 }
 
@@ -58,6 +61,9 @@ export function loadPatientAction(patientId) {
     const promise = loadPatient(patientId);
 
     return dispatch => {
+
+        dispatch({type:Actions.BEGIN_API_CALL});
+
         promise.then(loadPatientSuccessHandler(dispatch))
                .catch(e => { handleError(dispatch, e);
                 });
@@ -68,6 +74,8 @@ export function savePatientAction(patient, history) {
     const promise = savePatient(patient);
 
     return dispatch => {
+            dispatch({type:Actions.BEGIN_API_CALL});
+
             promise.then(result => {
                 if (result.isError) {
                     dispatch(setValidationAction(result.data));

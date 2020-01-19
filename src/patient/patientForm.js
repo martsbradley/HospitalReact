@@ -4,12 +4,14 @@ import {Link} from 'react-router-dom'
 import {PrescriptionTable} from './prescription/prescriptiontable.js'
 import {ImageTable} from '../imagetable.js'
 import PatientFields from './patient_info.js'
+import Spinner from '../common/spinner'
 
 export default function PatientForm({loadPatient,
                                      unLoadPatient,
                                      savePatient,
                                      clearValidations,
                                      validation,
+                                     loading,
                                      ...props}) {
 
     // patient is an unnamed prop so that can have a constant named
@@ -17,7 +19,13 @@ export default function PatientForm({loadPatient,
     const [patient, setPatient] = useState({...props.patient});
     let title= 'New Patient';
 
-    if (props.match && props.match.params.patientId) {
+    // Could not set the title value inside the effect
+    // seems this happens after the initial rendering
+    // and that caused enzyme to fail the test.
+    // Enzyme 
+
+    const editPatient = props.match && props.match.params.patientId;
+    if (editPatient) {
         title = 'Edit Patient';
     }
 
@@ -33,7 +41,7 @@ export default function PatientForm({loadPatient,
         clearValidations();
 
         // Load the patient when editing.
-        if (props.match && props.match.params.patientId) {
+        if (editPatient) {
             const patientId = props.match.params.patientId;
             loadPatient(patientId);
         }
@@ -49,7 +57,7 @@ export default function PatientForm({loadPatient,
         const patientToSave= {...patient};
         delete patientToSave.images;
 
-        savePatient(patientToSave);
+        savePatient(patientToSave, props.history);
     }
 
     function handleFormChange (event) {
@@ -68,6 +76,7 @@ export default function PatientForm({loadPatient,
 //  console.log("Before render the title is '" + title + "'"); 
 //  console.log("Running useEffect");
 //  console.log("in effect " + title);
+    if (loading) return <Spinner/>;
 
     const result = (
         <div>
@@ -92,8 +101,12 @@ export default function PatientForm({loadPatient,
                     <button type="submit">Submit</button>
 
                     <Link to="/patients/list"><button>Cancel</button></Link>
-                    <Link to={`${addPrescription}`} ><button>Add Prescription</button></Link>
-                    <Link to={`${addImage}`} ><button>Add Image</button></Link>
+                    {editPatient ?
+                        <>
+                            <Link id="addtabs" to={`${addPrescription}`} ><button>Add Prescription</button></Link>
+                            <Link id="addImg" to={`${addImage}`} ><button>Add Image</button></Link>
+                        </>
+                        : null}
                 </div>
             </div>
         </form>

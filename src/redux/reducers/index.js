@@ -3,6 +3,7 @@ import patientReducer from './patientReducer';
 import errorReducer from './errorReducer';
 import validationReducer from './validationReducer';
 import userReducer from './userReducer';
+import apiStatusReducer from './apiStatusReducer.js';
 
 export default function appReducer(state, action) {
     return {
@@ -10,6 +11,7 @@ export default function appReducer(state, action) {
         "patient"   :  patientReducer(state.patient, action),
         "error"     :  errorReducer(state.error, action),
         "userStatus":  userReducer(state.userStatus, action),
-        "validation":  validationReducer(state.validation, action)
-        };
+        "validation":  validationReducer(state.validation, action),
+        "apiCalls"  :  apiStatusReducer(state.apiCalls, action),
+    };
 }

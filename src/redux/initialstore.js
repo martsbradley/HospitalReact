@@ -12,7 +12,8 @@ const initialStore =  {"count"       : 10,
                        "validation"  : [],
                        "userStatus"  : { username          : "",
                                          userAuthenticated : false
-                                       }
+                                       },
+                       "apiCalls"    : 0,
                       };
 
 export default initialStore;
