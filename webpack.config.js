@@ -56,7 +56,7 @@ module.exports = (env) => {
       },
       output: {
         path: __dirname + '/dist',
-        //publicPath: '/',
+        publicPath: '/',
         filename: 'bundle.js'
       },
       plugins: [
@@ -65,10 +65,6 @@ module.exports = (env) => {
                               template: "./src/index.html",
                               title:  "Title"
                           })
-      ],
-      devServer: {
-        contentBase: './dist',
-        historyApiFallback: true,
-      }
+      ]
     }
 };

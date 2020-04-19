@@ -7,12 +7,14 @@ const baseConfig = require('./webpack.config.js');
 
 module.exports = (env) => {
     console.log("GOT HERE");
-    return merge(baseConfig(env), {
+    let result = merge(baseConfig(env), {
       plugins: [
          new webpack.HotModuleReplacementPlugin()
       ],
       devServer: {
+        /*clientLogLevel: 'trace',*/
         clientLogLevel: 'silent',
+        publicPath: '/',
         hot: true,
         proxy: {
             '/user' : { target: 'http://localhost:3001', secure: false},
@@ -20,4 +22,6 @@ module.exports = (env) => {
         }
       }
     });
+    //console.log(result);
+    return result;
 };
