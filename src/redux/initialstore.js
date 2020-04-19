@@ -9,7 +9,7 @@ const initialStore =  {"count"       : 10,
                                         current      : emptyPatient,
                                        },
                        "error"       : "",
-                       "validation"  : [],
+                       "validation"  : {},
                        "userStatus"  : { username          : "",
                                          userAuthenticated : false
                                        },

@@ -74,19 +74,23 @@ export function savePatientAction(patient, history) {
     const promise = savePatient(patient);
 
     return dispatch => {
-            dispatch({type:Actions.BEGIN_API_CALL});
+        dispatch({type:Actions.BEGIN_API_CALL});
 
-            promise.then(result => {
-                if (result.isError) {
-                    dispatch(setValidationAction(result.data));
-                }
-                else {
-                    history.push("/patients/list");
-                }
-            })
-           .catch(myError => {
-               console.warn("Save error.");
-               handleError(dispatch, myError);
-           })
+        promise.then(result => {
+            console.log("Received valiation errors");
+            console.log(result);
+
+            if (result.isError) {
+                dispatch(setValidationAction(result.data));
+            }
+            else {
+                dispatch({ type: Actions.PATIENTS_SAVED_SUCCESS });
+                history.push("/patients/list");
+            }
+        })
+        .catch(myError => {
+            console.warn("Save error.");
+            handleError(dispatch, myError);
+        })
      };
 }

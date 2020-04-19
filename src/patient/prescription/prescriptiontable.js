@@ -7,8 +7,8 @@ export function PrescriptionTable(props) {
 
     if (prescriptions) {
         detail = prescriptions.map(p =>
-            <tr key={p.id}>
-            <td className="d-none d-sm-table-cell">{p.id}</td>
+            <tr key={p.prescriptionId}>
+            <td className="d-none d-sm-table-cell">{p.prescriptionId}</td>
             <td>{p.medicine.name}</td>
             <td className="d-none d-md-table-cell">{p.medicine.manufacturer}</td>
             <td className="d-none d-sm-table-cell">{p.amount}</td>

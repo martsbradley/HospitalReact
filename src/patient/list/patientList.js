@@ -6,14 +6,14 @@ import { Link } from 'react-router-dom'
 function PatientRow (props) {
   let pat = props.pat;
   let id  = pat.id;
-  pat.dob = new Date(pat.dob).toISOString().split('T')[0];
+  //pat.dob = new Date(pat.dob).toISOString().split('T')[0];
 
   let editIcon = <i className="fas fa-user-edit fa-2x"></i>;
   return (<tr>
     <td style={{width: '5%'}} className="d-none d-sm-table-cell">{pat.id}</td>
     <td style={{width: '20%'}} >{pat.forename}</td>
     <td style={{width: '20%'}} className="d-none d-sm-table-cell">{pat.surname}</td>
-    <td style={{width: '10%'}} className="d-none d-md-table-cell"><Link to={`/patients/form/${id}`}>{pat.dob}</Link></td>
+    <td style={{width: '10%'}} className="d-none d-md-table-cell"><Link to={`/patients/form/${id}`}>{pat.dateOfBirth}</Link></td>
     <td style={{width: '5%'}} ><Link to={`/patients/form/${id}`}>{editIcon}</Link></td>
     </tr>);
 }

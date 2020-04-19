@@ -14,6 +14,7 @@ export default function apiStatusReducer(
         return ++state;
     } 
     else if (
+        action.type === types.VALIDATION_SET ||
         action.type === types.API_CALL_ERROR ||
         actionTypeEndsInSuccess(action.type)
     ) {

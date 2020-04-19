@@ -1,7 +1,7 @@
 const webpack = require('webpack');
-const dotenv = require('dotenv');
+//const dotenv = require('dotenv');
 const fs = require('fs');
-const path = require('path'); 
+//const path = require('path'); 
 const merge = require('webpack-merge');
 const baseConfig = require('./webpack.config.js');
 
@@ -15,8 +15,8 @@ module.exports = (env) => {
         clientLogLevel: 'silent',
         hot: true,
         proxy: {
-            '/rest' : { target: 'https://localhost', secure: false},
-            '/auth' : { target: 'https://localhost/', secure: false}
+            '/user' : { target: 'http://localhost:3001', secure: false},
+            '/auth' : { target: 'http://localhost:3001', secure: false}
         }
       }
     });

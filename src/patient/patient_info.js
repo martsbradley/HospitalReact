@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import {getValidationMessages} from '../validationmessage';
+//import {getValidationMessages} from '../validationmessage';
 
 let PatientForm = ({ patient,
                      handleFormChange,
                      validation}) => {
 
-    const val = getValidationMessages(patient, "savePatient.patientBean", validation);
+    //const val = getValidationMessages(patient, "savePatient.patientBean", validation);
 
     //val['general'] = '';
     //           <span className="errors">{val.general}</span>
@@ -17,19 +17,19 @@ let PatientForm = ({ patient,
                 <label htmlFor="forename">Forename</label>
                 <input type="text" className="form-control" name="forename" value={patient.forename}
                 onChange={handleFormChange}/>
-                <span className="errors">{val.forename}</span>
+                <span className="errors">{validation.forename}</span>
             </div>
             <div className="form-group">
                 <label htmlFor="surname">Surname</label>
                 <input type="text" className="form-control" name="surname" value={patient.surname}
                 onChange={handleFormChange}/>
-                <span className="errors">{val.surname}</span>
+                <span className="errors">{validation.surname}</span>
             </div>
             <div className="form-group">
                 <label htmlFor="dob" >Date of Birth</label>
                 <input type="date" className="form-control" name="dob" value={patient.dob} 
                  onChange={handleFormChange}/>
-                <span className="errors">{val.dob}</span>
+                <span className="errors">{validation.dob}</span>
             </div>
 
         </div>
@@ -38,6 +38,6 @@ let PatientForm = ({ patient,
 PatientForm.propTypes = {
     patient: PropTypes.object,
     handleFormChange: PropTypes.func,
-    validation  : PropTypes.array
+    validation  : PropTypes.object
 };
 export default PatientForm;

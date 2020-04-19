@@ -1,12 +1,10 @@
-import {getDobString} from '../dateutils.js'
+//import {getDobString} from '../dateutils.js'
 import {APIError, AuthenticationError} from './Errors';
 
-const urlPrefix = "/rest/hospital/patients";
-const totalURL = urlPrefix + "/total";
+const urlPrefix = "/user/list";
 
 function pageURL(pageToShow, itemsOnPage) {
-  let start = (pageToShow - 1) * itemsOnPage
-  const pageURL = urlPrefix + `?start=${start}&max=${itemsOnPage}`;
+  const pageURL = urlPrefix + `?page=${pageToShow}&pageSize=${itemsOnPage}`;
   return pageURL;
 }
 
@@ -34,6 +32,8 @@ function isErrorResponse(responsePromise, url) {
 
         throw new APIError(responsePromise.status, message)
     }
+    console.log("Returning ...");
+    console.log(isError);
     return isError
 }
 
@@ -41,21 +41,18 @@ export async function loadPatients(pageToShow, itemsOnPage ) {
     const patientsURL = pageURL(pageToShow, itemsOnPage);
 
     const loadPatientsPromise = fetch(patientsURL);
-    const countPatients = fetch(totalURL);
 
     const patientsResponse = await loadPatientsPromise ;
-    const countPatientsResponse = await countPatients;
 
-    let isError = isErrorResponse(patientsResponse, patientsURL);
+    isErrorResponse(patientsResponse, patientsURL);
 
-    if (!isError) {
-        isError = isErrorResponse(countPatientsResponse, totalURL);
-    }
 
     let patients, total;
     try {
-        patients = await patientsResponse.json();
-        total = await countPatientsResponse.json();
+        let result  =  await patientsResponse.json();
+        patients = result.users;
+        console.log(patients);
+        total = result.pageInfo._dataSize;
     } catch(e) {
         console.log("There is no information in the body");
     }
@@ -67,34 +64,35 @@ export async function loadPatients(pageToShow, itemsOnPage ) {
 
 export async function loadPatient(patientId) {
 
-    const loadPatientURL = `/rest/hospital/patient/${patientId}`;
-    const loadImagesURL = `/rest/hospital/patient/${patientId}/images`;
+    const loadPatientURL = `/user?id=${patientId}`;
+    //const loadImagesURL = `/rest/hospital/patient/${patientId}/images`;
 
 
     const loadPatient = fetch(loadPatientURL);
-    const loadImages = fetch(loadImagesURL);
+    //const loadImages = fetch(loadImagesURL);
 
-    const patientResponse =  await loadPatient;
-    const imagesResponse = await loadImages;
+    let patientResponse =  await loadPatient;
+    //const imagesResponse = await loadImages;
 
     let isError = isErrorResponse(patientResponse, loadPatientURL);
 
     if (!isError) {
-        isError = isErrorResponse(imagesResponse, loadImagesURL);
+        //isError = isErrorResponse(imagesResponse, loadImagesURL);
     }
 
     let patient;
-    let images;
+    //let images;
 
     try {
         patient = await patientResponse.json();
-        images = await imagesResponse.json();
+
+        //images = await imagesResponse.json();
     } catch(e) {
         console.log("There is no information in the body");
     }
 
-    patient.dob = getDobString(patient.dob);
-    patient.images = images;
+    patient.dob = patient.dateOfBirth;
+    patient.images = []
 
     return patient;
 }
@@ -103,11 +101,11 @@ export async function savePatient(patient) {
 
     let payload = {...patient};
     payload.dob = payload.dob + "T00:00Z";
-    const saveURL = '/rest/hospital/patient';
+    const saveURL = '/user/';
     console.log("saving...");
 
     const requestPromise = fetch(saveURL,{
-                                method: 'post',
+                                method: 'put',
                                 headers: {
                                     'Accept': 'application/json',
                                     'Content-Type': 'application/json'
@@ -121,10 +119,11 @@ export async function savePatient(patient) {
 
     //let responseData = getResponseData(responsePromise);
     let responseData = [];
+
     // Only here for successful calls or failed validations
     // So get the result or the validation errors.
     try {
-       responseData = await responsePromise.json();
+        responseData = await responsePromise.json();
     } catch(e) {
         console.log("There is no information in the body");
     }
