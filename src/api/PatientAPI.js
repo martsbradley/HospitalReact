@@ -91,7 +91,6 @@ export async function loadPatient(patientId) {
         console.log("There is no information in the body");
     }
 
-    patient.dob = patient.dateOfBirth;
     patient.images = []
 
     return patient;
@@ -104,8 +103,13 @@ export async function savePatient(patient) {
     const saveURL = '/user/';
     console.log("saving...");
 
+    let methodName = 'put';
+    if (patient.id === undefined) {
+       methodName = 'post';
+    }
+
     const requestPromise = fetch(saveURL,{
-                                method: 'put',
+                                method: methodName,
                                 headers: {
                                     'Accept': 'application/json',
                                     'Content-Type': 'application/json'

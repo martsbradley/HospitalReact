@@ -26,10 +26,10 @@ let PatientForm = ({ patient,
                 <span className="errors">{validation.surname}</span>
             </div>
             <div className="form-group">
-                <label htmlFor="dob" >Date of Birth</label>
-                <input type="date" className="form-control" name="dob" value={patient.dob} 
+                <label htmlFor="dateOfBirth" >Date of Birth</label>
+                <input type="date" className="form-control" name="dateOfBirth" value={patient.dateOfBirth} 
                  onChange={handleFormChange}/>
-                <span className="errors">{validation.dob}</span>
+                <span className="errors">{validation.dateOfBirth}</span>
             </div>
 
         </div>

@@ -42,33 +42,32 @@ function handleError(dispatch, e) {
 /* This action immediately calls the async network calls.
  * When the response comes back the success/failure
  * handlers are called */
-export function loadPatientsAction(startPage, itemsOnPage) {
+export const loadPatientsAction = (startPage, itemsOnPage) => dispatch => 
+{
+    dispatch({type:Actions.BEGIN_API_CALL});
+
     const promise = loadPatients(startPage, itemsOnPage);
 
-    return dispatch => {
-        dispatch({type:Actions.BEGIN_API_CALL});
-        promise.then(loadPatientsSuccessHandler(dispatch))
-               .catch(e => { handleError(dispatch, e);
-        });
-     };
+    promise.then(loadPatientsSuccessHandler(dispatch))
+            .catch(e => { handleError(dispatch, e);
+    });
 }
 
 export function unLoadPatientAction() {
     return { type: Actions.UNLOAD_PATIENT };
 }
 
-export function loadPatientAction(patientId) {
+export const loadPatientAction = (patientId) => dispatch => {
+    dispatch({type:Actions.BEGIN_API_CALL});
     const promise = loadPatient(patientId);
 
-    return dispatch => {
-
-        dispatch({type:Actions.BEGIN_API_CALL});
-
-        promise.then(loadPatientSuccessHandler(dispatch))
-               .catch(e => { handleError(dispatch, e);
-                });
-     };
-}
+    promise.then(loadPatientSuccessHandler(dispatch))
+           .catch(e => 
+        {
+             handleError(dispatch, e);
+        }
+    );
+};
 
 export function savePatientAction(patient, history) {
     const promise = savePatient(patient);
