@@ -99,7 +99,7 @@ export async function loadPatient(patientId) {
 export async function savePatient(patient) {
 
     let payload = {...patient};
-    payload.dob = payload.dob + "T00:00Z";
+    //payload.dob = payload.dob + "T00:00Z";
     const saveURL = '/user/';
     console.log("saving...");
 
