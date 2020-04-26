@@ -1,5 +1,10 @@
 import {emptyPatient} from '../patient/emptyPatient';
 
+const emptyMedicine = { medicineId: -1,
+                        name: '',
+                        manufacturer: '',
+                        deliveryMethod: ''};
+
 const initialStore =  {"count"       : 10,
                        "patient"     : {  totalItems   : 0,
                                         pageNumber   : 1,
@@ -8,8 +13,15 @@ const initialStore =  {"count"       : 10,
                                         pageLoaded   : false,
                                         current      : emptyPatient,
                                        },
+                       "medicine"    : {totalItems   : 0,
+                                        pageNumber   : 1,
+                                        itemsPerPage : 5,
+                                        list         : [],
+                                        pageLoaded   : false,
+                                        current      : emptyMedicine,
+                                       },
                        "error"       : "",
-                       "validation"  : {},
+                       "validation"  : [],
                        "userStatus"  : { username          : "",
                                          userAuthenticated : false
                                        },

@@ -1,6 +1,6 @@
 export const emptyPatient = { forename    : '',
                               surname     : '',
-                              dob         : '',
+                              dateOfBirth : '',
                               prescription: [],
                               rowVersion  : 0,
                               images      : []

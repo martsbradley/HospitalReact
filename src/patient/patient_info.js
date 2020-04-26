@@ -2,10 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types';
 //import {getValidationMessages} from '../validationmessage';
 
-let PatientForm = ({ patient,
+let PatientInfo = ({ patient,
                      handleFormChange,
                      validation}) => {
 
+                        console.log("here....??");
+                        console.log(patient);
     //const val = getValidationMessages(patient, "savePatient.patientBean", validation);
 
     //val['general'] = '';
@@ -28,16 +30,16 @@ let PatientForm = ({ patient,
             <div className="form-group">
                 <label htmlFor="dateOfBirth" >Date of Birth</label>
                 <input type="date" className="form-control" name="dateOfBirth" value={patient.dateOfBirth} 
-                 onChange={handleFormChange}/>
+                       onChange={handleFormChange}/>
                 <span className="errors">{validation.dateOfBirth}</span>
             </div>
 
         </div>
   );
 }
-PatientForm.propTypes = {
+PatientInfo.propTypes = {
     patient: PropTypes.object,
     handleFormChange: PropTypes.func,
-    validation  : PropTypes.object
+    validation  : PropTypes.array
 };
-export default PatientForm;
+export default PatientInfo;

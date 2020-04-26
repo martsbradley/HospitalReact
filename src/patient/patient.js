@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Prescription from './prescription/prescription.js'
 import ErrorBoundary from '../errorboundary.js'
 import AddImage from '../addimage.js'
+import Tablet from './tablet/';
 import { connect } from "react-redux";
 
 function PatientTable({errorInfo}) {
@@ -20,6 +21,7 @@ function PatientTable({errorInfo}) {
         <Switch>
             <Route path="/patients/list"                    component={PatientList} />
             <Route path="/patients/:patientId/prescription" component={Prescription} />
+            <Route path="/patients/:patientId/tablet"       component={Tablet} />
             <Route path="/patients/:patientId/addimage"     component={AddImage} />
             <Route path="/patients/form/:patientId"         component={PatientForm} />
             <Route path="/patients/new"                     component={PatientForm} />

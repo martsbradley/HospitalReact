@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom'
 import {PrescriptionTable} from './prescription/prescriptiontable.js'
 import {ImageTable} from '../imagetable.js'
-import PatientFields from './patient_info.js'
+import PatientInfo from './patient_info.js'
 import Spinner from '../common/spinner'
 
 export default function PatientForm({loadPatient,
@@ -16,6 +16,7 @@ export default function PatientForm({loadPatient,
 
     // patient is an unnamed prop so that can have a constant named
     // patient.
+    console.log
     const [patient, setPatient] = useState({...props.patient});
     let title= 'New Patient';
 
@@ -32,7 +33,7 @@ export default function PatientForm({loadPatient,
     // The patient comes in from redux into the props and then
     // is stored inside the state effect.
     useEffect(() => {
-        setPatient(props.patient);
+        setPatient({...props.patient});
 
     },[props.patient]);
 
@@ -61,6 +62,7 @@ export default function PatientForm({loadPatient,
     }
 
     function handleFormChange (event) {
+        console.log("changed");
         event.preventDefault();
         const { name, value } = event.target;
 
@@ -71,6 +73,7 @@ export default function PatientForm({loadPatient,
     }
 
     const addPrescription = `/patients/${patient.id}/prescription/medicine`;
+    const addTablet       = `/patients/${patient.id}/tablet/select`;
     const addImage        = `/patients/${patient.id}/addimage`;
 
 //  console.log("Before render the title is '" + title + "'"); 
@@ -82,7 +85,7 @@ export default function PatientForm({loadPatient,
         <div>
         <h1>{title}</h1>
         <form onSubmit={savePatientHandler}>
-            <PatientFields patient={patient}
+            <PatientInfo patient={patient}
                            validation={validation}
                            handleFormChange={handleFormChange}/>
             <div className="col-md-6 form-line">
@@ -104,6 +107,7 @@ export default function PatientForm({loadPatient,
                     {editPatient ?
                         <>
                             <Link id="addtabs" to={`${addPrescription}`} ><button>Add Prescription</button></Link>
+                            <Link id="addtabs2" to={`${addTablet}`} ><button>Add Tablet</button></Link>
                             <Link id="addImg" to={`${addImage}`} ><button>Add Image</button></Link>
                         </>
                         : null}
