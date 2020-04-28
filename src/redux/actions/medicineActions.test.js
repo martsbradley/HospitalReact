@@ -1,5 +1,6 @@
 import {loadMedicinesAction} from './medicineActions';
 import * as medAPI from '../../api/medicine-api';
+import * as types from './actionTypes';
 
 jest.mock('../../api/medicine-api');
 
@@ -10,39 +11,59 @@ medAPI.loadMedicines = jest.fn((a, b) => {
 
 describe('medicineActions', () => {
 
-    it('Normal Stuff works', () => {
-        const value = 2 + 2;
-        expect(value).toBeGreaterThan(3);
-        expect(value).toBeGreaterThanOrEqual(3.5);
-        expect(value).toBeLessThanOrEqual(4.5);
-        expect(value).toBe(4);
-    })
-    it('loadMedicines', () => {
-
-        const dispatch = (detail) => {console.log("dispatching ..." + detail)};
-
-        let functionReference = loadMedicinesAction(1,2);
-
-        functionReference (dispatch);
-    });
-
     /* The action is a function that returns a function.
      * The returned function itself accepts a function.
      * Guessing that Redux Thunk calls the action
      * Then when the function is returned it calls that
      * function passing it the dispatch function.
-     */
-})
+     * 
+     * loadMedicines returns a promise, that means
+     * it is resolve/rejected but that happens asychronously
+     * therefore the code needs to push the expectation code
+     * into the event loop such that it will execute after
+     * the promise is resolved */
+    it('Pos: loadMedicines', (done) => {
+        medAPI.loadMedicines = jest.fn((a, b) => {
+            console.log(`Mocked loadMedicines ${a} ${b}`);
+            return Promise.resolve([]);
+        });
 
+        let functionReference = loadMedicinesAction(1,2);
 
-/*
-export const loadPatientsAction = (startPage, itemsOnPage) => dispatch => 
-{
-    dispatch({type:Actions.BEGIN_API_CALL});
+        let dispatch  = jest.fn((detail) => {
+            console.log("Dispatching >>> " + detail.type);
+            console.log(`detail ${detail.type}`);
+        });
 
-    const promise = loadPatients(startPage, itemsOnPage);
+        functionReference(dispatch);
+        setTimeout(() => {
 
-    promise.then(loadMedicinesSuccessHandler(dispatch))
-            .catch(e => { handleError(dispatch, e);
+            expect(dispatch.mock.calls[0][0].type).toBe(types.BEGIN_API_CALL);
+            expect(dispatch.mock.calls[1][0].type).toBe(types.PATIENT_CURRENT_LOADED_SUCCESS);
+            done();
+        }, 0);
     });
-}*/
+
+    it('Neg: loadMedicines', (done) => {
+
+        medAPI.loadMedicines = jest.fn((a, b) => {
+            console.log(`Mocked loadMedicines ${a} ${b}`);
+            console.log('Hit an error');
+            return Promise.reject({'some':'problem'});
+        });
+
+        let thunk = loadMedicinesAction(1,2);
+
+        let dispatch  = jest.fn((detail) => {
+            console.log(`detail ${detail.type}`);
+        });
+
+        thunk(dispatch);
+
+        setTimeout(() => {
+            expect(dispatch.mock.calls[0][0].type).toBe(types.BEGIN_API_CALL);
+            expect(dispatch.mock.calls[1][0].type).toBe(types.ERROR_SET);
+            done();
+        }, 0);
+    });
+});

@@ -3,7 +3,6 @@ import {loadMedicines} from '../../api/medicine-api';
 import {handleError} from './errorActions';
 
 const loadMedicinesSuccessHandler = (dispatch) => {
-    console.log("Thats done");
 
     return function(payload) {
         dispatch({ type: Actions.PATIENT_CURRENT_LOADED_SUCCESS,
@@ -22,6 +21,6 @@ export const loadMedicinesAction = (startPage, itemsOnPage) => dispatch =>
     const promise = loadMedicines(startPage, itemsOnPage);
 
     promise.then(loadMedicinesSuccessHandler(dispatch))
-            .catch(e => { handleError(dispatch, e);
+           .catch(e => { handleError(dispatch, e);
     });
 }
