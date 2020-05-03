@@ -18,6 +18,7 @@ export class HomePage extends React.Component {
                 technologies such as:
                 </p>
                 <ul>
+                    <li>Bal       ls.</li>
                     <li>Postgres.</li>
                     <li>NodeJS.</li>
                     <li>React.</li>

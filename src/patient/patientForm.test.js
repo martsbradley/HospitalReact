@@ -1,7 +1,7 @@
 import React from 'react';
 import PatientForm from './patientForm';
 import {mount,shallow} from 'enzyme';
-import {emptyPatient} from './emptyPatient';
+import {emptyPatient} from '../redux/initialstore';
 import {BrowserRouter} from 'react-router-dom';
 
 const doesNothing = () => {}

@@ -20,7 +20,7 @@ export async function loadMedicines(pageToShow, itemsOnPage ) {
         if (!isError) {
             medicines = json.medicines;
             total     = json.pageInfo._dataSize;
-            result = [medicines, total];
+            result = {medicines, total};
 
             console.log(medicines);
         } else {

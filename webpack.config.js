@@ -65,6 +65,14 @@ module.exports = (env) => {
                               template: "./src/index.html",
                               title:  "Title"
                           })
-      ]
+      ],
+       devServer: {
+         contentBase: './dist',
+         historyApiFallback: true,
+       }
     }
 };
+
+
+
+

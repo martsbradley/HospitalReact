@@ -1,12 +1,18 @@
-import {emptyPatient} from '../patient/emptyPatient';
+export const emptyMedicine = { id: -1,
+                               name: '',
+                               manufacturer: '',
+                               deliveryMethod: ''};
 
-const emptyMedicine = { medicineId: -1,
-                        name: '',
-                        manufacturer: '',
-                        deliveryMethod: ''};
+export const emptyPatient = { forename     : '',
+                              surname      : '',
+                              dateOfBirth  : '',
+                              prescriptions: [],
+                              rowVersion   : 0,
+                              images       : []
+};
 
 const initialStore =  {"count"       : 10,
-                       "patient"     : {  totalItems   : 0,
+                       "patient"     : {totalItems   : 0,
                                         pageNumber   : 1,
                                         itemsPerPage : 5,
                                         list         : [],

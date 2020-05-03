@@ -16,7 +16,7 @@ function unloadPatient(patient) {
     const patientState =  {...patient,
                               current : { forename : '',
                                       surname      : '',
-                                      dob          : '',
+                                      dateOfBirth  : '',
                                       prescription : [],
                                       rowVersion   : 0,
                                       images       : []

@@ -1,4 +1,4 @@
-import checkResponse from './api-utils'
+import {checkResponse} from './api-utils'
 
 const urlPrefix = "/user/list";
 

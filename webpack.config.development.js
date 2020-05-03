@@ -18,6 +18,7 @@ module.exports = (env) => {
         hot: true,
         proxy: {
             '/user' : { target: 'http://localhost:3001', secure: false},
+            '/meds' : { target: 'http://localhost:3001', secure: false},
             '/auth' : { target: 'http://localhost:3001', secure: false}
         }
       }

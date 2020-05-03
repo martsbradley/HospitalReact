@@ -29,5 +29,6 @@ module.exports = {
       "react": {
         "version": "16.2.0"
       },
-    }
+    },
+    "ignorePatterns": ["webpack*.js", "node_modules/"],
 };

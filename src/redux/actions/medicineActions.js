@@ -5,8 +5,9 @@ import {handleError} from './errorActions';
 const loadMedicinesSuccessHandler = (dispatch) => {
 
     return function(payload) {
-        dispatch({ type: Actions.PATIENT_CURRENT_LOADED_SUCCESS,
-                   payload
+        dispatch({ type: Actions.MEDICINES_LISTED_SUCCESS,
+                   medicines: payload.data.medicines,
+                   total:     payload.data.total,
         });
     }
 }
@@ -21,6 +22,8 @@ export const loadMedicinesAction = (startPage, itemsOnPage) => dispatch =>
     const promise = loadMedicines(startPage, itemsOnPage);
 
     promise.then(loadMedicinesSuccessHandler(dispatch))
-           .catch(e => { handleError(dispatch, e);
-    });
+           .catch(e => { 
+       handleError(dispatch, e);
+    }
+    );
 }

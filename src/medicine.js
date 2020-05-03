@@ -11,7 +11,7 @@ export default class Medicine extends React.Component {
 
             detail = meds.map(p =>
               <tr className={this.props.selectedMedicine === p.id? "selected": ""}
-                   onClick={() => this.props.mouseClicked(p)} key={p.id}>
+                   onClick={() => this.props.mouseClicked(p.id)} key={p.id}>
                 <td className="d-none d-sm-table-cell">{p.id}</td>
                 <td>{p.name}</td>
                 <td className="d-none d-lg-table-cell">{p.manufacturer}</td>

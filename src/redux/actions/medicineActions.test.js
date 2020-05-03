@@ -25,7 +25,8 @@ describe('medicineActions', () => {
     it('Pos: loadMedicines', (done) => {
         medAPI.loadMedicines = jest.fn((a, b) => {
             console.log(`Mocked loadMedicines ${a} ${b}`);
-            return Promise.resolve([]);
+            return Promise.resolve({data: { medicines:[],
+                                            total: 0}});
         });
 
         let functionReference = loadMedicinesAction(1,2);
@@ -39,7 +40,7 @@ describe('medicineActions', () => {
         setTimeout(() => {
 
             expect(dispatch.mock.calls[0][0].type).toBe(types.BEGIN_API_CALL);
-            expect(dispatch.mock.calls[1][0].type).toBe(types.PATIENT_CURRENT_LOADED_SUCCESS);
+            expect(dispatch.mock.calls[1][0].type).toBe(types.MEDICINES_LISTED_SUCCESS);
             done();
         }, 0);
     });

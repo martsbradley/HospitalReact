@@ -86,4 +86,35 @@ describe('medicines-api', () => {
         }
         done();
     });
+    it('Pos: http 200', async (done) => {
+
+
+        const pageInfo = {page: 1,
+                          pageSize: 5,
+                          nameFilter: "",
+                          _dataSize: 20}
+
+        fetchMock.mock('*', { status: 200,
+                              body: {'medicines': [],
+                                     'pageInfo': pageInfo}});
+        try {
+            const pageToShow = 1;
+            const itemsOnPage = 5;
+            const result = await loadMedicines(pageToShow, itemsOnPage);
+            expect(result.isError).toEqual(false);
+            console.log(result);
+            expect(result.data.medicines).toEqual([]);
+            
+            expect(result.data.total).toEqual(20);
+           
+            fetchMock.reset();
+        }
+        catch (e){ 
+            console.log('e');
+            console.log(e);
+            fail();
+            //expect(e.message).toContain(');
+        }
+        done();
+    });
 });

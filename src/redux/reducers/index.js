@@ -4,6 +4,7 @@ import errorReducer from './errorReducer';
 import validationReducer from './validationReducer';
 import userReducer from './userReducer';
 import apiStatusReducer from './apiStatusReducer.js';
+import medicineReducer from './medicineReducer.js';
 
 export default function appReducer(state, action) {
     return {
@@ -13,5 +14,6 @@ export default function appReducer(state, action) {
         "userStatus":  userReducer(state.userStatus, action),
         "validation":  validationReducer(state.validation, action),
         "apiCalls"  :  apiStatusReducer(state.apiCalls, action),
+        "medicine"  :  medicineReducer(state.medicine, action)
     };
 }

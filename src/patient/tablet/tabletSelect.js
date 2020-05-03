@@ -1,105 +1,84 @@
+//import React,{useEffect} from 'react'
 import React from 'react'
-//import PropTypes from 'prop-types';
-//import Pagination from 'react-js-pagination'
-//import { Redirect, Link } from 'react-router-dom'
-//import ValidationMessage from '../../validationmessage.js'
-//import Medicine from '../../medicine.js'
+import PropTypes from 'prop-types';
+import Medicine from '../../medicine.js'
+import Pagination from 'react-js-pagination'
+import ValidationMessage from '../../validationmessage.js'
 
-/* this.handleFilterChange = this.handleFilterChange.bind(this);
- * onSubmit
- * the filter
- * the active page
-itemsCountPerPage={this.props.numItemsOnPage}
-totalItemsCount={this.props.totalItemsCount}
- */
+export default function TabletSelect({medicines,
+                                      activePage,
+                                      itemsPerPage,
+                                      totalItemsCount,
+                                      filter,
+                                      filterChanged,
+                                      pageChanged,
+                                      medicineClicked,
+                                      selectedMedId
+                                    }) 
+{
+    const fixme = () =>{};
 
-export default class TabletSelect extends React.Component {
-    constructor(props) {
-        super(props);
+    const filterEvent = (event) =>{
+        console.log("Event>>");
+        console.log(event.target);
+        
+        filterChanged(event.target.value);
+    };
 
-    //  this.state = {  
-    //    success: false,
-    //    showWarning: false,
-    //    meds: [],
-    //    loaded: false,
-    //    numItemsOnPage: 5,
-    //    totalItemsCount: 0,
-    //  };
-    //  this.handleFilterChange = this.handleFilterChange.bind(this);
-    //  this.loadTable = this.loadTable.bind(this);
-    //  this.totalMedsURL = this.totalMedsURL.bind(this)
-    //  this.pageChange  = this.pageChange.bind(this);
-    }
+    let filterElement = <input type="text" style={{display: 'inline'}} 
+                               name="filter" value={filter}
+                               onChange={filterEvent} />
 
-    render () {
-        return <h1>here</h1>;
-    }
+  //if (filter === '') {
+
+  //    filterElement = <input type="text" style={{display: 'inline'}} 
+  //                           name="filter" value={filter}
+  //                           placeholder="filter by name" 
+  //                           onChange={filterEvent} />
+  //}
+
+    return  (
+
+    <>
+        <h1>Prescription Select Medicine {filter}</h1>
+        <form onSubmit={fixme}>
+            <div className="col-md-6">
+                <div className="form-line">
+                    <div style={{display:'inline'}}>
+                        <label htmlFor="filter">Filter:</label>
+                        {filterElement}
+                    </div>
+                    <div className="bordered">
+                        <Pagination itemClass="page-item"
+                                    linkClass="page-link"
+                                    activePage={activePage}
+                                    itemsCountPerPage={itemsPerPage}
+                                    totalItemsCount={totalItemsCount}
+                                    pageRangeDisplayed={5}
+                                    onChange={pageChanged} 
+                                    innerClass="pagination pages" />
+
+                        <Medicine meds={medicines} 
+                                selectedMedicine={selectedMedId} 
+                                mouseClicked={medicineClicked} />
+                    </div>
+                </div>
+                <div style={{clear: 'right'}} className="form-line">
+                    <ValidationMessage when={false} what="Please select a medicine"/>
+                </div>
+            </div>
+        </form>
+    </>);
 }
 
-//      const meds = [];
-
-//      const isBlocking = false;//this.state.showWarning;
-
-//    //if (this.state.success === true) {
-//    //    return <Redirect to="setStartDate"/>
-//    //}
-
-//      let filterElement = <input type="text" style={{display: 'inline'}} 
-//                                 name="filter" value={'filter'}
-//                                 onChange={null} />
-
-//      let result = (<div>
-//          
-//          <h1>Prescription Select Medicine</h1>
-//          <form onSubmit={null}>
-//              <div className="col-md-6">
-//                  <div className="form-line">
-//                      <div style={{display:'inline'}}>
-//                          <label htmlFor="filter">Filter:</label>
-//                          {filterElement }
-//                      </div>
-//                      <div className="bordered">
-//                          <Pagination itemClass="page-item"
-//                                      linkClass="page-link"
-//                                      activePage={1}
-//                                      itemsCountPerPage={5}
-//                                      totalItemsCount={5}
-//                                      pageRangeDisplayed={5}
-//                                      onChange={null} 
-//                                      innerClass="pagination pages" />
-
-//                        <Medicine meds={meds} 
-//                                  selectedMedicine={1} 
-//                                  mouseClicked={null} />
-//                      </div>
-
-//                  </div>
-//                  <div style={{clear: 'right'}} className="form-line">
-//                      <ValidationMessage when={isBlocking} what="Please select a medicine"/>
-//                  </div>
-
-//                  <div className="form-line">
-//                      <div className="form-group">
-//                          <Link to={`/patients/edit/${this.props.patientId}`}><button>Cancel</button></Link>
-//                          <button type="submit">Next</button>
-//                      </div>
-//                  </div>
-//              </div>
-//          </form>
-//      
-//      </div>);
-//      return result;
-//  }
-//}
-
-//  TabletSelect.propTypes = {
-//      mouseClicked: PropTypes.func,
-//      selectedMedicine: PropTypes.number,
-//      canMoveNextPage: PropTypes.func,
-//      patientId : PropTypes.string,
-//      history : PropTypes.object,
-//      activePage: PropTypes.number,
-//      pageChanged: PropTypes.func,
-//      filter:      PropTypes.string,
-//      filterChanged: PropTypes.func,
-//  }
+TabletSelect.propTypes = {
+    medicines        : PropTypes.array,
+    activePage       : PropTypes.number,
+    itemsPerPage     : PropTypes.number,
+    totalItemsCount  : PropTypes.number,
+    filter           : PropTypes.string,
+    filterChanged    : PropTypes.func,
+    pageChanged      : PropTypes.func,
+    medicineClicked  : PropTypes.func,
+    selectedMedId    : PropTypes.number,
+}
