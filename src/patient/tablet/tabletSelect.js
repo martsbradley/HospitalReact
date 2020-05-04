@@ -1,5 +1,6 @@
 //import React,{useEffect} from 'react'
-import React from 'react'
+import React,{useEffect} from 'react'
+//import React from 'react'
 import PropTypes from 'prop-types';
 import Medicine from '../../medicine.js'
 import Pagination from 'react-js-pagination'
@@ -13,8 +14,7 @@ export default function TabletSelect({medicines,
                                       filterChanged,
                                       pageChanged,
                                       medicineClicked,
-                                      selectedMedId
-                                    }) 
+                                      selectedMedId}) 
 {
     const fixme = () =>{};
 
@@ -23,7 +23,11 @@ export default function TabletSelect({medicines,
         console.log(event.target);
         
         filterChanged(event.target.value);
+
     };
+    useEffect(() => {
+        //setWizardPage("page1");
+    },[]);
 
     let filterElement = <input type="text" style={{display: 'inline'}} 
                                name="filter" value={filter}
@@ -67,8 +71,10 @@ export default function TabletSelect({medicines,
                     <ValidationMessage when={false} what="Please select a medicine"/>
                 </div>
             </div>
+
         </form>
     </>);
+
 }
 
 TabletSelect.propTypes = {
