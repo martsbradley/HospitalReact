@@ -3,7 +3,6 @@ import {Route, Switch, matchPath} from 'react-router-dom'
 import ErrorBoundary from '../../errorboundary.js'
 import TabletSelect from './tabletSelect'
 import PropTypes from 'prop-types';
-import Buttons from './buttons';
  
 function NoMatch() {
   return (
@@ -15,28 +14,28 @@ function NoMatch() {
         );
 }
 
-const button = (label, isDisabled, target) => {
+const ButtonInfo = (label, isDisabled, target) => {
     const b = {label     : label,
                isDisabled : isDisabled,
                target    : target};
-               
     return b;
 }
 
-
-const Ctrl = ({page, selectedMedId, path, history}) => {
+const TabletWizardController = ({page, selectedMedId, path, history}) => {
 
     console.log(`history is ${history}`);
-    const gotoStartDate =  () => history.push(`${path}/pageTwo`);
     const toPatientsPage = () => history.push("/patients/list");
+    const select    = () => history.push(`${path}/select`);
+    const startDate = () => history.push(`${path}/startDate`);
+    const endDate   = () => history.push(`${path}/endDate`);
 
     const buttons = [];
 
     if (page === 'select') {
 
-        const c = button('Back', false, toPatientsPage);
+        let c = ButtonInfo('Back', false, toPatientsPage);
         buttons.push(c);
-        const b = button('Next', false, gotoStartDate);
+        let b = ButtonInfo('Next', false, startDate);
         buttons.push(b);
 
         if (selectedMedId === -1) {
@@ -44,8 +43,18 @@ const Ctrl = ({page, selectedMedId, path, history}) => {
             b.isDisabled = true;
         }
     }
-    /*else if (page === 'pageTwo') {
-    }*/
+    else if (page === 'startDate') {
+        let c = ButtonInfo('Back', false, select);
+        buttons.push(c);
+        let b = ButtonInfo('Next', false, endDate);
+        buttons.push(b);
+    }
+    else if (page === 'endDate') {
+        let c = ButtonInfo('Bakk', false, startDate);
+        buttons.push(c);
+        let b = ButtonInfo('Next', false, endDate);
+        buttons.push(b);
+    }
 
     const res = buttons.map(
         b => 
@@ -66,7 +75,7 @@ const Ctrl = ({page, selectedMedId, path, history}) => {
             </div>); 
 }
 
-Ctrl.propTypes = {
+TabletWizardController.propTypes = {
     page          : PropTypes.string,
     selectedMedId : PropTypes.number,
     path          : PropTypes.string,
@@ -93,10 +102,10 @@ export default function TabletWizard({loadMedicines,
 
         setState(state => ({...state,
                        filter: aFilter }));
-        console.log("<<<");
+        /*console.log("<<<");
         console.log(aFilter);
         console.log(">>>");
-        console.log(state.filter);
+        console.log(state.filter);*/
     }
 
     function medicineSelected(medicineId) {
@@ -130,7 +139,7 @@ export default function TabletWizard({loadMedicines,
     const {pathname} = location;
 
     // Now have which sub page is active currently in result.
-    const subPages = ['select','pageTwo'];
+    const subPages = ['select','startDate','endDate'];
 
     for (let i = 0; i < subPages.length; i++) {
         subPage = subPages[i];
@@ -148,25 +157,18 @@ export default function TabletWizard({loadMedicines,
         active={subPage}
             <Switch>
                 <Route path={`${match.path}/select`} exact component={Selection} />
-                <Route path={`${match.path}/pageTwo`} render={()=><h2>Hi</h2>} />
+                <Route path={`${match.path}/startDate`} render={()=><h2>Start Date</h2>} />
+                <Route path={`${match.path}/endDate`} render={()=><h2>End Date</h2>} />
                 <Route component={NoMatch} />
             </Switch>
 
-            <Ctrl page={subPage}
-                     selectedMedId={state.selectedMedId}
-                     path={match.path}
-                     {...props}/>
-
+            <TabletWizardController page={subPage}
+                                    selectedMedId={state.selectedMedId}
+                                    path={match.path}
+                                    {...props}/>
         </>
     </ErrorBoundary>;
 }
-
-/*
-            <Buttons {...props}
-                     path={match.path} 
-                     selectedMedId={state.selectedMedId}/>
-*/
-
 
 TabletWizard.propTypes = {
     match          : PropTypes.object,
