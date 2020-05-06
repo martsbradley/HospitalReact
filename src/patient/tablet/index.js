@@ -3,83 +3,13 @@ import {Route, Switch, matchPath} from 'react-router-dom'
 import ErrorBoundary from '../../errorboundary.js'
 import TabletSelect from './tabletSelect'
 import PropTypes from 'prop-types';
+import StartDate from './start-date';
+import TabletWizardController from './tablet-wizard-controller';
+//import {tomorrowAsYYYYMMDD, todayAsYYYYMMDD, dateFormat} from '../../dateutils.js'
+import {tomorrowAsYYYYMMDD, todayAsYYYYMMDD} from '../../dateutils.js'
  
 function NoMatch() {
-  return (
-          <div>
-            <h3>
-              No match 
-            </h3>
-          </div>
-        );
-}
-
-const ButtonInfo = (label, isDisabled, target) => {
-    const b = {label     : label,
-               isDisabled : isDisabled,
-               target    : target};
-    return b;
-}
-
-const TabletWizardController = ({page, selectedMedId, path, history}) => {
-
-    console.log(`history is ${history}`);
-    const toPatientsPage = () => history.push("/patients/list");
-    const select    = () => history.push(`${path}/select`);
-    const startDate = () => history.push(`${path}/startDate`);
-    const endDate   = () => history.push(`${path}/endDate`);
-
-    const buttons = [];
-
-    if (page === 'select') {
-
-        let c = ButtonInfo('Back', false, toPatientsPage);
-        buttons.push(c);
-        let b = ButtonInfo('Next', false, startDate);
-        buttons.push(b);
-
-        if (selectedMedId === -1) {
-            console.log(`make ${b.label} false`);
-            b.isDisabled = true;
-        }
-    }
-    else if (page === 'startDate') {
-        let c = ButtonInfo('Back', false, select);
-        buttons.push(c);
-        let b = ButtonInfo('Next', false, endDate);
-        buttons.push(b);
-    }
-    else if (page === 'endDate') {
-        let c = ButtonInfo('Bakk', false, startDate);
-        buttons.push(c);
-        let b = ButtonInfo('Next', false, endDate);
-        buttons.push(b);
-    }
-
-    const res = buttons.map(
-        b => 
-        { 
-            console.log(`${b.label} = ${b.isDisabled}`);
-            return (
-            <button key={b.label} disabled={b.isDisabled} type="input" onClick={b.target}>
-                {b.label}
-            </button>
-        );
-        });
-
-
-    return (<div className="form-line">
-                 <div className="form-group">
-                    {res}
-                </div>
-            </div>); 
-}
-
-TabletWizardController.propTypes = {
-    page          : PropTypes.string,
-    selectedMedId : PropTypes.number,
-    path          : PropTypes.string,
-    history       : PropTypes.object,
+  return <h3> No match </h3>;
 }
 
 export default function TabletWizard({loadMedicines,
@@ -91,8 +21,10 @@ export default function TabletWizard({loadMedicines,
                                       location,
                                       ...props})
 {
-    const [state, setState] = useState( { filter: "xx", 
-                                          activeWizardPage: "",
+    const [state, setState] = useState( { filter       : "", 
+                                          medicineName : '',
+                                          startDate    : todayAsYYYYMMDD(),
+                                          endDate      : tomorrowAsYYYYMMDD(),
                                           selectedMedId: -1});
     useEffect(() => {
         loadMedicines(activePage, itemsPerPage);
@@ -102,17 +34,24 @@ export default function TabletWizard({loadMedicines,
 
         setState(state => ({...state,
                        filter: aFilter }));
-        /*console.log("<<<");
-        console.log(aFilter);
-        console.log(">>>");
-        console.log(state.filter);*/
     }
 
+    const dateChanged = dateName => value => 
+        setState(state => ({...state, 
+                            [dateName]: value }));
+
     function medicineSelected(medicineId) {
+        // Deselect if clicked twice.
         medicineId = state.selectedMedId === medicineId? -1 : medicineId;
-        console.log(`id is ${medicineId}`);
-        setState(state => ({...state,
-                            selectedMedId: medicineId }));
+
+        const med = medicines.find(e => e.id === medicineId);
+        if (med != null) {
+            const name = med.name;
+
+            setState(state => ({...state,
+                                medicineName : name,
+                                selectedMedId: medicineId }));
+        }
     }
 
     function medicinePageChanged(aPage) {
@@ -130,6 +69,20 @@ export default function TabletWizard({loadMedicines,
                               itemsPerPage    ={itemsPerPage}
                               pageChanged     ={medicinePageChanged}
                               totalItemsCount ={totalItemsCount}/>
+    }
+    function StartPage() {
+        return <StartDate medicineName={state.medicineName} 
+                          startDate={state.startDate}
+                          endDate={state.endDate}
+                          handleFormChange={dateChanged('startDate')} 
+                          editEndDate={false} />;
+    }
+    function EndPage() {
+        return <StartDate medicineName={state.medicineName} 
+                          startDate={state.startDate}
+                          endDate={state.endDate}
+                          handleFormChange={dateChanged('endDate')} 
+                          editEndDate={true} />;
     }
 
     console.log('match');
@@ -157,8 +110,8 @@ export default function TabletWizard({loadMedicines,
         active={subPage}
             <Switch>
                 <Route path={`${match.path}/select`} exact component={Selection} />
-                <Route path={`${match.path}/startDate`} render={()=><h2>Start Date</h2>} />
-                <Route path={`${match.path}/endDate`} render={()=><h2>End Date</h2>} />
+                <Route path={`${match.path}/startDate`} component={StartPage} />
+                <Route path={`${match.path}/endDate`}   component={EndPage} />
                 <Route component={NoMatch} />
             </Switch>
 
