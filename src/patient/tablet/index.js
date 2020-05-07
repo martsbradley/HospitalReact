@@ -88,22 +88,12 @@ export default function TabletWizard({loadMedicines,
     console.log('match');
     console.log(match);
 
-    let subPage = '';
-    const {pathname} = location;
-
     // Now have which sub page is active currently in result.
+    const {pathname} = location;
     const subPages = ['select','startDate','endDate'];
+    const subPage = subPages.find(subPage => matchPath(pathname, { path: `${match.path}/${subPage}`}) !== null);
 
-    for (let i = 0; i < subPages.length; i++) {
-        subPage = subPages[i];
-
-        const matched = matchPath(pathname, { path: `${match.path}/${subPage}`}) !== null;
-        if (matched) {
-            break;
-        }
-    }
     console.log(`Subpage is ${subPage}`);
-
 
     return <ErrorBoundary>
         <>
