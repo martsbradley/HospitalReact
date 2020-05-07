@@ -12,15 +12,14 @@ function NoMatch() {
   return <h3> No match </h3>;
 }
 
-export default function TabletWizard({loadMedicines,
-                                      medicines,
-                                      activePage,
-                                      itemsPerPage,
-                                      totalItemsCount,
-                                      match,
-                                      location,
-                                      ...props})
+export default function TabletWizard(props)
 {
+    const {loadMedicines,
+           medicines,
+           activePage,
+           itemsPerPage,
+           totalItemsCount} = props;
+
     const [state, setState] = useState( { filter       : "", 
                                           medicineName : '',
                                           startDate    : todayAsYYYYMMDD(),
@@ -86,12 +85,13 @@ export default function TabletWizard({loadMedicines,
     }
 
     console.log('match');
-    console.log(match);
+    console.log(props.match);
 
     // Now have which sub page is active currently in result.
-    const {pathname} = location;
+    //const {pathname} = ;
     const subPages = ['select','startDate','endDate'];
-    const subPage = subPages.find(subPage => matchPath(pathname, { path: `${match.path}/${subPage}`}) !== null);
+    const subPage = subPages.find(subPage => matchPath(props.location.pathname, 
+                            { path: `${props.match.path}/${subPage}`}) !== null);
 
     console.log(`Subpage is ${subPage}`);
 
@@ -99,15 +99,15 @@ export default function TabletWizard({loadMedicines,
         <>
         active={subPage}
             <Switch>
-                <Route path={`${match.path}/select`} exact component={Selection} />
-                <Route path={`${match.path}/startDate`} component={StartPage} />
-                <Route path={`${match.path}/endDate`}   component={EndPage} />
+                <Route path={`${props.match.path}/select`} exact component={Selection} />
+                <Route path={`${props.match.path}/startDate`} component={StartPage} />
+                <Route path={`${props.match.path}/endDate`}   component={EndPage} />
                 <Route component={NoMatch} />
             </Switch>
 
             <TabletWizardController page={subPage}
                                     selectedMedId={state.selectedMedId}
-                                    path={match.path}
+                                    path={props.match.path}
                                     {...props}/>
         </>
     </ErrorBoundary>;
