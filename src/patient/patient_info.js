@@ -6,8 +6,8 @@ let PatientInfo = ({ patient,
                      handleFormChange,
                      validation}) => {
 
-                        console.log("here....??");
-                        console.log(patient);
+                      //console.log("here....??");
+                      //console.log(patient);
     //const val = getValidationMessages(patient, "savePatient.patientBean", validation);
 
     //val['general'] = '';

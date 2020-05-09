@@ -1,5 +1,7 @@
+//import React,{useEffect, useState} from 'react'
 import React from 'react'
 import PropTypes from 'prop-types';
+import {matchPath} from 'react-router-dom'
 
 const ButtonInfo = (label, isDisabled, target) => {
     const b = { label      : label,
@@ -8,65 +10,88 @@ const ButtonInfo = (label, isDisabled, target) => {
     return b;
 }
 
-const TabletWizardController = ({page, selectedMedId, path, history}) => {
+const TabletWizardController = (props) => {
+    const {selectedMedId,startDate, endDate} =  props;
 
-    console.log(`history is ${history}`);
-    const toPatientsPage = () => history.push("/patients/list");
-    const select    = () => history.push(`${path}/select`);
-    const startDate = () => history.push(`${path}/startDate`);
-    const endDate   = () => history.push(`${path}/endDate`);
+    const toPatientsPage = () => props.history.push("/patients/list");
+    const goSelect       = () => props.history.push(`${props.match.path}/select`);
+    const goStartDate    = () => {props.history.push(`${props.match.path}/startDate`);}
+    const goEndDate      = () => props.history.push(`${props.match.path}/endDate`);
 
-    const buttons = [];
 
-    if (page === 'select') {
+    // Now have which sub page is active currently in result.
+    const subPages = ['select','startDate','endDate'];
+    const page = subPages.find(subPage => matchPath(props.location.pathname, 
+                            { path: `${props.match.path}/${subPage}`}) !== null);
 
-        let c = ButtonInfo('Back', false, toPatientsPage);
-        buttons.push(c);
-        let b = ButtonInfo('Next', false, startDate);
-        buttons.push(b);
+    console.log(`Subpage is ${page} ${selectedMedId} ${startDate} ${endDate}`);
+// const yyy = new ButtonInfo('kkk', false, ()=>{});
+//  const [state, setState] = useState( { buttons : [yyy]});
 
-        if (selectedMedId === -1) {
-            console.log(`make ${b.label} false`);
-            b.isDisabled = true;
+//  useEffect(() => {
+
+        console.log('effect running');
+        const buttons = [];
+
+        if (page === 'select') {
+
+            let c = ButtonInfo('Back', false, toPatientsPage);
+            buttons.push(c);
+            let b = ButtonInfo('Next', false, goStartDate);
+            buttons.push(b);
+
+            if (selectedMedId === -1) {
+                console.log(`make ${b.label} false`);
+                b.isDisabled = true;
+            }
         }
-    }
-    else if (page === 'startDate') {
-        let c = ButtonInfo('Back', false, select);
-        buttons.push(c);
-        let b = ButtonInfo('Next', false, endDate);
-        buttons.push(b);
-    }
-    else if (page === 'endDate') {
-        let c = ButtonInfo('Bakk', false, startDate);
-        buttons.push(c);
-        let b = ButtonInfo('Next', false, endDate);
-        buttons.push(b);
-    }
+        else if (page === 'startDate') {
+            let c = ButtonInfo('Back', false, goSelect);
+            buttons.push(c);
+            let b = ButtonInfo('Next', false, goEndDate);
+            buttons.push(b);
+        }
+        else if (page === 'endDate') {
+            let c = ButtonInfo('Bakk', false, goStartDate);
+            buttons.push(c);
+            let b = ButtonInfo('Next', false, goEndDate);
+            buttons.push(b);
+        }
+
+//      setState(state => ({...state,
+//                          buttons}));
+//  },[]);
+
+    //const xx = () => {};
 
     const res = buttons.map(
         b => 
         { 
             console.log(`${b.label} = ${b.isDisabled}`);
+
             return (
-            <button key={b.label} disabled={b.isDisabled} type="input" onClick={b.target}>
-                {b.label}
-            </button>
+                 <button key={b.label} disabled={b.isDisabled} type="input" onClick={b.target}>
+                    {b.label}
+                </button>
             );
         }
     );
 
-
     return (<div className="form-line">
                  <div className="form-group">
                     {res}
-                </div>
+                 </div>
             </div>); 
 }
 
 TabletWizardController.propTypes = {
-    page          : PropTypes.string,
     selectedMedId : PropTypes.number,
-    path          : PropTypes.string,
+    startDate     : PropTypes.string,
+    endDate       : PropTypes.string,
     history       : PropTypes.object,
+    location      : PropTypes.shape({
+                      pathname: PropTypes.string
+                  }),
+    match       : PropTypes.object
 }
 export default TabletWizardController;

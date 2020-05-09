@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react'
-import {Route, Switch, matchPath} from 'react-router-dom'
+import {Route, Switch} from 'react-router-dom'
 import ErrorBoundary from '../../errorboundary.js'
 import TabletSelect from './tabletSelect'
 import PropTypes from 'prop-types';
@@ -19,6 +19,8 @@ export default function TabletWizard(props)
            activePage,
            itemsPerPage,
            totalItemsCount} = props;
+
+    //console.log(`active page is ${activePage}`);
 
     const [state, setState] = useState( { filter       : "", 
                                           medicineName : '',
@@ -43,19 +45,24 @@ export default function TabletWizard(props)
         // Deselect if clicked twice.
         medicineId = state.selectedMedId === medicineId? -1 : medicineId;
 
-        const med = medicines.find(e => e.id === medicineId);
-        if (med != null) {
-            const name = med.name;
+        let name = ''
+        if (medicineId !== -1) {
+            const med = medicines.find(e => e.id === medicineId);
 
-            setState(state => ({...state,
-                                medicineName : name,
-                                selectedMedId: medicineId }));
+            if (med !== null) {
+                name = med.name;
+            }
         }
+
+        console.log(`medicineId=${medicineId}  name='${name}'`);
+        setState(state => ({...state,
+                            medicineName : name,
+                            selectedMedId: medicineId }));
     }
 
     function medicinePageChanged(aPage) {
         console.log("Page " + aPage);
-        loadMedicines(activePage, itemsPerPage);
+        loadMedicines(aPage, itemsPerPage);
     }
 
     function Selection() {
@@ -84,20 +91,8 @@ export default function TabletWizard(props)
                           editEndDate={true} />;
     }
 
-    console.log('match');
-    console.log(props.match);
-
-    // Now have which sub page is active currently in result.
-    //const {pathname} = ;
-    const subPages = ['select','startDate','endDate'];
-    const subPage = subPages.find(subPage => matchPath(props.location.pathname, 
-                            { path: `${props.match.path}/${subPage}`}) !== null);
-
-    console.log(`Subpage is ${subPage}`);
-
     return <ErrorBoundary>
         <>
-        active={subPage}
             <Switch>
                 <Route path={`${props.match.path}/select`} exact component={Selection} />
                 <Route path={`${props.match.path}/startDate`} component={StartPage} />
@@ -105,9 +100,9 @@ export default function TabletWizard(props)
                 <Route component={NoMatch} />
             </Switch>
 
-            <TabletWizardController page={subPage}
-                                    selectedMedId={state.selectedMedId}
-                                    path={props.match.path}
+            <TabletWizardController selectedMedId={state.selectedMedId} 
+                                    startDate={state.startDate}
+                                    endDate={state.endDate}
                                     {...props}/>
         </>
     </ErrorBoundary>;
@@ -121,7 +116,4 @@ TabletWizard.propTypes = {
     itemsPerPage   : PropTypes.number,
     totalItemsCount: PropTypes.number,
     pageChanged    : PropTypes.func,
-    location       : PropTypes.shape({
-                         pathname: PropTypes.string
-                    })
 }
