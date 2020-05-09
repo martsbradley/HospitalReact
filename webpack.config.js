@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const fs = require('fs');
 const path = require('path'); 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const readEnvironment = (env) => {
     // Default to production if the provided environment is missing 
@@ -58,31 +59,30 @@ module.exports = (env) => {
       resolve: {
         extensions: ['*', '.js', '.jsx']
       },
-      output: {
-        path: __dirname + '/dist',
-        publicPath: '/',
-        filename: 'bundle.js'
-      },
-      plugins: [
-         new webpack.DefinePlugin(details),
-         new HtmlWebpackPlugin({
-                              template: "./src/index.html",
-                              title:  "Title"
-                          }),
-         new webpack.HotModuleReplacementPlugin()
-      ],
-       devServer: {
-         contentBase: './dist',
+      devServer: {
+                              //path.join(__dirname, 'dist'),
+         contentBase:  false, 
+         hotOnly: true,
          historyApiFallback: true,
-         /*clientLogLevel: 'trace',*/
-         clientLogLevel: 'silent',
-         publicPath: '/',
-         hot: true,
+         clientLogLevel: 'trace',
+         /*clientLogLevel: 'silent',*/
+         publicPath       : '/',
          proxy: {
              '/user' : { target: 'http://localhost:3001', secure: false},
              '/meds' : { target: 'http://localhost:3001', secure: false},
              '/auth' : { target: 'http://localhost:3001', secure: false}
-         }
+         },
+      },
+      plugins: [
+         new webpack.DefinePlugin(details),
+         //new CleanWebpackPlugin(),
+         new HtmlWebpackPlugin({ template: "./src/index.html",
+                                 title:  "Title" }),
+         //new webpack.HotModuleReplacementPlugin()
+      ],
+      output: {
+        path: __dirname + '/dist',
+        filename: 'bundle.js'
       }
     }
 };

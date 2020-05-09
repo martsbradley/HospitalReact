@@ -1,13 +1,29 @@
 import React from 'react'
-import ReactDOM  from 'react-dom'
+import {render}  from 'react-dom'
 import App from './app'
 import configureStore from './redux/configureStore';
 import {Provider as ReduxProvider} from 'react-redux';
 
 const store = configureStore();
 
-ReactDOM.render(<ReduxProvider store={store}>
-                    <App/>
-                </ReduxProvider>,
-                document.getElementById('root'));
+
+const renderApp = () =>{
+    render(<ReduxProvider store={store}>
+               <App/>
+           </ReduxProvider>,
+           document.getElementById('root'));
+}
+
+// eslint-disable-next-line no-undef
+if (process.env.NODE_ENV !== 'production' && module.hot) {
+  // eslint-disable-next-line no-undef
+  module.hot.accept('./app', renderApp)
+  console.log('hot accepted');
+}
+
+// eslint-disable-next-line no-undef
+console.log('Building for ' + process.env.ENVIRONMENT);
+
+renderApp();
+
 

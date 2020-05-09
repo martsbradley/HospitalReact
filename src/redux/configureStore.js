@@ -15,9 +15,12 @@ export default function configureStore(){
       // Specify name here, actionsBlacklist, actionsCreators and other options if needed
     //});
 
-    return createStore(
-        rootReducer,
-        initialstore,
-        composeWithDevTools(middleWare)
-        );
+    const store = createStore(rootReducer,
+                              initialstore,
+                              composeWithDevTools(middleWare));
+
+    // eslint-disable-next-line no-undef
+    module.hot.accept('./reducers', () => store.replaceReducer(rootReducer))
+
+    return store;
 }
