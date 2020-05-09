@@ -30,6 +30,8 @@ export class HomePage extends React.Component {
                     <li>Auth0 Authentication.</li>
                     <li>LetsEncrypt.</li>
                 </ul>
+                <button className="noselect" type="button" disabled={true}>Disabled Button</button><br/>
+                <button type="button" disabled={false}>Enabled Button</button>
 
                 <p>
                 This site stores phony patients details, no real details are included.

@@ -1,11 +1,25 @@
 body {
     color: #151C33;
-    background-color: #8296D2 !important;
+    background-color: #8296D2  !important;
 }
 
 .bg-light {
-    background-color: #8296D2 !important;
+    background-color: #8296D2  !important;
 }
+
+button {
+  border: 1px solid #0066cc;
+  //background-color: #0099cc;
+  //color: #ffffff;
+  //padding: 5px 10px;
+}
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
 
 .border.tab-content {
     border-bottom-left-radius: 6px;
@@ -17,15 +31,15 @@ body {
     padding: 8px;
 }
 
-/*
-#07247D
+//
+//  #07247D
 
-#151C33
+//  #151C33
 
-#384F95
+//  #384F95
 
-#8296D2
-    */
+//  #8296D2
+//  
 .table th{
     border-top: 0px;
 }
@@ -44,7 +58,7 @@ body {
     border-width: 2px;
     border-bottom-width: 0px;
     border-color: #07247D !important;
-    /*padding-bottom: 8px;*/
+    //padding-bottom: 8px;
     border-top-right-radius: 6px;
     border-top-left-radius: 6px;
 }
@@ -61,7 +75,7 @@ body {
 
 
 
-/* via https://projects.lukehaas.me/css-loaders/ */
+// via https://projects.lukehaas.me/css-loaders/ 
 .loader,
 .loader:after {
   border-radius: 50%;

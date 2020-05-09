@@ -62,7 +62,6 @@ const TabletWizardController = (props) => {
 //                          buttons}));
 //  },[]);
 
-    //const xx = () => {};
 
     const res = buttons.map(
         b => 
@@ -70,7 +69,7 @@ const TabletWizardController = (props) => {
             console.log(`${b.label} = ${b.isDisabled}`);
 
             return (
-                 <button key={b.label} disabled={b.isDisabled} type="input" onClick={b.target}>
+                 <button key={b.label} disabled={b.isDisabled} onClick={b.target}>
                     {b.label}
                 </button>
             );
