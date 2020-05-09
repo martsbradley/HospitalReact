@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path'); 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = (env) => {
+const readEnvironment = (env) => {
     // Default to production if the provided environment is missing 
     //
     // Two files wth key=value
@@ -31,9 +31,13 @@ module.exports = (env) => {
     for (let k in envConfig) {
         details[k] = JSON.stringify(envConfig[k]);
     }
-
     console.log("Details coming ");
     console.log(details);
+    return details;
+}
+
+module.exports = (env) => {
+    const details  = readEnvironment(env);
 
     return {
       entry: './src/index.js',
@@ -64,15 +68,21 @@ module.exports = (env) => {
          new HtmlWebpackPlugin({
                               template: "./src/index.html",
                               title:  "Title"
-                          })
+                          }),
+         new webpack.HotModuleReplacementPlugin()
       ],
        devServer: {
          contentBase: './dist',
          historyApiFallback: true,
-       }
+         /*clientLogLevel: 'trace',*/
+         clientLogLevel: 'silent',
+         publicPath: '/',
+         hot: true,
+         proxy: {
+             '/user' : { target: 'http://localhost:3001', secure: false},
+             '/meds' : { target: 'http://localhost:3001', secure: false},
+             '/auth' : { target: 'http://localhost:3001', secure: false}
+         }
+      }
     }
 };
-
-
-
-
