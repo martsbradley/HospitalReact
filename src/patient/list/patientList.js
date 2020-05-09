@@ -36,7 +36,7 @@ export default function patientList({patients,
     const items = patients.map(patient => <PatientRow key={patient.id} pat={patient}/>)
 
     return <>
-        <h1>1UPatients</h1>
+        <h1>xPatients</h1>
         <div className="tablehead">
             <div className="myleft">
                 <Link to="/patients/new/"><i className="fa fa-plus-square fa-3x"></i></Link>

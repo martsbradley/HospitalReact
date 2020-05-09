@@ -59,6 +59,7 @@ module.exports = (env) => {
       resolve: {
         extensions: ['*', '.js', '.jsx']
       },
+      mode: 'development',
       devServer: {
                               //path.join(__dirname, 'dist'),
          contentBase:  false, 
@@ -82,7 +83,8 @@ module.exports = (env) => {
       ],
       output: {
         path: __dirname + '/dist',
-        filename: 'bundle.js'
+        filename: 'bundle.js',
+        publicPath       : 'https://localhost:3000/',
       }
     }
 };
