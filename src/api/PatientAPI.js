@@ -20,7 +20,7 @@ export async function loadPatients(pageToShow, itemsOnPage ) {
     try {
         let result  =  await patientsResponse.json();
         patients = result.users;
-        console.log(patients);
+        //console.log(patients);
         total = result.pageInfo._dataSize;
     } catch(e) {
         console.log("There is no information in the body");

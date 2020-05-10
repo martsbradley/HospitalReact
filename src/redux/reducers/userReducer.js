@@ -1,18 +1,10 @@
 import * as types from '../actions/actionTypes';
 
 function login(userDetails , payload) {
-    console.log(payload);
-
-
-
-
-
-
     const newState = { ...userDetails,
                          username          : payload.username,
                          userAuthenticated : true };
 
-    console.log(newState);
     return newState;
 }
 
@@ -20,7 +12,6 @@ function logout(userDetails) {
     const newState = {...userDetails,
                          username          : '',
                          userAuthenticated : false }
-    console.log(newState);
     return newState;
 }
 

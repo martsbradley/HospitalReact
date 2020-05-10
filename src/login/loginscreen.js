@@ -7,7 +7,6 @@ export default function LoginScreen({isLoggedIn, loginHandler}){
     const [password, setPassword] = useState("");
 
     function handleFormChange (event) {
-        console.log("Handle change ");
 
         if (event.target.name === "username") {
             setUsername(event.target.value)

@@ -78,6 +78,7 @@ module.exports = (env) => {
          new webpack.DefinePlugin(details),
          //new CleanWebpackPlugin(),
          new HtmlWebpackPlugin({ template: "./src/index.html",
+                                 inject: false,
                                  title:  "Title" }),
          //new webpack.HotModuleReplacementPlugin()
       ],
