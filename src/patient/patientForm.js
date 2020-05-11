@@ -16,7 +16,6 @@ export default function PatientForm({loadPatient,
 
     // patient is an unnamed prop so that can have a constant named
     // patient.
-    console.log
     const [patient, setPatient] = useState({...props.patient});
     let title= 'New Patient';
 
@@ -26,6 +25,7 @@ export default function PatientForm({loadPatient,
     // Enzyme 
 
     const editPatient = props.match && props.match.params.patientId;
+
     if (editPatient) {
         title = 'Edit Patient';
     }

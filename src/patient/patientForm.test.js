@@ -1,79 +1,72 @@
 import React from 'react';
 import PatientForm from './patientForm';
-import {mount,shallow} from 'enzyme';
+import { withRouter } from "react-router";
+import renderWithRouterMatch from '../test-util';
 import {emptyPatient} from '../redux/initialstore';
-import {BrowserRouter} from 'react-router-dom';
 
-const doesNothing = () => {}
-const validation = []
+import {
+//    getByRole,
+//    getNodeText,
+//    getByLabelText,
+//    getByText,
+//    getByTestId,
+//    queryByTestId,
+//    // Tip: all queries are also exposed on an object
+//    // called "queries" which you could import here as well
+//    waitFor,
+} from '@testing-library/dom'
 
-describe('<PatientForm />', () => {
-    it('renders without crashing', () => {
-        shallow(<PatientForm loadPatient={doesNothing}
-                             unLoadPatient={doesNothing}
-                             savePatient={doesNothing}
-                             clearValidations={doesNothing}
-                             validation={validation} />);
-        }
-    )
-    it('Normal Stuff works', () => {
+describe('PatientForm', () => {
 
-        const value = 2 + 2;
-        expect(value).toBeGreaterThan(3);
-        expect(value).toBeGreaterThanOrEqual(3.5);
-        expect(value).toBeLessThanOrEqual(4.5);
-        expect(value).toBe(4);
-    })
+    const doesNothing = () => {}
+    const validation = []
+    const defaultArgs = { patient          : emptyPatient,
+                          loadPatient      : doesNothing,
+                          unLoadPatient    : doesNothing,
+                          savePatient      : doesNothing,
+                          clearValidations : doesNothing,
+                          validation       : validation};
 
-    it('Title "Edit Patient" when patientId param provided', () => {
-
-        const wrapper = mount(
-            <BrowserRouter>
-                <PatientForm
-                        match={{params: {patientId: 1}, 
-                                         isExact: true, 
-                                         path: "", 
-                                         url: ""}} 
-                        loadPatient={doesNothing}
-                        unLoadPatient={doesNothing}
-                        savePatient={doesNothing}
-                        clearValidations={doesNothing}
-                        validation={validation} 
-                        patient={emptyPatient} />
-            </BrowserRouter>
-        );
-        
-        const firstHeading     = wrapper.find('h1').at(0);
-        const firstHeadingText = firstHeading.childAt(0).text();
-
-        expect(firstHeadingText).toBe("Edit Patient");
-
-
-        elementIdHasText(wrapper,'#addImg','Add Image');
-        elementIdHasText(wrapper,'#addtabs','Add Prescription');
-    })
-
-    function elementIdHasText(wrapper, id, expectedText){
-        const tabs = wrapper.find(id).at(0);
-        expect(tabs.text()).toBe(expectedText);
+    const Wrapper = (args) =>{
+        const LocationDisplay = withRouter(({ location, match }) => (
+              <div data-testid="location-display">
+                <PatientForm {...args} location={location} match={match}></PatientForm>
+              </div>
+            ))
+        return LocationDisplay;
     }
 
-    it('Title "New Patient" when patientId param omitted', () => {
-        const wrapper = mount(
-            <BrowserRouter>
-                <PatientForm
-                        loadPatient={doesNothing}
-                        unLoadPatient={doesNothing}
-                        savePatient={doesNothing}
-                        clearValidations={doesNothing}
-                        validation={validation} 
-                        patient={emptyPatient} />
-            </BrowserRouter>
-        );
-        
-        const firstHeading     = wrapper.find('h1').at(0);
-        const firstHeadingText = firstHeading.childAt(0).text();
-        
-        expect(firstHeadingText).toBe("New Patient");
-    })
+    it('Edit', async () => {
+      const loadPatient = jest.fn();
+      const args = {...defaultArgs, loadPatient};
+
+        const {getByRole} = renderWithRouterMatch(Wrapper(args),
+                                        { path:  "/patients/form/:patientId",
+                                          route: "/patients/form/100"});
+
+        expect(getByRole('heading')).toHaveTextContent("Edit Patient");
+        expect(loadPatient).toHaveBeenCalledTimes(1);
+    });
+
+    it('New', () => {
+        const args = {...defaultArgs};
+        const {getByRole} = renderWithRouterMatch(Wrapper(args),
+                                        { path:  "/patients/new",
+                                          route: "/patients/new"});
+        expect(getByRole('heading')).toHaveTextContent("New Patient");
+    });
+
+    it('New not calling load', () => {
+
+        const loadPatient = jest.fn();
+
+        const args = {...defaultArgs, loadPatient};
+        const {getByRole} = renderWithRouterMatch(Wrapper(args),
+                                        { path:  "/patients/new",
+                                          route: "/patients/new"});
+
+        expect(getByRole('heading')).toHaveTextContent("New Patient");
+        expect(loadPatient).not.toBeCalled();
+        expect(loadPatient).toHaveBeenCalledTimes(0);
+    });
 })

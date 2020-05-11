@@ -9,7 +9,7 @@ import TabletWizardController from './tablet-wizard-controller';
 import {tomorrowAsYYYYMMDD, todayAsYYYYMMDD} from '../../dateutils.js'
  
 function NoMatch() {
-  return <h3> No match </h3>;
+  return <h1> No match</h1>;
 }
 
 export default function TabletWizard(props)

@@ -1,16 +1,24 @@
 import React from 'react';
 import TabletSelect from './tabletSelect';
-import {mount,shallow} from 'enzyme';
-//import {BrowserRouter} from 'react-router-dom';
+import {render, fireEvent} /*screen*/ from '@testing-library/react'
+
+import {
+  getByLabelText,
+  getByText,
+//    getByTestId,
+//    queryByTestId,
+//    // Tip: all queries are also exposed on an object
+//    // called "queries" which you could import here as well
+//    waitFor,
+} from '@testing-library/dom'
 
 const doesNothing = () => {}
-//const validation = []
 
 describe('TabletSelect', () => {
 
-    const filter = "abc";
+  //const filter = "abc";
 
-    const totalItemsCount=20;
+  //const totalItemsCount=20;
     const med1 = { id: 1,
                    name: 'one',
                    manufacturer: 'oneman',
@@ -23,18 +31,6 @@ describe('TabletSelect', () => {
 
     const loadMedicines = (a,b) => {console.log(`loading ${a} ${b}`);}
 
-    it('Pos: renders without crashing', () => {
-
-        const meds = [];
-
-        shallow(<TabletSelect 
-                          medicines={meds}
-                          totalItemsCount={totalItemsCount}
-                          pageChanged={doesNothing}
-                          filter={filter} />);
-        }
-    )
-
     const defaultArgs= {filter: "abc",
                         totalItemsCount: 20,
                         meds: medArray,
@@ -44,59 +40,53 @@ describe('TabletSelect', () => {
                         medicineClicked:   doesNothing};
 
     // This makes it easier to construct the mounted object.
-    function mountTabletSelect(args = defaultArgs) {
+    function myRender(args = defaultArgs) {
 
        const {filter, totalItemsCount, 
               meds, loadMedicines, filterChanged,
               medicineClicked} = args;
 
-       const wrapper = mount(<TabletSelect 
-                             medicines={meds}
-                             totalItemsCount={totalItemsCount}
-                             filter={filter} 
-                             loadMedicines={loadMedicines}
-                             filterChanged={filterChanged} 
-                             pageChanged={doesNothing}
-                             medicineClicked={medicineClicked}/>);
-
-       return wrapper;
+       const {container} = render (<TabletSelect medicines={meds}
+                                                 totalItemsCount={totalItemsCount}
+                                                 filter={filter} 
+                                                 loadMedicines={loadMedicines}
+                                                 filterChanged={filterChanged} 
+                                                 pageChanged={doesNothing}
+                                                 medicineClicked={medicineClicked}/>);
+        return container;
     }
 
     it('Pos: filter on change', (done) => {
 
         const filterChanged = (value) => {
-
-            console.log("Filter Changed");
-            const newValue = value;// event.target.value
-            console.log(newValue);
-            expect(newValue).toBe('Morphine');
+            expect(value).toBe('Morphine');
             done();
-        };
+        }
 
+        const container = myRender({...defaultArgs, filterChanged});
 
-        const args = {...defaultArgs,
-                      filterChanged: filterChanged};
-
-        const wrapper = mountTabletSelect(args);
-
-        wrapper.find('input')
-               .simulate('change', { target: { name: 'filter', value: 'Morphine' } })
-    })
+        const filterTextBox = getByLabelText(container,'Filter:');
+        fireEvent.change(filterTextBox, { target: { value: 'Morphine' } })
+    });
 
     it('Pos: selected medicine', (done) => {
 
-        const mouseClickHandler = (medicineId) => {
-            console.log(`Medicine Selected Changed to ${medicineId}`);
-            expect(medicineId).toBe(1);
-            done();
-        };
+        const clickHandler  = jest.fn()
+        clickHandler.mockImplementationOnce(() => {})
+        clickHandler.mockImplementationOnce(() => {done();});
 
         const args = {...defaultArgs,
-                      medicineClicked: mouseClickHandler};
+                      medicineClicked: clickHandler};
 
-        const wrapper = mountTabletSelect(args);
+        const container = myRender(args);
 
-        const row = wrapper.find('tr').at(1);
-        row.simulate('click');
+        const rowOne = getByText(container,'oneman').closest("tr");
+        const rowTwo = getByText(container,'twoman').closest("tr");
+
+        fireEvent.click(rowOne);
+        fireEvent.click(rowTwo);
+
+        expect(clickHandler.mock.calls[0][0]).toBe(1);
+        expect(clickHandler.mock.calls[1][0]).toBe(2);
     })
 })

@@ -30,8 +30,8 @@ export function checkResponse(response, url) {
         throw new APIError(response.status, message)
     }
 
-    if (isError) {
-        console.log(`Error calling: ${url}`);
-    }
+  //if (isError) {
+  //    //console.log(`Error calling: ${url}`);
+  //}
     return isError;
 }

@@ -11,18 +11,17 @@ describe('medicines-api', () => {
 
         fetchMock.mock('*', 200);
 
-        let resp;
         try {
             const pageToShow = 1;
             const itemsOnPage = 5;
-            resp = await loadMedicines(pageToShow, itemsOnPage);
+            await loadMedicines(pageToShow, itemsOnPage);
             fail();
         }
         catch (e){
-            console.log("Resp");
-            console.log(resp);
-            console.log("e");
-            console.log(e);
+          //console.log("Resp");
+          //console.log(resp);
+          //console.log("e");
+          //console.log(e);
             done();
             fetchMock.reset();
         }
@@ -43,7 +42,7 @@ describe('medicines-api', () => {
         catch (e){
             // Should reach here because 404 is not handled
             // by the normal path.
-            console.log(e.message);
+            //console.log(e.message);
             done();
             fetchMock.reset();
         }
@@ -60,7 +59,7 @@ describe('medicines-api', () => {
             fail();
         }
         catch (e){ 
-            console.log(e.message);
+            //console.log(e.message);
             expect(e.message).toContain('Unexpected end of JSON input');
             fetchMock.reset();
         }
@@ -81,7 +80,7 @@ describe('medicines-api', () => {
         }
         catch (e){ 
             fail();
-            console.log(e.message);
+            //console.log(e.message);
             //expect(e.message).toContain(');
         }
         done();
@@ -102,7 +101,7 @@ describe('medicines-api', () => {
             const itemsOnPage = 5;
             const result = await loadMedicines(pageToShow, itemsOnPage);
             expect(result.isError).toEqual(false);
-            console.log(result);
+            //console.log(result);
             expect(result.data.medicines).toEqual([]);
             
             expect(result.data.total).toEqual(20);
@@ -110,8 +109,8 @@ describe('medicines-api', () => {
             fetchMock.reset();
         }
         catch (e){ 
-            console.log('e');
-            console.log(e);
+            //console.log('e');
+            //console.log(e);
             fail();
             //expect(e.message).toContain(');
         }

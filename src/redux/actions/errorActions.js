@@ -11,7 +11,6 @@ export function errorSet(path) {
 }
 
 export function handleError(dispatch, e) {
-    console.warn(e);
     if (e instanceof AuthenticationError) {
         console.log("Authentication Error");
         dispatch(errorSet("/error/authentication"));

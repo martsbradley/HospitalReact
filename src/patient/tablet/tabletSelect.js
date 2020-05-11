@@ -19,18 +19,14 @@ export default function TabletSelect({medicines,
     const fixme = () =>{};
 
     const filterEvent = (event) =>{
-        console.log("Event>>");
-        console.log(event.target);
-        
         filterChanged(event.target.value);
-
     };
     useEffect(() => {
         //setWizardPage("page1");
     },[]);
 
     let filterElement = <input type="text" style={{display: 'inline'}} 
-                               name="filter" value={filter}
+                               id="filterbox" name="filter" value={filter}
                                onChange={filterEvent} />
 
   //if (filter === '') {
@@ -49,7 +45,7 @@ export default function TabletSelect({medicines,
             <div className="col-md-6">
                 <div className="form-line">
                     <div style={{display:'inline'}}>
-                        <label htmlFor="filter">Filter:</label>
+                        <label htmlFor="filterbox">Filter:</label>
                         {filterElement}
                     </div>
                     <div className="bordered">

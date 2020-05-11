@@ -4,8 +4,9 @@ import * as types from './actionTypes';
 
 jest.mock('../../api/medicine-api');
 
+// eslint-disable-next-line
 medAPI.loadMedicines = jest.fn((a, b) => {
-    console.log(`Mocked loadMedicines ${a} ${b}`);
+    //console.log(`Mocked loadMedicines ${a} ${b}`);
     return Promise.resolve([]);
 });
 
@@ -23,17 +24,19 @@ describe('medicineActions', () => {
      * into the event loop such that it will execute after
      * the promise is resolved */
     it('Pos: loadMedicines', (done) => {
+        // eslint-disable-next-line
         medAPI.loadMedicines = jest.fn((a, b) => {
-            console.log(`Mocked loadMedicines ${a} ${b}`);
+            //console.log(`Mocked loadMedicines ${a} ${b}`);
             return Promise.resolve({data: { medicines:[],
                                             total: 0}});
         });
 
         let functionReference = loadMedicinesAction(1,2);
 
+        // eslint-disable-next-line
         let dispatch  = jest.fn((detail) => {
-            console.log("Dispatching >>> " + detail.type);
-            console.log(`detail ${detail.type}`);
+            //console.log("Dispatching >>> " + detail.type);
+            //console.log(`detail ${detail.type}`);
         });
 
         functionReference(dispatch);
@@ -48,15 +51,13 @@ describe('medicineActions', () => {
     it('Neg: loadMedicines', (done) => {
 
         medAPI.loadMedicines = jest.fn((a, b) => {
-            console.log(`Mocked loadMedicines ${a} ${b}`);
-            console.log('Hit an error');
-            return Promise.reject({'some':'problem'});
+            return Promise.reject({'some':`${a} ${b} problem`});
         });
 
         let thunk = loadMedicinesAction(1,2);
 
+        // eslint-disable-next-line
         let dispatch  = jest.fn((detail) => {
-            console.log(`detail ${detail.type}`);
         });
 
         thunk(dispatch);
