@@ -3,16 +3,7 @@ import {withRouter} from "react-router";
 import TabletWizard from './index';
 import {screen, fireEvent}  from '@testing-library/react'
 import renderWithRouterMatch from '../../test-util';
-
-import {
-    waitFor,
-//    getByText,
-  //getByLabelText,
-//    getByTestId,
-//    queryByTestId,
-//    // Tip: all queries are also exposed on an object
-//    // called "queries" which you could import here as well
-} from '@testing-library/dom'
+import {waitFor} from '@testing-library/dom'
 
 const doesNothing = () => {}
 
@@ -70,7 +61,7 @@ describe('TabletWizard', () => {
         expect(loadMedicines.mock.calls[0][1]).toBe(itemsPerPage);
     })
 
-    it('Pos: selected medicine hightlighted', /*async*/ () => {
+    it('Pos: selected medicine hightlighted', async () => {
                                                             
         const loadMedicines = jest.fn();
         const activePage = 3;
@@ -78,14 +69,16 @@ describe('TabletWizard', () => {
 
         const args = {...defaultArgs, loadMedicines, activePage, itemsPerPage};
 
-        renderWithRouterMatch(View(args),
-                              { path:  "/any",
-                                route: "/any/select"});
-                                                                 
+        let {getByText} = renderWithRouterMatch(View(args),
+                                                            {path:  "/any",
+                                                             route: "/any/select"});
+        let rowOne = getByText('oneman').closest("tr");
 
-        const rowOne = screen.getByText('oneman').closest("tr");
         fireEvent.click(rowOne);
 
-        //await waitFor(() => expect(rowOne).toHaveClass('selected'));
+        await waitFor(() => {
+            rowOne = getByText('oneman').closest("tr");
+            expect(rowOne).toHaveClass('selected')
+        });
     })
 });

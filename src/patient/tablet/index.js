@@ -54,7 +54,7 @@ export default function TabletWizard(props)
             }
         }
 
-        console.log(`medicineId=${medicineId}  name='${name}'`);
+        //console.log(`medicineId=${medicineId}  name='${name}'`);
         setState(state => ({...state,
                             medicineName : name,
                             selectedMedId: medicineId }));

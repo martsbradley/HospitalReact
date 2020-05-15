@@ -5,6 +5,7 @@
   "dependencies": {
     "auth0-js": "^9.13.2",
     "date-fns": "1.29.0",
+    "jest-environment-jsdom-sixteen": "^1.0.3",
     "js-cookie": "^2.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -19,7 +20,7 @@
     "sayhi": "babel-node buildScripts/sayhi.js",
     "start": "webpack-dev-server --env.ENVIRONMENT=development --config ./webpack.config.js --progress --mode development --port 3000 --https --cert=/home/martin/Software/JavaScript/HospitalReact/certs/cert.pem --key=/home/martin/Software/JavaScript/HospitalReact/certs/key.pem",
     "build": "webpack --env.ENVIRONMENT=production --config ./webpack.config.production.js --progress --mode production",
-    "test": "node node_modules/jest/bin/jest.js",
+    "test": "node node_modules/jest/bin/jest.js --env=jest-environment-jsdom-sixteen",
     "generate-mock-data": "node buildScripts/generateMockData",
     "prestart-mockapi": "npm run generate-mock-data",
     "start-mockapi": "json-server --watch db.json --port 3001"
