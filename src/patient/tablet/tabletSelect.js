@@ -1,6 +1,4 @@
-//import React,{useEffect} from 'react'
 import React,{useEffect} from 'react'
-//import React from 'react'
 import PropTypes from 'prop-types';
 import Medicine from '../../medicine.js'
 import Pagination from 'react-js-pagination'
@@ -28,14 +26,6 @@ export default function TabletSelect({medicines,
     let filterElement = <input type="text" style={{display: 'inline'}} 
                                id="filterbox" name="filter" value={filter}
                                onChange={filterEvent} />
-
-  //if (filter === '') {
-
-  //    filterElement = <input type="text" style={{display: 'inline'}} 
-  //                           name="filter" value={filter}
-  //                           placeholder="filter by name" 
-  //                           onChange={filterEvent} />
-  //}
 
     return  (
 

@@ -15,58 +15,54 @@ const TabletWizardController = (props) => {
 
     const toPatientsPage = () => props.history.push("/patients/list");
     const goSelect       = () => props.history.push(`${props.match.path}/select`);
-    const goStartDate    = () => {props.history.push(`${props.match.path}/startDate`);}
+    const goStartDate    = () => props.history.push(`${props.match.path}/startDate`);
     const goEndDate      = () => props.history.push(`${props.match.path}/endDate`);
 
 
     // Now have which sub page is active currently in result.
     const subPages = ['select','startDate','endDate'];
-    const page = subPages.find(subPage => matchPath(props.location.pathname, 
-                            { path: `${props.match.path}/${subPage}`}) !== null);
+    const page = subPages.find(subPage => 
+                         matchPath(props.location.pathname, 
+                                   { path: `${props.match.path}/${subPage}`}) !== null);
 
-    console.log(`Subpage is ${page} ${selectedMedId} ${startDate} ${endDate}`);
-// const yyy = new ButtonInfo('kkk', false, ()=>{});
-//  const [state, setState] = useState( { buttons : [yyy]});
+  //console.log(`Subpage is ${page} ${selectedMedId} ${startDate} ${endDate}`);
 
-//  useEffect(() => {
+  //console.log(`pathname = ${props.location.pathname}`);
+  //console.log(`path = ${props.match.path}`);
 
-        console.log('effect running');
-        const buttons = [];
+    const buttons = [];
 
-        if (page === 'select') {
+    if (page === 'select') {
 
-            let c = ButtonInfo('Back', false, toPatientsPage);
-            buttons.push(c);
-            let b = ButtonInfo('Next', false, goStartDate);
-            buttons.push(b);
+        let c = ButtonInfo('Back', false, toPatientsPage);
+        buttons.push(c);
+        let b = ButtonInfo('Next', false, goStartDate);
+        buttons.push(b);
 
-            if (selectedMedId === -1) {
-                console.log(`make ${b.label} false`);
-                b.isDisabled = true;
-            }
+        if (selectedMedId === -1) {
+            //console.log(`make ${b.label} false`);
+            b.isDisabled = true;
         }
-        else if (page === 'startDate') {
-            let c = ButtonInfo('Back', false, goSelect);
-            buttons.push(c);
-            let b = ButtonInfo('Next', false, goEndDate);
-            buttons.push(b);
-        }
-        else if (page === 'endDate') {
-            let c = ButtonInfo('Bakk', false, goStartDate);
-            buttons.push(c);
-            let b = ButtonInfo('Next', false, goEndDate);
-            buttons.push(b);
-        }
+    }
+    else if (page === 'startDate') {
+        let c = ButtonInfo('Back', false, goSelect);
+        buttons.push(c);
+        let b = ButtonInfo('Next', false, goEndDate);
+        buttons.push(b);
+    }
+    else if (page === 'endDate') {
+        let c = ButtonInfo('Bakk', false, goStartDate);
+        buttons.push(c);
+        let b = ButtonInfo('Next', false, goEndDate);
+        buttons.push(b);
+    }
 
-//      setState(state => ({...state,
-//                          buttons}));
-//  },[]);
 
 
     const res = buttons.map(
         b => 
         { 
-            console.log(`${b.label} = ${b.isDisabled}`);
+            //console.log(`${b.label} = ${b.isDisabled}`);
 
             return (
                  <button key={b.label} disabled={b.isDisabled} onClick={b.target}>

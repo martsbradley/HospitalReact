@@ -94,7 +94,7 @@ export default function TabletWizard(props)
     return <ErrorBoundary>
         <>
             <Switch>
-                <Route path={`${props.match.path}/select`} exact component={Selection} />
+                <Route path={`${props.match.path}/select`}    exact component={Selection} />
                 <Route path={`${props.match.path}/startDate`} component={StartPage} />
                 <Route path={`${props.match.path}/endDate`}   component={EndPage} />
                 <Route component={NoMatch} />
