@@ -14,7 +14,6 @@ export default function TabletSelect({medicines,
                                       medicineClicked,
                                       selectedMedId}) 
 {
-    const fixme = () =>{};
 
     const filterEvent = (event) =>{
         filterChanged(event.target.value);
@@ -28,10 +27,9 @@ export default function TabletSelect({medicines,
                                onChange={filterEvent} />
 
     return  (
-
     <>
         <h1>123Prescription Select Medicine {filter}</h1>
-        <form onSubmit={fixme}>
+        <form>
             <div className="col-md-6">
                 <div className="form-line">
                     <div style={{display:'inline'}}>

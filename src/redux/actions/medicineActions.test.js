@@ -1,4 +1,4 @@
-import {loadMedicinesAction} from './medicineActions';
+import {medicinesPaged} from './medicineActions';
 import * as medAPI from '../../api/medicine-api';
 import * as types from './actionTypes';
 
@@ -31,7 +31,7 @@ describe('medicineActions', () => {
                                             total: 0}});
         });
 
-        let functionReference = loadMedicinesAction(1,2);
+        let functionReference = medicinesPaged(1,2, "");
 
         // eslint-disable-next-line
         let dispatch  = jest.fn((detail) => {
@@ -54,7 +54,7 @@ describe('medicineActions', () => {
             return Promise.reject({'some':`${a} ${b} problem`});
         });
 
-        let thunk = loadMedicinesAction(1,2);
+        let thunk = medicinesPaged(1,2, "");
 
         // eslint-disable-next-line
         let dispatch  = jest.fn((detail) => {

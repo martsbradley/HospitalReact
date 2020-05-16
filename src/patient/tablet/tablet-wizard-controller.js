@@ -11,7 +11,7 @@ const ButtonInfo = (label, isDisabled, target) => {
 }
 
 const TabletWizardController = (props) => {
-    const {selectedMedId,startDate, endDate} =  props;
+    const {selectedMedId/*,startDate, endDate*/} =  props;
 
     const toPatientsPage = () => props.history.push("/patients/list");
     const goSelect       = () => props.history.push(`${props.match.path}/select`);

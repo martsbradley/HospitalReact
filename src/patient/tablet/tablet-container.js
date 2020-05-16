@@ -1,5 +1,5 @@
 import TabletWizard from './index.js'
-import {loadMedicinesAction} from '../../redux/actions/medicineActions';
+import {medicinesPaged} from '../../redux/actions/medicineActions';
 import { connect } from "react-redux";
 
 function mapStateToProps(state) {
@@ -17,7 +17,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-    loadMedicines:  loadMedicinesAction
+    medicinesPaged:  medicinesPaged
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabletWizard);

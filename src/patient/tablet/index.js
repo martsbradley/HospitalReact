@@ -14,13 +14,11 @@ function NoMatch() {
 
 export default function TabletWizard(props)
 {
-    const {loadMedicines,
+    const {medicinesPaged,
            medicines,
            activePage,
            itemsPerPage,
            totalItemsCount} = props;
-
-    //console.log(`active page is ${activePage}`);
 
     const [state, setState] = useState( { filter       : "", 
                                           medicineName : '',
@@ -28,7 +26,7 @@ export default function TabletWizard(props)
                                           endDate      : tomorrowAsYYYYMMDD(),
                                           selectedMedId: -1});
     useEffect(() => {
-        loadMedicines(activePage, itemsPerPage);
+        medicinesPaged(activePage, itemsPerPage,state.filter);
     },[]);
 
     function filterChanged(aFilter) {
@@ -60,11 +58,6 @@ export default function TabletWizard(props)
                             selectedMedId: medicineId }));
     }
 
-    function medicinePageChanged(aPage) {
-        console.log("Page " + aPage);
-        loadMedicines(aPage, itemsPerPage);
-    }
-
     function Selection() {
         return  <TabletSelect filter={state.filter} 
                               filterChanged   ={filterChanged} 
@@ -73,7 +66,7 @@ export default function TabletWizard(props)
                               selectedMedId   ={state.selectedMedId}
                               activePage      ={activePage}
                               itemsPerPage    ={itemsPerPage}
-                              pageChanged     ={medicinePageChanged}
+                              pageChanged     ={medicinesPaged}
                               totalItemsCount ={totalItemsCount}/>
     }
     function StartPage() {
@@ -110,7 +103,7 @@ export default function TabletWizard(props)
 
 TabletWizard.propTypes = {
     match          : PropTypes.object,
-    loadMedicines  : PropTypes.func,
+    medicinesPaged : PropTypes.func,
     medicines      : PropTypes.array,
     activePage     : PropTypes.number,
     itemsPerPage   : PropTypes.number,

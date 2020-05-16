@@ -3,7 +3,8 @@ import * as types from '../actions/actionTypes';
 function listedSuccess(medicine, action) {
     const state  = {...medicine,
                        list       : action.medicines,
-                       totalItems : action.total};
+                       totalItems : action.total,
+                       pageNumber : action.activePage};
     return state;
 }
 

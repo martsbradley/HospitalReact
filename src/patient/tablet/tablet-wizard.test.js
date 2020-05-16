@@ -27,7 +27,7 @@ describe('TabletWizard', () => {
                    deliveryMethod: 'injection'};
     const meds = [med1, med2]
 
-    const defaultArgs = {loadMedicines:  doesNothing,
+    const defaultArgs = {medicinesPaged:  doesNothing,
                          medicines:      meds,
                          activePage:     1,
                          itemsPerPage:   1,
@@ -45,29 +45,29 @@ describe('TabletWizard', () => {
 
     it('Pos: loadMedicines action called', (/*done*/) => {
 
-        const loadMedicines = jest.fn();
+        const medicinesPaged = jest.fn();
         const activePage = 3;
         const itemsPerPage = 10;
 
-        const args = {...defaultArgs, loadMedicines, activePage, itemsPerPage};
+        const args = {...defaultArgs, medicinesPaged, activePage, itemsPerPage};
 
         renderWithRouterMatch(View(args),
                               { path:  "/any",
                                 route: "/any/select"});
 
         screen.getByRole('heading')
-        expect(loadMedicines).toHaveBeenCalledTimes(1);
-        expect(loadMedicines.mock.calls[0][0]).toBe(activePage);
-        expect(loadMedicines.mock.calls[0][1]).toBe(itemsPerPage);
+        expect(medicinesPaged).toHaveBeenCalledTimes(1);
+        expect(medicinesPaged.mock.calls[0][0]).toBe(activePage);
+        expect(medicinesPaged.mock.calls[0][1]).toBe(itemsPerPage);
     })
 
     it('Pos: selected medicine hightlighted', async () => {
                                                             
-        const loadMedicines = jest.fn();
+        const medicinesPaged= jest.fn();
         const activePage = 3;
         const itemsPerPage = 10;
 
-        const args = {...defaultArgs, loadMedicines, activePage, itemsPerPage};
+        const args = {...defaultArgs, medicinesPaged, activePage, itemsPerPage};
 
         let {getByText} = renderWithRouterMatch(View(args),
                                                             {path:  "/any",

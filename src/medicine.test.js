@@ -22,18 +22,18 @@ describe('Medicine', () => {
                          mouseDisabled={false}
                          mouseClicked={doesNothing} />);
 
-        const row = screen.getByText('1').closest("tr");
+        const row = screen.getByText('oneman').closest("tr");
 
         expect(row).toHaveClass('selected');
         const utils = within(row);
-        expect(utils.queryByText('one')).toBeInTheDocument();
         expect(utils.queryByText('oneman')).toBeInTheDocument();
+        //expect(utils.queryByText('oneman')).toBeInTheDocument();
 
         // Check that the table contains the row, a bit silly maybe.
-        const table = screen.getByText('one').closest("table");
+        const table = screen.getByText('oneman').closest("table");
         expect(table).toContainElement(row);
 
-        const rowtwo = screen.getByText('2').closest("tr");
+        const rowtwo = screen.getByText('twoman').closest("tr");
         expect(rowtwo).not.toHaveClass('selected');
     });
 })
