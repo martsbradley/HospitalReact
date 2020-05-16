@@ -26,7 +26,7 @@ export default function TabletWizard(props)
                                           endDate      : tomorrowAsYYYYMMDD(),
                                           selectedMedId: -1});
     useEffect(() => {
-        medicinesPaged(activePage, itemsPerPage,state.filter);
+        medicinesPaged(activePage, itemsPerPage, state.filter);
     },[]);
 
     function filterChanged(aFilter) {
@@ -58,16 +58,20 @@ export default function TabletWizard(props)
                             selectedMedId: medicineId }));
     }
 
+    const pagingHelper = (activePage) => 
+                  medicinesPaged(activePage, itemsPerPage, state.filter);
+
+
     function Selection() {
-        return  <TabletSelect filter={state.filter} 
-                              filterChanged   ={filterChanged} 
-                              medicines       ={medicines}
-                              medicineClicked ={medicineSelected}
-                              selectedMedId   ={state.selectedMedId}
-                              activePage      ={activePage}
-                              itemsPerPage    ={itemsPerPage}
-                              pageChanged     ={medicinesPaged}
-                              totalItemsCount ={totalItemsCount}/>
+        return  <TabletSelect filter          = {state.filter} 
+                              filterChanged   = {filterChanged} 
+                              medicines       = {medicines}
+                              medicineClicked = {medicineSelected}
+                              selectedMedId   = {state.selectedMedId}
+                              activePage      = {activePage}
+                              itemsPerPage    = {itemsPerPage}
+                              pageChanged     = {pagingHelper}
+                              totalItemsCount = {totalItemsCount}/>
     }
     function StartPage() {
         return <StartDate medicineName={state.medicineName} 

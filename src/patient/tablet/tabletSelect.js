@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types';
 import Medicine from '../../medicine.js'
 import Pagination from 'react-js-pagination'
@@ -14,27 +14,23 @@ export default function TabletSelect({medicines,
                                       medicineClicked,
                                       selectedMedId}) 
 {
-
     const filterEvent = (event) =>{
+        event.preventDefault();
         filterChanged(event.target.value);
     };
-    useEffect(() => {
-        //setWizardPage("page1");
-    },[]);
-
-    let filterElement = <input type="text" style={{display: 'inline'}} 
-                               id="filterbox" name="filter" value={filter}
-                               onChange={filterEvent} />
 
     return  (
     <>
-        <h1>123Prescription Select Medicine {filter}</h1>
+        <h1>123Prescription Select Medicine</h1>
         <form>
             <div className="col-md-6">
                 <div className="form-line">
                     <div style={{display:'inline'}}>
                         <label htmlFor="filterbox">Filter:</label>
-                        {filterElement}
+                        <input type="text" key="myfilter" style={{display: 'inline'}} 
+                               id="filterbox" name="filter" value={filter}
+                               onChange={filterEvent} />
+
                     </div>
                     <div className="bordered">
                         <Pagination itemClass="page-item"

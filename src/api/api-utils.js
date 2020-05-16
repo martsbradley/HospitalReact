@@ -1,9 +1,9 @@
 import {APIError, AuthenticationError} from './Errors';
 
-export function pageURL(pageToShow, itemsOnPage) {
-  const pageURL = `?page=${pageToShow}&pageSize=${itemsOnPage}`;
-  return pageURL;
-}
+export const pageURL = (pageToShow, itemsOnPage) => 
+                `?page=${pageToShow}&pageSize=${itemsOnPage}`;
+
+export const filterParam = (txt) => `&filter='${txt}'`;
 
 function authenticationFailedCheck(response, url) {
     if (!response.ok && response.status === 401) {

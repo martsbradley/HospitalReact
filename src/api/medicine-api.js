@@ -1,10 +1,10 @@
-import {checkResponse, pageURL} from './api-utils'
+import {checkResponse, pageURL, filterParam} from './api-utils'
 const urlPrefix = "/meds";
 
-export async function loadMedicines(pageToShow, itemsOnPage ) {
-    const medicinesURL = `${urlPrefix}${pageURL(pageToShow, itemsOnPage)}`;
-
-    //console.log("loadMedicines");
+export async function loadMedicines(pageNumber, pageSize, filterText) {
+    const query = pageURL(pageNumber, pageSize);
+    const filter = filterParam(filterText)
+    const medicinesURL = `${urlPrefix}${query}${filter}`;
 
     const response = await fetch(medicinesURL);
 
