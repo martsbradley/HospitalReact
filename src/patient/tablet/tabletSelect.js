@@ -13,17 +13,11 @@ export default function TabletSelect({selectedMedId,
                                       filter,
                                       pageChanged}) 
 {
-    //const [state, setState] = useState( { selectedMedId: -1});
-
     useEffect(() => {
-           console.log("useEffect1 ..");
-           pageChanged(activePage, itemsPerPage, '');
+       pageChanged(activePage, itemsPerPage, '');
     }, []);
 
     function filterChanged(event) {
-
-
-        console.log(`firing..${event.target.value}`);
         pageChanged(activePage, itemsPerPage, event.target.value);
     }
 
@@ -39,9 +33,7 @@ export default function TabletSelect({selectedMedId,
             name = med.name;
         }
 
-        console.log(`id is now ${idOfselectedRow}`);
-      //setState(state => ({...state, 
-      //                    selectedMedId: idOfselectedRow }));
+        //console.log(`id is now ${idOfselectedRow}`);
 
         medicineSelected({id: idOfselectedRow, name});
     }

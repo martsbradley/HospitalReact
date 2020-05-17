@@ -1,72 +1,59 @@
 import React from 'react';
 import TabletSelect from './tabletSelect';
-import {render, fireEvent} /*screen*/ from '@testing-library/react'
-
-import {
-  getByLabelText,
-  getByText,
-//    getByTestId,
-//    queryByTestId,
-//    // Tip: all queries are also exposed on an object
-//    // called "queries" which you could import here as well
-//    waitFor,
-} from '@testing-library/dom'
+import {render, fireEvent,screen, within} from '@testing-library/react'
+import { /*getByLabelText, getByText,*/ } from '@testing-library/dom'
 
 const doesNothing = () => {}
+export const med1 = { id: 1,
+                      name: 'Ibrufen',
+                      manufacturer: 'oneman',
+                          deliveryMethod: 'mouth'};
+export const morphine = { id: 2,
+                          name: 'Morphine',
+                          manufacturer: 'twoman',
+                          deliveryMethod: 'injection'};
 
 describe('TabletSelect', () => {
 
-  //const filter = "abc";
+    const medArray = [med1, morphine]
+                              
+    const defaultArgs= {selectedMedId   : -1,
+                        medicineSelected: doesNothing,
+                        medicines       : medArray,
+                        activePage      : 1,
+                        itemsPerPage    : 5,
+                        totalItemsCount : 10,
+                        filter          : 'abc',
+                        pageChanged     : jest.fn()};
 
-  //const totalItemsCount=20;
-    const med1 = { id: 1,
-                   name: 'one',
-                   manufacturer: 'oneman',
-                   deliveryMethod: 'mouth'};
-    const med2 = { id: 2,
-                   name: 'two',
-                   manufacturer: 'twoman',
-                   deliveryMethod: 'injection'};
-    const medArray = [med1, med2]
+    it('Pos: filter change', async () => {
 
-    const loadMedicines = (a,b) => {console.log(`loading ${a} ${b}`);}
+        const pageChanged = jest.fn();
+        let args  = { ...defaultArgs, pageChanged}
 
-    const defaultArgs= {filter: "abc",
-                        totalItemsCount: 20,
-                        meds: medArray,
-                        loadMedicines: loadMedicines,
-                        filterChanged: doesNothing,
-                        pageChanged:   doesNothing,
-                        medicineClicked:   doesNothing};
+        const {rerender/*, debug*/} = render(<TabletSelect {...args} />);
 
-    // This makes it easier to construct the mounted object.
-    function myRender(args = defaultArgs) {
+        screen.getByText('Morphine').closest("tr");
+        screen.getByText('Ibrufen').closest("tr");
+        let table = screen.getByText('Ibrufen').closest("tbody");
+        let rows = within(table).queryAllByRole("row")
+        expect(rows).toHaveLength(2);
 
-       const {filter, totalItemsCount, 
-              meds, loadMedicines, filterChanged,
-              medicineClicked} = args;
+        const filterTextBox = screen.getByLabelText('Filter:');
+        fireEvent.change(filterTextBox, { target: { value: 'Morphine' } });
 
-       const {container} = render (<TabletSelect medicines={meds}
-                                                 totalItemsCount={totalItemsCount}
-                                                 filter={filter} 
-                                                 loadMedicines={loadMedicines}
-                                                 filterChanged={filterChanged} 
-                                                 pageChanged={doesNothing}
-                                                 medicineClicked={medicineClicked}/>);
-        return container;
-    }
+        expect(pageChanged).toHaveBeenCalledTimes(2);
 
-    it('Pos: filter on change', (done) => {
+        const medicines = [morphine];
+        args  = { ...defaultArgs, pageChanged, medicines};
+        
+        rerender(<TabletSelect {...args} />);
 
-        const filterChanged = (value) => {
-            expect(value).toBe('Morphine');
-            done();
-        }
-
-        const container = myRender({...defaultArgs, filterChanged});
-
-        const filterTextBox = getByLabelText(container,'Filter:');
-        fireEvent.change(filterTextBox, { target: { value: 'Morphine' } })
+        table= screen.getByText('Morphine').closest("tbody");
+        rows = within(table).queryAllByRole("row")
+        expect(rows).toHaveLength(1);
+        expect(screen.queryByText('Ibrufen')).not.toBeInTheDocument();
+        //debug(rows);
     });
 
     it('Pos: selected medicine', (done) => {
@@ -76,17 +63,18 @@ describe('TabletSelect', () => {
         clickHandler.mockImplementationOnce(() => {done();});
 
         const args = {...defaultArgs,
-                      medicineClicked: clickHandler};
+                      medicineSelected: clickHandler};
 
-        const container = myRender(args);
+        /*const {debug} =*/ render(<TabletSelect {...args} />);
 
-        const rowOne = getByText(container,'oneman').closest("tr");
-        const rowTwo = getByText(container,'twoman').closest("tr");
+        const rowOne = screen.getByText('Ibrufen').closest("tr");
+        const rowTwo = screen.getByText('Morphine').closest("tr");
 
         fireEvent.click(rowOne);
         fireEvent.click(rowTwo);
 
-        expect(clickHandler.mock.calls[0][0]).toBe(1);
-        expect(clickHandler.mock.calls[1][0]).toBe(2);
+        expect(clickHandler.mock.calls[0][0]).toEqual({id:1, name:'Ibrufen'});
+        expect(clickHandler.mock.calls[1][0]).toEqual({id:2, name:'Morphine'});
+        //debug(rowTwo);
     })
 })

@@ -4,28 +4,11 @@ import TabletWizard from './index';
 import {screen, fireEvent}  from '@testing-library/react'
 import renderWithRouterMatch from '../../test-util';
 import {waitFor} from '@testing-library/dom'
-
+import {med1,morphine} from './tabletSelect.test'
 const doesNothing = () => {}
 
 describe('TabletWizard', () => {
-
-  //const setState = jest.fn();
-  //const useStateSpy = jest.spyOn(React, 'useState')
-  //useStateSpy.mockImplementation((init) => [init, setState]);
-  
-  //afterEach(() => {
-  //  jest.clearAllMocks();
-  //});
-
-    const med1 = { id: 1,
-                   name: 'one',
-                   manufacturer: 'oneman',
-                   deliveryMethod: 'mouth'};
-    const med2 = { id: 2,
-                   name: 'two',
-                   manufacturer: 'twoman',
-                   deliveryMethod: 'injection'};
-    const meds = [med1, med2]
+    const meds = [med1, morphine]
 
     const defaultArgs = {medicinesPaged:  doesNothing,
                          medicines:      meds,
@@ -61,24 +44,24 @@ describe('TabletWizard', () => {
         expect(medicinesPaged.mock.calls[0][1]).toBe(itemsPerPage);
     })
 
-    it('Pos: selected medicine hightlighted', async () => {
-                                                            
-        const medicinesPaged= jest.fn();
-        const activePage = 3;
-        const itemsPerPage = 10;
+//  it('Pos: selected medicine hightlighted', async () => {
+//                                                          
+//      const medicinesPaged= jest.fn();
+//      const activePage = 3;
+//      const itemsPerPage = 10;
 
-        const args = {...defaultArgs, medicinesPaged, activePage, itemsPerPage};
+//      const args = {...defaultArgs, medicinesPaged, activePage, itemsPerPage};
 
-        let {getByText} = renderWithRouterMatch(View(args),
-                                                            {path:  "/any",
-                                                             route: "/any/select"});
-        let rowOne = getByText('oneman').closest("tr");
+//      let {getByText} = renderWithRouterMatch(View(args),
+//                                                          {path:  "/any",
+//                                                           route: "/any/select"});
+//      let rowOne = getByText('oneman').closest("tr");
 
-        fireEvent.click(rowOne);
+//      fireEvent.click(rowOne);
 
-        await waitFor(() => {
-            rowOne = getByText('oneman').closest("tr");
-            expect(rowOne).toHaveClass('selected')
-        });
-    })
+//      await waitFor(() => {
+//          rowOne = getByText('oneman').closest("tr");
+//          expect(rowOne).toHaveClass('selected')
+//      });
+//  })
 });

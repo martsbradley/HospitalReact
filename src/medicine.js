@@ -18,7 +18,6 @@ export default class Medicine extends React.Component {
                             onChange={() => {}} type="radio"/>
                   </td>
                 <td className="d-none d-sm-table-cell">{p.name}</td>
-                <td>{p.name}</td>
                 <td className="d-none d-lg-table-cell">{p.manufacturer}</td>
               </tr>)
         }
