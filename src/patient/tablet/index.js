@@ -1,11 +1,10 @@
-import React,{useEffect, useState} from 'react'
+import React,{/*useEffect,*/ useState} from 'react'
 import {Route, Switch} from 'react-router-dom'
 import ErrorBoundary from '../../errorboundary.js'
-import TabletSelect from './tabletSelect'
+import TabletSelect from './tablet-select-container';
 import PropTypes from 'prop-types';
 import StartDate from './start-date';
 import TabletWizardController from './tablet-wizard-controller';
-//import {tomorrowAsYYYYMMDD, todayAsYYYYMMDD, dateFormat} from '../../dateutils.js'
 import {tomorrowAsYYYYMMDD, todayAsYYYYMMDD} from '../../dateutils.js'
  
 function NoMatch() {
@@ -25,45 +24,18 @@ export default function TabletWizard(props)
         setState(state => ({...state, 
                             [dateName]: value }));
 
-//  useEffect(() => {
-//      console.log("useEffect1 ..");
-//      medicinesPaged(activePage, itemsPerPage, '');
-//  }, []);
+    function medicineSelected(medicineSelected) {
 
-    function medicineSelected(medicineId) {
-        // Deselect if clicked twice.
-        medicineId = state.selectedMedId === medicineId? -1 : medicineId;
-
-        let name = '???'
-//      if (medicineId !== -1) {
-//          const med = medicines.find(e => e.id === medicineId);
-
-//          if (med !== null) {
-//              name = med.name;
-//          }
-//      }
-
-        //console.log(`medicineId=${medicineId}  name='${name}'`);
+        const {id, name } = medicineSelected;
+        console.log(`id ${id} name ${name}`);
         setState(state => ({...state,
-                            medicineName : name,
-                            selectedMedId: medicineId }));
+                            medicineName : id,
+                            selectedMedId: name }));
     }
 
-//  const pagingHelper = (activePage) => 
-//                medicinesPaged(activePage, itemsPerPage, state.filter);
-
-
     function Selection() {
-        return  <TabletSelect selectedMedId   = {state.selectedMedId}
-                              medicineClicked = {medicineSelected}  />
-
-                              
-                           // medicineClicked = {medicineSelected}
-                           // totalItemsCount = {totalItemsCount}/>
-                           // activePage      = {activePage}
-                           // itemsPerPage    = {itemsPerPage}
-                           // pageChanged     = {medicinesPaged}
-                           // totalItemsCount = {totalItemsCount}/>
+        return <TabletSelect selectedMedId   = {state.selectedMedId}
+                             medicineSelected= {medicineSelected}  />
     }
     function StartPage() {
         return <StartDate medicineName={state.medicineName} 
@@ -100,15 +72,3 @@ export default function TabletWizard(props)
 TabletWizard.propTypes = {
     match          : PropTypes.object,
 }
-
-  /*activePage     : PropTypes.number,
-    medicines      : PropTypes.array,
-    itemsPerPage   : PropTypes.number,
-    totalItemsCount: PropTypes.number,
-    medicinesPaged : PropTypes.func,
-    pageChanged    : PropTypes.func,*/
-
-
-//index.js does not need much info
-//just accepts details from children.
-

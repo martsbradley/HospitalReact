@@ -4,7 +4,8 @@ function listedSuccess(medicine, action) {
     const state  = {...medicine,
                        list       : action.medicines,
                        totalItems : action.total,
-                       pageNumber : action.activePage};
+                       pageNumber : action.activePage,
+                       filter     : action.filter};
     return state;
 }
 

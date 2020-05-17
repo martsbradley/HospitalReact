@@ -1,25 +1,41 @@
-import React,{useState} from 'react'
+import React,{useEffect/*,useState*/} from 'react'
 import PropTypes from 'prop-types';
 import Medicine from '../../medicine.js'
 import Pagination from 'react-js-pagination'
 import ValidationMessage from '../../validationmessage.js'
 
-export default function TabletSelect({medicines,
-                                      medicineClicked,
-                                      selectedMedId,
+export default function TabletSelect({selectedMedId,
+                                      medicineSelected,
+                                      medicines,
                                       activePage,
                                       itemsPerPage,
-                                      pageChanged,
-                                      totalItemsCount}) 
+                                      totalItemsCount,
+                                      filter,
+                                      pageChanged}) 
 {
-    const [state, setState] = useState( { filter  : ""});
+    useEffect(() => {
+        console.log("useEffect1 ..");
+        pageChanged(activePage, itemsPerPage, '');
+    }, []);
 
     function filterChanged(event) {
 
-        console.log("firing..");
-        setState(state => ({...state,
-                       filter: event.target.value}));
-        pageChanged(activePage, itemsPerPage, state.filter);
+        console.log(`firing..${event.target.value}`);
+        pageChanged(activePage, itemsPerPage, event.target.value);
+    }
+
+    const pagingHelper = (activePage) => 
+                  pageChanged(activePage, itemsPerPage, filter);
+
+
+    function medicineSelectedEvent(idOfselectedRow) {
+        const med = medicines.find(e => e.id === idOfselectedRow);
+
+        let name = '';
+        if (med !== null) {
+            name = med.name;
+        }
+        medicineSelected({id: idOfselectedRow, name});
     }
 
     return  (
@@ -31,7 +47,7 @@ export default function TabletSelect({medicines,
                     <div style={{display:'inline'}}>
                         <label htmlFor="filterbox">Filter:</label>
                         <input type="text" key="myfilter" style={{display: 'inline'}} 
-                               id="filterbox" name="filter" value={state.filter}
+                               id="filterbox" name="filter" value={filter}
                                onChange={filterChanged} />
 
                     </div>
@@ -42,12 +58,12 @@ export default function TabletSelect({medicines,
                                     itemsCountPerPage={itemsPerPage}
                                     totalItemsCount={totalItemsCount}
                                     pageRangeDisplayed={5}
-                                    onChange={pageChanged} 
+                                    onChange={pagingHelper} 
                                     innerClass="pagination pages" />
 
                         <Medicine meds={medicines} 
                                 selectedMedicine={selectedMedId} 
-                                mouseClicked={medicineClicked} />
+                                mouseClicked={medicineSelectedEvent} />
                     </div>
                 </div>
                 <div style={{clear: 'right'}} className="form-line">
@@ -61,13 +77,12 @@ export default function TabletSelect({medicines,
 }
 
 TabletSelect.propTypes = {
+    selectedMedId    : PropTypes.number,
+    medicineSelected : PropTypes.func,
     medicines        : PropTypes.array,
     activePage       : PropTypes.number,
     itemsPerPage     : PropTypes.number,
     totalItemsCount  : PropTypes.number,
-  /*filter           : PropTypes.string,
-    filterChanged    : PropTypes.func,*/
+    filter           : PropTypes.string,
     pageChanged      : PropTypes.func,
-    medicineClicked  : PropTypes.func,
-    selectedMedId    : PropTypes.number,
 }

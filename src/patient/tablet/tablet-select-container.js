@@ -1,4 +1,4 @@
-import TabletWizard from './index.js'
+import TabletSelect from './tabletSelect'
 import {medicinesPaged} from '../../redux/actions/medicineActions';
 import { connect } from "react-redux";
 
@@ -10,14 +10,14 @@ function mapStateToProps(state) {
       activePage        : medicine['pageNumber'],
       itemsPerPage      : medicine['itemsPerPage'],
       totalItemsCount   : medicine['totalItems'],
-      /*errorInfo         : state.error*/
+      filter            : medicine['filter'],
   };
 
   return result;
 }
 
 const mapDispatchToProps = {
-    medicinesPaged:  medicinesPaged
+    pageChanged:  medicinesPaged
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TabletWizard);
+export default connect(mapStateToProps, mapDispatchToProps)(TabletSelect);

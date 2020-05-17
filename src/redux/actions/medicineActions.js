@@ -2,13 +2,15 @@ import * as Actions from './actionTypes';
 import {loadMedicines} from '../../api/medicine-api';
 import {handleError} from './errorActions';
 
-const makeLoadMedicinesSuccessHandler = activePage => dispatch => {
+const makeLoadMedicinesSuccessHandler = 
+     (activePage,filter) => dispatch => {
 
     return function(payload) {
         dispatch({ type       : Actions.MEDICINES_LISTED_SUCCESS,
                    medicines  : payload.data.medicines,
                    total      : payload.data.total,
                    activePage, 
+                   filter, 
         });
     }
 }
@@ -22,7 +24,7 @@ export const medicinesPaged = (activePage, itemsOnPage, filter) => dispatch =>
 
     const promise = loadMedicines(activePage, itemsOnPage, filter);
 
-    const loadMedicinesSuccessHandler = makeLoadMedicinesSuccessHandler(activePage);
+    const loadMedicinesSuccessHandler = makeLoadMedicinesSuccessHandler(activePage, filter);
 
     promise.then(loadMedicinesSuccessHandler(dispatch))
            .catch(e => { handleError(dispatch, e); 

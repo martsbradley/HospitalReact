@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Prescription from './prescription/prescription.js'
 import ErrorBoundary from '../errorboundary.js'
 import AddImage from '../addimage.js'
-import TabletWizard from './tablet/tablet-container';
+import TabletWizard from './tablet';
 import { connect } from "react-redux";
 
 function PatientTable({errorInfo}) {

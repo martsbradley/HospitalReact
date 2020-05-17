@@ -25,6 +25,7 @@ const initialStore =  {"count"       : 10,
                                         list         : [],
                                         pageLoaded   : false,
                                         current      : emptyMedicine,
+                                        filter       : ''
                                        },
                        "error"       : "",
                        "validation"  : [],
