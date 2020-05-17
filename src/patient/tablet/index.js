@@ -1,4 +1,4 @@
-import React,{/*useEffect,*/ useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import {Route, Switch} from 'react-router-dom'
 import ErrorBoundary from '../../errorboundary.js'
 import TabletSelect from './tablet-select-container';
@@ -24,19 +24,21 @@ export default function TabletWizard(props)
         setState(state => ({...state, 
                             [dateName]: value }));
 
-    function medicineSelected(medicineSelected) {
+    useEffect(() => console.log("TabletWizard rerender"),[]);
+
+    function medicineSelectedFn(medicineSelected) {
 
         const {id, name } = medicineSelected;
-        console.log(`id ${id} name ${name}`);
+        console.log(`TabletWizard id ${id} name ${name}`);
         setState(state => ({...state,
-                            medicineName : id,
-                            selectedMedId: name }));
+                            selectedMedId: id,
+                            medicineName : name }));
     }
 
-    function Selection() {
-        return <TabletSelect selectedMedId   = {state.selectedMedId}
-                             medicineSelected= {medicineSelected}  />
-    }
+//  function Selection() {
+//      return <TabletSelect medicineSelected= {medicineSelectedFn} />
+//  }
+
     function StartPage() {
         return <StartDate medicineName={state.medicineName} 
                           startDate={state.startDate}
@@ -54,8 +56,10 @@ export default function TabletWizard(props)
 
     return <ErrorBoundary>
         <>
+        name= {state.medicineName}
+
             <Switch>
-                <Route path={`${props.match.path}/select`}    exact component={Selection} />
+                <Route path={`${props.match.path}/select`}    exact render={() => <TabletSelect medicineSelected= {medicineSelectedFn} />} />
                 <Route path={`${props.match.path}/startDate`} component={StartPage} />
                 <Route path={`${props.match.path}/endDate`}   component={EndPage} />
                 <Route component={NoMatch} />

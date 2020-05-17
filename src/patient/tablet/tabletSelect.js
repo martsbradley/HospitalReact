@@ -1,11 +1,10 @@
-import React,{useEffect/*,useState*/} from 'react'
+import React,{useEffect,useState} from 'react'
 import PropTypes from 'prop-types';
 import Medicine from '../../medicine.js'
 import Pagination from 'react-js-pagination'
 import ValidationMessage from '../../validationmessage.js'
 
-export default function TabletSelect({selectedMedId,
-                                      medicineSelected,
+export default function TabletSelect({medicineSelected,
                                       medicines,
                                       activePage,
                                       itemsPerPage,
@@ -13,12 +12,16 @@ export default function TabletSelect({selectedMedId,
                                       filter,
                                       pageChanged}) 
 {
-    useEffect(() => {
-        console.log("useEffect1 ..");
-        pageChanged(activePage, itemsPerPage, '');
-    }, []);
+    const [state, setState] = useState( { selectedMedId: -1});
+
+    useEffect( () => {
+                   console.log("useEffect1 ..");
+                   pageChanged(activePage, itemsPerPage, '');
+               },
+    []);
 
     function filterChanged(event) {
+
 
         console.log(`firing..${event.target.value}`);
         pageChanged(activePage, itemsPerPage, event.target.value);
@@ -35,6 +38,11 @@ export default function TabletSelect({selectedMedId,
         if (med !== null) {
             name = med.name;
         }
+
+        console.log(`id is now ${idOfselectedRow}`);
+        setState(state => ({...state, 
+                            selectedMedId: idOfselectedRow }));
+
         medicineSelected({id: idOfselectedRow, name});
     }
 
@@ -62,7 +70,7 @@ export default function TabletSelect({selectedMedId,
                                     innerClass="pagination pages" />
 
                         <Medicine meds={medicines} 
-                                selectedMedicine={selectedMedId} 
+                                selectedMedicine={state.selectedMedId} 
                                 mouseClicked={medicineSelectedEvent} />
                     </div>
                 </div>
@@ -77,7 +85,7 @@ export default function TabletSelect({selectedMedId,
 }
 
 TabletSelect.propTypes = {
-    selectedMedId    : PropTypes.number,
+    //selectedMedId    : PropTypes.number,
     medicineSelected : PropTypes.func,
     medicines        : PropTypes.array,
     activePage       : PropTypes.number,
