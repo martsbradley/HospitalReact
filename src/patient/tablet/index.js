@@ -13,8 +13,6 @@ function NoMatch() {
 
 export default function TabletWizard(props)
 {
-    //const {medicinesPaged, medicines, activePage, itemsPerPage, totalItemsCount} = props;
-
     const [state, setState] = useState( { medicineName : '',
                                           startDate    : todayAsYYYYMMDD(),
                                           endDate      : tomorrowAsYYYYMMDD(),
@@ -35,33 +33,29 @@ export default function TabletWizard(props)
                             medicineName : name }));
     }
 
-//  function Selection() {
-//      return <TabletSelect medicineSelected= {medicineSelectedFn} />
-//  }
-
-    function StartPage() {
-        return <StartDate medicineName={state.medicineName} 
-                          startDate={state.startDate}
-                          endDate={state.endDate}
-                          handleFormChange={dateChanged('startDate')} 
-                          editEndDate={false} />;
-    }
-    function EndPage() {
-        return <StartDate medicineName={state.medicineName} 
-                          startDate={state.startDate}
-                          endDate={state.endDate}
-                          handleFormChange={dateChanged('endDate')} 
-                          editEndDate={true} />;
-    }
-
     return <ErrorBoundary>
         <>
         name= {state.medicineName}
 
             <Switch>
-                <Route path={`${props.match.path}/select`}    exact render={() => <TabletSelect medicineSelected= {medicineSelectedFn} />} />
-                <Route path={`${props.match.path}/startDate`} component={StartPage} />
-                <Route path={`${props.match.path}/endDate`}   component={EndPage} />
+                <Route path={`${props.match.path}/select`}>
+                    <TabletSelect selectedMedId={state.selectedMedId}
+                                  medicineSelected= {medicineSelectedFn} />
+                </Route>
+                <Route path={`${props.match.path}/startDate`}>
+                    <StartDate medicineName={state.medicineName} 
+                               startDate={state.startDate}
+                               endDate={state.endDate}
+                               handleFormChange={dateChanged('startDate')} 
+                               editEndDate={false} />
+                </Route>
+                <Route path={`${props.match.path}/endDate`}>
+                    <StartDate medicineName={state.medicineName} 
+                                 startDate={state.startDate}
+                                 endDate={state.endDate}
+                                 handleFormChange={dateChanged('endDate')} 
+                                 editEndDate={true} />
+                </Route>
                 <Route component={NoMatch} />
             </Switch>
 

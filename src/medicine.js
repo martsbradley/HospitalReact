@@ -15,7 +15,7 @@ export default class Medicine extends React.Component {
 
                 <td className="d-none d-sm-table-cell">
                     <input checked={this.props.selectedMedicine === p.id? "selected": ""}
-                   onChange={() => this.props.mouseClicked(p.id)}             type="radio"/>
+                            onChange={() => {}} type="radio"/>
                   </td>
                 <td className="d-none d-sm-table-cell">{p.name}</td>
                 <td>{p.name}</td>
