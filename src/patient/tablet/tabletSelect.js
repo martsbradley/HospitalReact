@@ -1,23 +1,26 @@
-import React from 'react'
+import React,{useState} from 'react'
 import PropTypes from 'prop-types';
 import Medicine from '../../medicine.js'
 import Pagination from 'react-js-pagination'
 import ValidationMessage from '../../validationmessage.js'
 
 export default function TabletSelect({medicines,
+                                      medicineClicked,
+                                      selectedMedId,
                                       activePage,
                                       itemsPerPage,
-                                      totalItemsCount,
-                                      filter,
-                                      filterChanged,
                                       pageChanged,
-                                      medicineClicked,
-                                      selectedMedId}) 
+                                      totalItemsCount}) 
 {
-    const filterEvent = (event) =>{
-        event.preventDefault();
-        filterChanged(event.target.value);
-    };
+    const [state, setState] = useState( { filter  : ""});
+
+    function filterChanged(event) {
+
+        console.log("firing..");
+        setState(state => ({...state,
+                       filter: event.target.value}));
+        pageChanged(activePage, itemsPerPage, state.filter);
+    }
 
     return  (
     <>
@@ -28,8 +31,8 @@ export default function TabletSelect({medicines,
                     <div style={{display:'inline'}}>
                         <label htmlFor="filterbox">Filter:</label>
                         <input type="text" key="myfilter" style={{display: 'inline'}} 
-                               id="filterbox" name="filter" value={filter}
-                               onChange={filterEvent} />
+                               id="filterbox" name="filter" value={state.filter}
+                               onChange={filterChanged} />
 
                     </div>
                     <div className="bordered">
@@ -62,8 +65,8 @@ TabletSelect.propTypes = {
     activePage       : PropTypes.number,
     itemsPerPage     : PropTypes.number,
     totalItemsCount  : PropTypes.number,
-    filter           : PropTypes.string,
-    filterChanged    : PropTypes.func,
+  /*filter           : PropTypes.string,
+    filterChanged    : PropTypes.func,*/
     pageChanged      : PropTypes.func,
     medicineClicked  : PropTypes.func,
     selectedMedId    : PropTypes.number,

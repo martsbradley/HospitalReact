@@ -14,43 +14,34 @@ function NoMatch() {
 
 export default function TabletWizard(props)
 {
-    const {medicinesPaged,
-           medicines,
-           activePage,
-           itemsPerPage,
-           totalItemsCount} = props;
+    //const {medicinesPaged, medicines, activePage, itemsPerPage, totalItemsCount} = props;
 
-    const [state, setState] = useState( { filter       : "", 
-                                          medicineName : '',
+    const [state, setState] = useState( { medicineName : '',
                                           startDate    : todayAsYYYYMMDD(),
                                           endDate      : tomorrowAsYYYYMMDD(),
                                           selectedMedId: -1});
-    useEffect(() => {
-        medicinesPaged(activePage, itemsPerPage, state.filter);
-    },[]);
-
-    function filterChanged(aFilter) {
-
-        setState(state => ({...state,
-                       filter: aFilter }));
-    }
 
     const dateChanged = dateName => value => 
         setState(state => ({...state, 
                             [dateName]: value }));
 
+//  useEffect(() => {
+//      console.log("useEffect1 ..");
+//      medicinesPaged(activePage, itemsPerPage, '');
+//  }, []);
+
     function medicineSelected(medicineId) {
         // Deselect if clicked twice.
         medicineId = state.selectedMedId === medicineId? -1 : medicineId;
 
-        let name = ''
-        if (medicineId !== -1) {
-            const med = medicines.find(e => e.id === medicineId);
+        let name = '???'
+//      if (medicineId !== -1) {
+//          const med = medicines.find(e => e.id === medicineId);
 
-            if (med !== null) {
-                name = med.name;
-            }
-        }
+//          if (med !== null) {
+//              name = med.name;
+//          }
+//      }
 
         //console.log(`medicineId=${medicineId}  name='${name}'`);
         setState(state => ({...state,
@@ -58,20 +49,21 @@ export default function TabletWizard(props)
                             selectedMedId: medicineId }));
     }
 
-    const pagingHelper = (activePage) => 
-                  medicinesPaged(activePage, itemsPerPage, state.filter);
+//  const pagingHelper = (activePage) => 
+//                medicinesPaged(activePage, itemsPerPage, state.filter);
 
 
     function Selection() {
-        return  <TabletSelect filter          = {state.filter} 
-                              filterChanged   = {filterChanged} 
-                              medicines       = {medicines}
-                              medicineClicked = {medicineSelected}
-                              selectedMedId   = {state.selectedMedId}
-                              activePage      = {activePage}
-                              itemsPerPage    = {itemsPerPage}
-                              pageChanged     = {pagingHelper}
-                              totalItemsCount = {totalItemsCount}/>
+        return  <TabletSelect selectedMedId   = {state.selectedMedId}
+                              medicineClicked = {medicineSelected}  />
+
+                              
+                           // medicineClicked = {medicineSelected}
+                           // totalItemsCount = {totalItemsCount}/>
+                           // activePage      = {activePage}
+                           // itemsPerPage    = {itemsPerPage}
+                           // pageChanged     = {medicinesPaged}
+                           // totalItemsCount = {totalItemsCount}/>
     }
     function StartPage() {
         return <StartDate medicineName={state.medicineName} 
@@ -107,10 +99,16 @@ export default function TabletWizard(props)
 
 TabletWizard.propTypes = {
     match          : PropTypes.object,
-    medicinesPaged : PropTypes.func,
+}
+
+  /*activePage     : PropTypes.number,
     medicines      : PropTypes.array,
-    activePage     : PropTypes.number,
     itemsPerPage   : PropTypes.number,
     totalItemsCount: PropTypes.number,
-    pageChanged    : PropTypes.func,
-}
+    medicinesPaged : PropTypes.func,
+    pageChanged    : PropTypes.func,*/
+
+
+//index.js does not need much info
+//just accepts details from children.
+
