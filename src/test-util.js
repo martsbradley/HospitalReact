@@ -30,7 +30,7 @@ export default function renderWithRouterMatch
  
     return {
       ...render(<Router history={history}>
-                    <Route path={path} component={ui} />
+                    <Route path={path} component={ui}/>
                 </Router>,
           { wrapper: Wrapper})
     };

@@ -69,4 +69,5 @@ export default function TabletWizard(props)
 
 TabletWizard.propTypes = {
     match          : PropTypes.object,
+    history          : PropTypes.object,
 }

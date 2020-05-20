@@ -16,7 +16,7 @@ const TabletWizardController = (props) => {
     const toPatientsPage = () => props.history.push("/patients/list");
     const goSelect       = () => props.history.push(`${props.match.path}/select`);
     const goStartDate    = () => props.history.push(`${props.match.path}/startDate`);
-    const goEndDate      = () => props.history.push(`${props.match.path}/endDate`);
+    const goEndDate      = () => {console.log("NEXT PRESSED");props.history.push(`${props.match.path}/endDate`)};
 
 
     // Now have which sub page is active currently in result.
