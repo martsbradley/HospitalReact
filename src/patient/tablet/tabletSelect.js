@@ -40,7 +40,7 @@ export default function TabletSelect({selectedMedId,
 
     return  (
     <>
-        <h1>123Prescription Select Medicine</h1>
+        <h1>Prescription Select Medicine</h1>
         <form>
             <div className="col-md-6">
                 <div className="form-line">

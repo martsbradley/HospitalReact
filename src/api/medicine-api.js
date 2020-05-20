@@ -6,6 +6,8 @@ export async function loadMedicines(pageNumber, pageSize, filterText) {
     const filter = filterParam(filterText)
     const medicinesURL = `${urlPrefix}${query}${filter}`;
 
+    console.log("Getting.. meds..");
+
     const response = await fetch(medicinesURL);
 
     let isError = checkResponse(response, medicinesURL);
@@ -22,9 +24,10 @@ export async function loadMedicines(pageNumber, pageSize, filterText) {
             total     = json.pageInfo._dataSize;
             result = {medicines, total};
 
-            //console.log(medicines);
+            console.log("got meds..");
+            console.log(medicines);
         } else {
-            //console.log("Return the validation error");
+            console.log("Return the validation error");
             //console.log(json);
             result = json;
         }
