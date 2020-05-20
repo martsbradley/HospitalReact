@@ -18,9 +18,8 @@ describe('TabletWizard', () => {
         return LocationDisplay;
     }
 
-    it('Pos: loadMedicines action called', async() => {
 
-        const args = {...defaultArgs};
+    beforeAll(() => {
         const pageInfo = {page: 1,
                           pageSize: 5,
                           nameFilter: "",
@@ -30,9 +29,20 @@ describe('TabletWizard', () => {
                               body: {'medicines': [med1, morphine],
                                      'pageInfo': pageInfo}});
 
+    });
+
+
+    const renderTwoRows = () => {
+        const args = {...defaultArgs};
+
         renderWithRouterMatch(View(args),
                               { path:  "/any",
                                 route: "/any/select"});
+    }
+
+    it('Pos: tablet not selected', async() => {
+
+        renderTwoRows();
 
         const nextButton = screen.getByText('Next')
         expect(nextButton).toBeDisabled();
@@ -40,50 +50,25 @@ describe('TabletWizard', () => {
         await waitFor(() => {
             let rowOne = screen.getByText('oneman').closest("tr");
             expect(rowOne).not.toHaveClass("selected");
-            screen.debug(rowOne);
+        });
+    });
+
+    it('Pos: tablet selected', async() => {
+
+        renderTwoRows();
+
+        const nextButton = screen.getByText('Next')
+        expect(nextButton).toBeDisabled();
+
+        let text = await screen.findByText('oneman')
+            
+        let rowOne = text.closest("tr");
+        fireEvent.click(rowOne); // Now select a row.
+
+        await waitFor(() => {
+            let rowOne = screen.getByText('oneman').closest("tr");
+            expect(rowOne).toHaveClass("selected");
+            expect(nextButton).not.toBeDisabled();
         });
     });
 })
-
-    //});
-
-   //   let rowOne = screen.getByText('oneman').closest("tr");
-   //   fireEvent.click(rowOne); // Now select a row.
-
-//      await waitFor(() => {
-//        expect(screen.getByRole('heading')).toHaveTextContent('Prescription Select Medicine');
-//        expect(screen.getByText('Morphine')).toBeInTheDocument()
-//        console.log("RowOne before >>>>>>>>>>>>>>>.")
-//        screen.debug(rowOne);
-//        console.log("RowOne before <<<<<<<<<<<<<<<.")
-
-//        fireEvent.click(rowOne); // Now select a row.
-
-//        expect(screen.getByText('Next')).not.toBeDisabled();
-//        console.log("RowOne after click>>>>>>>>>>>>>>>.")
-//        screen.debug(rowOne);
-//        console.log("RowOne after click<<<<<<<<<<<<<<<.")
-//      })
-//    })
-
-//  it('Pos: selected medicine hightlighted', async () => {
-//                                                          
-//      const medicinesPaged= jest.fn();
-//      const activePage = 3;
-//      const itemsPerPage = 10;
-
-//      const args = {...defaultArgs, medicinesPaged, activePage, itemsPerPage};
-
-//      let {getByText} = renderWithRouterMatch(View(args),
-//                                                          {path:  "/any",
-//                                                           route: "/any/select"});
-//      let rowOne = getByText('oneman').closest("tr");
-
-//      fireEvent.click(rowOne);
-
-//      await waitFor(() => {
-//          rowOne = getByText('oneman').closest("tr");
-//          expect(rowOne).toHaveClass('selected')
-//      });
-//  })
-//});

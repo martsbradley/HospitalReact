@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react'
+import React,{/*useEffect,*/ useState} from 'react'
 import {Route, Switch} from 'react-router-dom'
 import ErrorBoundary from '../../errorboundary.js'
 import TabletSelect from './tablet-select-container';
@@ -22,12 +22,12 @@ export default function TabletWizard(props)
         setState(state => ({...state, 
                             [dateName]: value }));
 
-    useEffect(() => console.log("TabletWizard rerender"),[]);
+    //useEffect(() => console.log("TabletWizard rerender"),[]);
 
     function medicineSelectedFn(medicineSelected) {
 
         const {id, name } = medicineSelected;
-        console.log(`TabletWizard id ${id} name ${name}`);
+        //console.log(`TabletWizard id ${id} name ${name}`);
         setState(state => ({...state,
                             selectedMedId: id,
                             medicineName : name }));
