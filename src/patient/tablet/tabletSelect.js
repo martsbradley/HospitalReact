@@ -14,7 +14,7 @@ export default function TabletSelect({selectedMedId,
                                       pageChanged}) 
 {
     useEffect(() => {
-       pageChanged(activePage, itemsPerPage, '');
+       pageChanged(activePage, itemsPerPage, filter);
     }, []);
 
     function filterChanged(event) {

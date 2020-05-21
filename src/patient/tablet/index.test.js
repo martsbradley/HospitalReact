@@ -81,13 +81,11 @@ describe('TabletWizard', () => {
 
         const nextButton = screen.getByText('Next')
 
-        console.log("Click the next button just the once");
         fireEvent.click(nextButton); 
 
         await waitFor(() => {
             const heading = screen.getByRole("heading");
             expect(heading).toHaveTextContent("Prescription Select Start Date");
-            screen.debug(heading);
         });
     });
 })
