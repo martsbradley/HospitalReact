@@ -1,11 +1,12 @@
-import React,{/*useEffect,*/ useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import {Route, Switch} from 'react-router-dom'
 import ErrorBoundary from '../../errorboundary.js'
 import TabletSelect from './tablet-select-container';
 import PropTypes from 'prop-types';
 import StartDate from './start-date';
-import TabletWizardController from './tablet-wizard-controller';
+import /*TabletWizardController,*/ {MyButtons,ButtonInfo} from './tablet-wizard-controller';
 import {tomorrowAsYYYYMMDD, todayAsYYYYMMDD} from '../../dateutils.js'
+import {matchPath} from 'react-router-dom'
  
 function NoMatch() {
   return <h1> No match</h1>;
@@ -17,22 +18,32 @@ export default function TabletWizard(props)
                                           startDate    : todayAsYYYYMMDD(),
                                           endDate      : tomorrowAsYYYYMMDD(),
                                           selectedMedId: -1,
-                                          validationMsg: ''});
+                                          validationMsg: '',
+                                          buttonArr: []});
 
-    const dateChanged = dateName => value => 
+    const dateChanged = dateName => value => {
         setState(state => ({...state, 
                             [dateName]: value }));
+    }
 
-    //useEffect(() => console.log("TabletWizard rerender"),[]);
+    useEffect(() => {
+        console.log("TabletWizard rerender");
+        const buttonArr = makeButtonArray({...props, selectedMedId: state.selectedMedId});
 
+        setState(state => ({...state, buttonArr}));
+    }
+    ,[]);
+      
 
     function medicineSelectedFn(medicineSelected) {
 
         const {id, name } = medicineSelected;
         //console.log(`TabletWizard id ${id} name ${name}`);
+        const buttonArr = makeButtonArray({...props, selectedMedId:id});
         setState(state => ({...state,
                             selectedMedId: id,
-                            medicineName : name }));
+                            medicineName : name,
+                            buttonArr}));
     }
 
     return <ErrorBoundary>
@@ -61,10 +72,7 @@ export default function TabletWizard(props)
                 <Route component={NoMatch} />
             </Switch>
 
-            <TabletWizardController selectedMedId={state.selectedMedId} 
-                                    startDate={state.startDate}
-                                    endDate={state.endDate}
-                                    {...props}/>
+            <MyButtons buttons={state.buttonArr} />
         </>
     </ErrorBoundary>;
 }
@@ -72,4 +80,58 @@ export default function TabletWizard(props)
 TabletWizard.propTypes = {
     match          : PropTypes.object,
     history          : PropTypes.object,
+}
+
+const subPages = ['select','startDate','endDate'];
+const whichSubPage = (props, subPages) => 
+    subPages.find(subPage => 
+                         matchPath(props.location.pathname, 
+                                   { path: `${props.match.path}/${subPage}`}) !== null);
+
+
+const makeButtonArray = (props) => {
+  const {selectedMedId} =  props;
+
+  const exitWizard = () => props.history.push("/patients/list");
+  const goPage1    = () => props.history.push(`${props.match.path}/select`);
+  const goPage2    = () => props.history.push(`${props.match.path}/startDate`);
+  const goPage3    = () => props.history.push(`${props.match.path}/endDate`);
+
+  const page = whichSubPage(props, subPages);
+
+  console.log(`Subpage is ${page} ${selectedMedId}`);
+ /* console.log(`pathname = ${props.location.pathname}`);
+  * console.log(`path = ${props.match.path}`);
+  */
+
+    const buttons = [];
+
+    if (page === 'select') {
+
+        let c = ButtonInfo('Back', false, exitWizard);
+        buttons.push(c);
+        let b = ButtonInfo('Next', false, goPage2);
+        buttons.push(b);
+
+        if (selectedMedId === -1) {
+            //console.log(`make ${b.label} false`);
+            b.isDisabled = true;
+        }
+    }
+    else if (page === 'startDate') {
+        let c = ButtonInfo('Back', false, goPage1);
+        buttons.push(c);
+        let b = ButtonInfo('Next', false, goPage3);
+        buttons.push(b);
+    }
+    else if (page === 'endDate') {
+        let c = ButtonInfo('Bakk', false, goPage2);
+        buttons.push(c);
+        let b = ButtonInfo('Next', false, goPage3);
+        buttons.push(b);
+    }
+    console.log("returning");
+    console.log(buttons);
+
+    return buttons;
 }

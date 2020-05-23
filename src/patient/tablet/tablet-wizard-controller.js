@@ -2,14 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import {matchPath} from 'react-router-dom'
 
-const ButtonInfo = (label, isDisabled, target) => {
+export const ButtonInfo = (label, isDisabled, target) => {
     const b = { label      : label,
                 isDisabled : isDisabled,
                 target     : target};
     return b;
 }
 
-export const MyButtons = (buttons) => {
+export const MyButtons = ({buttons}) => {
     const res = buttons.map(
         b => 
         { 
@@ -30,19 +30,20 @@ export const MyButtons = (buttons) => {
             </div>; 
 }
 
+MyButtons.propTypes = {
+    buttons: PropTypes.array
+};
+
 
 const subPages = ['select','startDate','endDate'];
 const whichSubPage = (props, subPages) => 
     subPages.find(subPage => 
                          matchPath(props.location.pathname, 
                                    { path: `${props.match.path}/${subPage}`}) !== null);
+
 const TabletWizardController = (props) => {
     const {selectedMedId} =  props;
 
-  //const toPatientsPage = () => props.history.push("/patients/list");
-  //const goSelect       = () => props.history.push(`${props.match.path}/select`);
-  //const goStartDate    = () => props.history.push(`${props.match.path}/startDate`);
-  //const goEndDate      = () => props.history.push(`${props.match.path}/endDate`);
   const exitWizard = () => props.history.push("/patients/list");
   const goPage1    = () => props.history.push(`${props.match.path}/select`);
   const goPage2    = () => props.history.push(`${props.match.path}/startDate`);
