@@ -24,7 +24,6 @@ export default function TabletSelect({selectedMedId,
     const pagingHelper = (activePage) => 
                   pageChanged(activePage, itemsPerPage, filter);
 
-
     function medicineSelectedEvent(idOfselectedRow) {
         const med = medicines.find(e => e.id === idOfselectedRow);
 
@@ -32,8 +31,6 @@ export default function TabletSelect({selectedMedId,
         if (med !== null) {
             name = med.name;
         }
-
-        //console.log(`id is now ${idOfselectedRow}`);
 
         medicineSelected({id: idOfselectedRow, name});
     }

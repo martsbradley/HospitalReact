@@ -5,7 +5,10 @@ import TabletSelect from './tablet-select-container';
 import PropTypes from 'prop-types';
 import StartDate from './start-date';
 import /*TabletWizardController,*/ {MyButtons,ButtonInfo} from './tablet-wizard-controller';
-import {tomorrowAsYYYYMMDD, todayAsYYYYMMDD} from '../../dateutils.js'
+import {tomorrowAsYYYYMMDD, todayAsYYYYMMDD, dateFormat} from '../../dateutils.js'
+import parse from 'date-fns/parse'
+import isBefore from 'date-fns/is_before'
+import differenceInDays from 'date-fns/difference_in_days'
  
 function NoMatch() {
   return <h1> No match</h1>;
@@ -21,78 +24,129 @@ export default function TabletWizard(props)
                                           page         :'select',
                                           buttonArr    : []});
 
-    const dateChanged = dateName => value => {
-        setState(state => ({...state, 
-                            [dateName]: value }));
-    }
 
     useEffect(() => {
-        console.log("TabletWizard rerender");
+        //console.log("TabletWizard rerender");
         const buttonArr = makeButtonArray({...props, medId: state.selectedMedId, page: state.page});
 
         setState(state => ({...state, buttonArr}));
     }
-    ,[state.selectedMedId, state.page]);
+    ,[state.selectedMedId, 
+      state.page,
+      state.startDate,
+      state.endDate,
+      state.validationMsg ]);
       
 
-    function medicineSelectedFn(medicineSelected) {
-
-        const {id, name } = medicineSelected;
-
-        console.log(`medicineSelectedFn ${id}`);
-
+    function medicineSelectedFn({id, name }) {
         setState(state => ({...state,
                             selectedMedId: id,
                             medicineName : name, }));
-        console.log(state);
     }
 
-    function onNavigation(page) {
-        console.log(`onNavigation to ${page}`);
-        console.log(state);
+    const dateChanged = dateName => value => {
+        setState(state => ({...state, 
+                            validationMsg: "",
+                            [dateName]: value }));
+    }
 
+    function onNavigation(page, url) {
         setState(state => ({...state,
+                            validationMsg: "",
                             page}));
+        props.history.push(url);
     }
 
-    const exitWizard = () =>{onNavigation('na');props.history.push("/patients/list");};
-    const goPage1    = () =>{onNavigation('select');props.history.push(`${props.match.path}/select`);};
-    const goPage2    = () =>{onNavigation('startDate');props.history.push(`${props.match.path}/startDate`);};
-    const goPage3    = () =>{onNavigation('endDate');props.history.push(`${props.match.path}/endDate`);};
+    const exitWizard = () => onNavigation('',       "/patients/list");
+    const goPage1    = () => onNavigation('select', `${props.match.path}/select`);
+    const goPage2    = () => onNavigation('startDate', `${props.match.path}/startDate`);
+    const goPage3    = () => onNavigation('endDate', `${props.match.path}/endDate`);
 
     const makeButtonArray = ({medId, page}) => {
         console.log(`makeButtonArray ${page} ... ${medId}`);
 
         const buttons = [];
+        const endDisabled = !isEndDateValid();
+        const startDisabled = !isStartDateValid();
 
         if (page === 'select') {
 
             let c = ButtonInfo('Back', false, exitWizard);
             buttons.push(c);
-            let b = ButtonInfo('Next', false, goPage2);
+            let b = ButtonInfo('Next', medId === -1, goPage2);
             buttons.push(b);
-
-            if (medId === -1) {
-                //console.log(`make ${b.label} false`);
-                b.isDisabled = true;
-            }
         }
+
         else if (page === 'startDate') {
             let c = ButtonInfo('Back', false, goPage1);
             buttons.push(c);
-            let b = ButtonInfo('Next', false, goPage3);
+            let b = ButtonInfo('Next', startDisabled, goPage3);
             buttons.push(b);
         }
         else if (page === 'endDate') {
             let c = ButtonInfo('Bakk', false, goPage2);
             buttons.push(c);
-            let b = ButtonInfo('Next', false, goPage3);
+            let b = ButtonInfo('Next', endDisabled, goPage3);
             buttons.push(b);
         }
         //console.log("returning");
         //console.log(buttons);
 
         return buttons;
+    }
+
+    function isStartDateValid() {
+        let startDateValid = false;
+        try {
+            const nowIs = new Date();
+
+            const startDate = parse(state.startDate, 
+                                    dateFormat(),
+                                    new Date());
+
+            //  Same day or after today
+            startDateValid = differenceInDays (nowIs, startDate) === 0 || 
+                             isBefore(nowIs, startDate);
+
+            console.log("startDate " + startDate);
+            console.log("now " + nowIs);
+                             
+        } catch (e) {
+            console.log("Caught an error" + e);
+        }
+
+        if (!startDateValid) {
+            setState(state => ({...state, 
+                                validationMsg: "Start Date Invalid" }));
+        }
+
+        return startDateValid
+    }
+
+    function isEndDateValid() {
+        let endDateValid = false;
+        try {
+            const startDate = parse(state.startDate, 
+                                    dateFormat(),
+                                    new Date());
+
+            const endDate = parse(state.endDate, 
+                                    dateFormat(),
+                                    new Date());
+
+            endDateValid = isBefore(startDate, endDate);
+                             
+        } catch (e) {
+            console.log("Caught an error" + e);
+        }
+
+        if (!endDateValid) {
+            setState(state => ({...state, 
+                                validationMsg: "End Date Invalid" }));
+        }
+
+        console.log("endDateValid after now " + endDateValid);
+        return endDateValid
     }
 
     return <ErrorBoundary>
@@ -110,6 +164,7 @@ export default function TabletWizard(props)
                                startDate={state.startDate}
                                endDate={state.endDate}
                                handleFormChange={dateChanged('startDate')} 
+                               validationMsg={state.validationMsg} 
                                editEndDate={false} />
                 </Route>
                 <Route path={`${props.match.path}/endDate`}>
@@ -117,6 +172,7 @@ export default function TabletWizard(props)
                                  startDate={state.startDate}
                                  endDate={state.endDate}
                                  handleFormChange={dateChanged('endDate')} 
+                                 validationMsg={state.validationMsg} 
                                  editEndDate={true} />
                 </Route>
                 <Route component={NoMatch} />
@@ -133,11 +189,7 @@ TabletWizard.propTypes = {
 }
 
 
- // import {matchPath} from 'react-router-dom'
- // const subPages = ['select','startDate','endDate'];
- // const whichSubPage = (props, subPages) => 
- //     subPages.find(subPage => 
- //                          matchPath(props.location.pathname, 
- //                                    { path: `${props.match.path}/${subPage}`}) !== null);
+
+
 
 
