@@ -20,8 +20,7 @@ export default function StartDate({medicineName,
     if (editEndDate) {
         heading = 'End'
         startDateElement = <input type="date" className="form-control " name="startDate" 
-                                  value={startDate} readOnly disabled
-                                  onChange={handleFormChange}/>
+                                  value={startDate} readOnly disabled />
 
         endDateBlock = <div className="form-group">
                            <label htmlFor="endDate">End Date</label>
@@ -69,3 +68,6 @@ StartDate.propTypes = {
     endDate          : PropTypes.string,
     validationMsg    : PropTypes.string,
 }
+//  1 Start Date
+//  2 Start date (ro) End Date
+//  3 Start date (ro) End Date (ro) Confirm

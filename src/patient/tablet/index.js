@@ -66,8 +66,6 @@ export default function TabletWizard(props)
         console.log(`makeButtonArray ${page} ... ${medId}`);
 
         const buttons = [];
-        const endDisabled = !isEndDateValid();
-        const startDisabled = !isStartDateValid();
 
         if (page === 'select') {
 
@@ -78,20 +76,19 @@ export default function TabletWizard(props)
         }
 
         else if (page === 'startDate') {
+            const startDisabled = !isStartDateValid();
             let c = ButtonInfo('Back', false, goPage1);
             buttons.push(c);
             let b = ButtonInfo('Next', startDisabled, goPage3);
             buttons.push(b);
         }
         else if (page === 'endDate') {
-            let c = ButtonInfo('Bakk', false, goPage2);
+            const endDisabled = !isEndDateValid();
+            let c = ButtonInfo('Back', false, goPage2);
             buttons.push(c);
             let b = ButtonInfo('Next', endDisabled, goPage3);
             buttons.push(b);
         }
-        //console.log("returning");
-        //console.log(buttons);
-
         return buttons;
     }
 
@@ -151,9 +148,6 @@ export default function TabletWizard(props)
 
     return <ErrorBoundary>
         <>
-            name= {state.medicineName}
-            name= {state.selectedMedId}
-
             <Switch>
                 <Route path={`${props.match.path}/select`}>
                     <TabletSelect selectedMedId={state.selectedMedId}
@@ -187,9 +181,3 @@ TabletWizard.propTypes = {
     match          : PropTypes.object,
     history          : PropTypes.object,
 }
-
-
-
-
-
-
