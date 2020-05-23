@@ -16,13 +16,15 @@ export default function TabletWizard(props)
     const [state, setState] = useState( { medicineName : '',
                                           startDate    : todayAsYYYYMMDD(),
                                           endDate      : tomorrowAsYYYYMMDD(),
-                                          selectedMedId: -1});
+                                          selectedMedId: -1,
+                                          validationMsg: ''});
 
     const dateChanged = dateName => value => 
         setState(state => ({...state, 
                             [dateName]: value }));
 
     //useEffect(() => console.log("TabletWizard rerender"),[]);
+
 
     function medicineSelectedFn(medicineSelected) {
 

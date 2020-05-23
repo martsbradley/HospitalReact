@@ -2,8 +2,14 @@ import React from 'react'
 import ValidationMessage from '../../validationmessage.js'
 import PropTypes from 'prop-types';
 
-export default function StartDate({medicineName, startDate, endDate, handleFormChange, editEndDate}) {
-    const isBlocking = false;
+export default function StartDate({medicineName, 
+                                   startDate,
+                                   endDate,
+                                   handleFormChange, 
+                                   editEndDate,
+                                   validationMsg}) {
+    let isBlocking = false;
+    if (validationMsg !== '') isBlocking = true;
 
     let startDateElement;
     let endDateBlock = null;
@@ -48,7 +54,7 @@ export default function StartDate({medicineName, startDate, endDate, handleFormC
                {endDateBlock}
                
                <div className="col-md-6">
-                     <ValidationMessage when={isBlocking} what="Date cannot be in the past"/>
+                     <ValidationMessage when={isBlocking} what={validationMsg}/>
                </div>
             </div>
         </div>);
@@ -61,4 +67,5 @@ StartDate.propTypes = {
     editEndDate      : PropTypes.bool,
     startDate        : PropTypes.string,
     endDate          : PropTypes.string,
+    validationMsg    : PropTypes.string,
 }
