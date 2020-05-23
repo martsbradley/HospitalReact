@@ -72,7 +72,6 @@ export default function PatientForm({loadPatient,
                                    [name] : value }));
     }
 
-    const addPrescription = `/patients/${patient.id}/prescription/medicine`;
     const addTablet       = `/patients/${patient.id}/tablet/select`;
     const addImage        = `/patients/${patient.id}/addimage`;
 
@@ -106,7 +105,6 @@ export default function PatientForm({loadPatient,
                     <Link to="/patients/list"><button>Cancel</button></Link>
                     {editPatient ?
                         <>
-                            <Link id="addtabs" to={`${addPrescription}`} ><button>Add Prescription</button></Link>
                             <Link id="addtabs2" to={`${addTablet}`} ><button>Add Tablet</button></Link>
                             <Link id="addImg" to={`${addImage}`} ><button>Add Image</button></Link>
                         </>

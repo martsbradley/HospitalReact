@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react'
-import {Route, Switch} from 'react-router-dom'
+import {Route, Switch, useHistory/*,useLocation */} from 'react-router-dom'
 import ErrorBoundary from '../../errorboundary.js'
 import TabletSelect from './tablet-select-container';
 import PropTypes from 'prop-types';
@@ -14,7 +14,7 @@ function NoMatch() {
   return <h1> No match</h1>;
 }
 
-export default function TabletWizard(props)
+export default function TabletWizard({match})
 {
     const [state, setState] = useState( { medicineName : '',
                                           startDate    : todayAsYYYYMMDD(),
@@ -23,11 +23,8 @@ export default function TabletWizard(props)
                                           validationMsg: '',
                                           page         :'select',
                                           buttonArr    : []});
-
-
     useEffect(() => {
-        //console.log("TabletWizard rerender");
-        const buttonArr = makeButtonArray({...props, medId: state.selectedMedId, page: state.page});
+        const buttonArr = makeButtonArray({medId: state.selectedMedId, page: state.page});
 
         setState(state => ({...state, buttonArr}));
     }
@@ -50,17 +47,20 @@ export default function TabletWizard(props)
                             [dateName]: value }));
     }
 
+
+    let history = useHistory();
+
     function onNavigation(page, url) {
         setState(state => ({...state,
                             validationMsg: "",
                             page}));
-        props.history.push(url);
+        history.push(url);
     }
 
-    const exitWizard = () => onNavigation('',       "/patients/list");
-    const goPage1    = () => onNavigation('select', `${props.match.path}/select`);
-    const goPage2    = () => onNavigation('startDate', `${props.match.path}/startDate`);
-    const goPage3    = () => onNavigation('endDate', `${props.match.path}/endDate`);
+    const exitWizard = () => onNavigation('',         "/patients/list");
+    const goPage1    = () => onNavigation('select',   `${match.path}/select`);
+    const goPage2    = () => onNavigation('startDate',`${match.path}/startDate`);
+    const goPage3    = () => onNavigation('endDate',  `${match.path}/endDate`);
 
     const makeButtonArray = ({medId, page}) => {
         console.log(`makeButtonArray ${page} ... ${medId}`);
@@ -149,11 +149,11 @@ export default function TabletWizard(props)
     return <ErrorBoundary>
         <>
             <Switch>
-                <Route path={`${props.match.path}/select`}>
+                <Route path={`${match.path}/select`}>
                     <TabletSelect selectedMedId={state.selectedMedId}
                                   medicineSelected= {medicineSelectedFn} />
                 </Route>
-                <Route path={`${props.match.path}/startDate`}>
+                <Route path={`${match.path}/startDate`}>
                     <StartDate medicineName={state.medicineName} 
                                startDate={state.startDate}
                                endDate={state.endDate}
@@ -161,7 +161,7 @@ export default function TabletWizard(props)
                                validationMsg={state.validationMsg} 
                                editEndDate={false} />
                 </Route>
-                <Route path={`${props.match.path}/endDate`}>
+                <Route path={`${match.path}/endDate`}>
                     <StartDate medicineName={state.medicineName} 
                                  startDate={state.startDate}
                                  endDate={state.endDate}
@@ -178,6 +178,5 @@ export default function TabletWizard(props)
 }
 
 TabletWizard.propTypes = {
-    match          : PropTypes.object,
-    history          : PropTypes.object,
+    match    : PropTypes.object,
 }
