@@ -9,19 +9,17 @@ export const pageIds = {
     CONFIRM_PAGE: 3
 };
 
-function createDateField(isWritable, fieldName, value,onChangeHandler){
+function createDateField(isWritable, fieldName, value,onChangeHandler, labelTxt){
     let element = null;
     if (!isWritable) {
         element = <div className="form-group">
-                      <label htmlFor="{fieldName}" >{fieldName}</label>
-                       <input type="date" className="form-control " name={fieldName}
-                                      value={value} readOnly disabled>
-                      </input>
+                      <label htmlFor="{fieldName}">{labelTxt}</label>
+                      <span className="form-control-plaintext">{value}</span>
                   </div>;
     }
     else {
         element = <div className="form-group">
-                      <label htmlFor="{fieldName}" >{fieldName}</label>
+                      <label htmlFor="{fieldName}" >{labelTxt}</label>
                       <input type="date" className="form-control" name={fieldName}
                                           value={value}  
                                           onChange={onChangeHandler}>
@@ -33,7 +31,8 @@ function createDateField(isWritable, fieldName, value,onChangeHandler){
 }
 
 
-export default function StartDate({medicineName, 
+export default function StartDate({title,
+                                   medicineName,
                                    startDate,
                                    endDate,
                                    handleFormChange, 
@@ -43,21 +42,21 @@ export default function StartDate({medicineName,
     if (validationMsg !== '') isBlocking = true;
 
     const dateChanged = (event) => handleFormChange(event.target.value);
-    let startDateBlock = createDateField(pageType === pageIds.START_PAGE, 'starpage', startDate, dateChanged);
+    let startDateBlock = createDateField(pageType === pageIds.START_PAGE, 'starpage', startDate, dateChanged, "Start Date");
     let endDateBlock   = null;
 
     if (pageType > pageIds.START_PAGE) {
-        endDateBlock   = createDateField(pageType == pageIds.END_PAGE, 'endspage', endDate, dateChanged);
+        endDateBlock   = createDateField(pageType == pageIds.END_PAGE, 'endspage', endDate, dateChanged, "End Date");
     }
   //let { patientId } = useParams()
   //console.log(`patient id is ${patientId} startDate`);
 
     return (<div>
-            <h1>New Prescription</h1>
+            <h1>Prescription {title}</h1>
             <div className="col-md-6 form-line">
                <div className="form-group">
                    <label htmlFor="medicine">Medicine</label>
-                   <input type="input" className="form-control" name="medicine" 
+                   <input type="input" className="form-control-plaintext" name="medicine" 
                           readOnly disabled value={medicineName} />
                </div>
                
@@ -73,6 +72,7 @@ export default function StartDate({medicineName,
 }
 
 StartDate.propTypes = {
+    title            : PropTypes.string,
     medicineName     : PropTypes.string,
     aDate            : PropTypes.string,
     handleFormChange : PropTypes.func,
@@ -81,6 +81,3 @@ StartDate.propTypes = {
     endDate          : PropTypes.string,
     validationMsg    : PropTypes.string,
 }
-//  1 Start Date
-//  2 Start date (ro) End Date
-//  3 Start date (ro) End Date (ro) Confirm

@@ -57,10 +57,13 @@ export default function TabletWizard()
     let match = useRouteMatch();
 
 
-    const exitWizard = () => onNavigation('',         `/patients/form/${patientId}`);
-    const goPage1    = () => onNavigation('select',   `${match.url}/select`);
-    const goPage2    = () => onNavigation('startDate',`${match.url}/startDate`);
-    const goPage3    = () => onNavigation('endDate',  `${match.url}/endDate`);
+    const exitWizard = () => onNavigation('',             `/patients/form/${patientId}`);
+    const goPage1    = () => onNavigation('select',       `${match.url}/select`);
+    const goPage2    = () => onNavigation('startDate',    `${match.url}/startDate`);
+    const goPage3    = () => onNavigation('endDate',      `${match.url}/endDate`);
+    const goPage4    = () => onNavigation('confirmation', `${match.url}/confirmation`);
+    const goConfirm  = () => onNavigation('',             `/patients/form/${patientId}`);
+
 
     const makeButtonArray = ({medId, page}) => {
 
@@ -85,7 +88,13 @@ export default function TabletWizard()
             const endDisabled = !isEndDateValid();
             let c = ButtonInfo('Back', false, goPage2);
             buttons.push(c);
-            let b = ButtonInfo('Next', endDisabled, goPage3);
+            let b = ButtonInfo('Next', endDisabled, goPage4);
+            buttons.push(b);
+        }
+        else if (page === 'confirmation') {
+            let c = ButtonInfo('Back', false, goPage3);
+            buttons.push(c);
+            let b = ButtonInfo('Finish', false, goConfirm);
             buttons.push(b);
         }
         return buttons;
@@ -149,7 +158,8 @@ export default function TabletWizard()
                                   medicineSelected= {medicineSelectedFn} />
                 </Route>
                 <Route path={`${match.path}/startDate`}>
-                    <StartDate medicineName={state.medicineName} 
+                    <StartDate title="Starting on Date"
+                               medicineName={state.medicineName} 
                                startDate={state.startDate}
                                endDate={state.endDate}
                                handleFormChange={dateChanged('startDate')} 
@@ -157,12 +167,22 @@ export default function TabletWizard()
                                pageType={pageIds.START_PAGE} />
                 </Route>
                 <Route path={`${match.path}/endDate`}>
-                    <StartDate medicineName={state.medicineName} 
-                                 startDate={state.startDate}
-                                 endDate={state.endDate}
-                                 handleFormChange={dateChanged('endDate')} 
-                                 validationMsg={state.validationMsg} 
+                    <StartDate title="Ending on Date"
+                               medicineName={state.medicineName} 
+                               startDate={state.startDate}
+                               endDate={state.endDate}
+                               handleFormChange={dateChanged('endDate')} 
+                               validationMsg={state.validationMsg} 
                                pageType={pageIds.END_PAGE} />
+                </Route>
+                <Route path={`${match.path}/confirmation`}>
+                    <StartDate title="Confirmation"
+                               medicineName={state.medicineName} 
+                               startDate={state.startDate}
+                               endDate={state.endDate}
+                               handleFormChange={dateChanged('endDate')} 
+                               validationMsg={state.validationMsg} 
+                               pageType={pageIds.CONFIRM_PAGE} />
                 </Route>
             </Switch>
             <MyButtons buttons={state.buttonArr} />
