@@ -24,7 +24,6 @@ export const MyButtons = ({buttons}) => {
 
      return <div className="form-line">
                  <div className="form-group">
-        .. lik here
                     {res}
                  </div>
             </div>; 
