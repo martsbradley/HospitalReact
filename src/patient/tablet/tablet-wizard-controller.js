@@ -24,11 +24,13 @@ export const MyButtons = ({buttons}) => {
 
      return <div className="form-line">
                  <div className="form-group">
+        .. lik here
                     {res}
                  </div>
             </div>; 
 }
 
 MyButtons.propTypes = {
-    buttons: PropTypes.array
+    buttons: PropTypes.array,
+    //editPatientId : PropTypes: number
 };

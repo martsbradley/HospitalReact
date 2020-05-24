@@ -1,10 +1,10 @@
 import React,{useEffect, useState} from 'react'
-import {Route, Switch, useHistory/*,useLocation */} from 'react-router-dom'
+import {Link,Route, Switch, useHistory,   useParams ,useRouteMatch/*,useLocation*/ } from 'react-router-dom'
 import ErrorBoundary from '../../errorboundary.js'
 import TabletSelect from './tablet-select-container';
 import PropTypes from 'prop-types';
 import StartDate,{pageIds} from './start-date';
-import /*TabletWizardController,*/ {MyButtons,ButtonInfo} from './tablet-wizard-controller';
+import {MyButtons,ButtonInfo} from './tablet-wizard-controller';
 import {tomorrowAsYYYYMMDD, todayAsYYYYMMDD, dateFormat} from '../../dateutils.js'
 import parse from 'date-fns/parse'
 import isBefore from 'date-fns/is_before'
@@ -20,9 +20,32 @@ export default function TabletWizard({match})
                                           startDate    : todayAsYYYYMMDD(),
                                           endDate      : tomorrowAsYYYYMMDD(),
                                           selectedMedId: -1,
+                                          editPatientId: -1,
                                           validationMsg: '',
                                           page         :'select',
                                           buttonArr    : []});
+
+    const [editPatientId, setPatientId] = useState(-1);
+
+    const {patientId} = useParams()
+    console.log(`run  patientId ${patientId}`);
+
+
+ // useEffect(() => {
+ //    /* 
+ //     * When the startDate/endDate pages are loaded the patientId
+ //     * gets lost so storing it in the state.
+ //     * on first loading.
+ //     */
+ //     console.log(`editPatientId must have been set ${editPatientId}`);
+ // },[editPatientId]);
+
+    useEffect(() => {
+        console.log(`First time load storing ${patientId}`);
+        setPatientId(patientId);
+    },[]);
+
+
     useEffect(() => {
         const buttonArr = makeButtonArray({medId: state.selectedMedId, page: state.page});
 
@@ -33,6 +56,11 @@ export default function TabletWizard({match})
       state.startDate,
       state.endDate,
       state.validationMsg ]);
+
+//  function getBackURL() {
+//      const backURL = '/patients/form/';
+//      return backURL;
+//  }
       
 
     function medicineSelectedFn({id, name }) {
@@ -54,13 +82,22 @@ export default function TabletWizard({match})
         setState(state => ({...state,
                             validationMsg: "",
                             page}));
+        console.log(`onNavigation hitting ${url}`);
         history.push(url);
     }
 
-    const exitWizard = () => onNavigation('',         "/patients/list");
-    const goPage1    = () => onNavigation('select',   `${match.path}/select`);
-    const goPage2    = () => onNavigation('startDate',`${match.path}/startDate`);
-    const goPage3    = () => onNavigation('endDate',  `${match.path}/endDate`);
+    let oldMatch = useRouteMatch();
+
+//  console.log(oldMatch);
+//  console.log(`match.url = ${match.url}`);
+//  const location = useLocation();
+//  console.log("Location is ");
+//  console.log(location);
+    //const exitWizard = () => onNavigation('',         getBackURL());
+    const exitWizard = () => onNavigation('',         `/patients/form/${patientId}`);
+    const goPage1    = () => onNavigation('select',   `${oldMatch.url}/select`);
+    const goPage2    = () => onNavigation('startDate',`${oldMatch.url}/startDate`);
+    const goPage3    = () => onNavigation('endDate',  `${oldMatch.url}/endDate`);
 
     const makeButtonArray = ({medId, page}) => {
         //console.log(`makeButtonArray ${page} ... ${medId}`);
@@ -146,6 +183,7 @@ export default function TabletWizard({match})
         return endDateValid
     }
 
+    console.log(match);
     return <ErrorBoundary>
         <>
             <Switch>
@@ -171,8 +209,8 @@ export default function TabletWizard({match})
                 </Route>
                 <Route component={NoMatch} />
             </Switch>
-
-            <MyButtons buttons={state.buttonArr} />
+            <Link to={`/patients/form/${patientId}`}>Back to Edit{editPatientId}</Link>
+            <MyButtons  buttons={state.buttonArr} />
         </>
     </ErrorBoundary>;
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import ValidationMessage from '../../validationmessage.js'
 import PropTypes from 'prop-types';
+//import {useParams} from 'react-router-dom'
 
 export const pageIds = {
     START_PAGE  : 1,
@@ -48,6 +49,8 @@ export default function StartDate({medicineName,
     if (pageType > pageIds.START_PAGE) {
         endDateBlock   = createDateField(pageType == pageIds.END_PAGE, 'endspage', endDate, dateChanged);
     }
+  //let { patientId } = useParams()
+  //console.log(`patient id is ${patientId} startDate`);
 
     return (<div>
             <h1>New Prescription</h1>

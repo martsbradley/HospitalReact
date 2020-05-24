@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Medicine from '../../medicine.js'
 import Pagination from 'react-js-pagination'
 import ValidationMessage from '../../validationmessage.js'
+//import {useParams} from 'react-router-dom'
 
 export default function TabletSelect({selectedMedId,
                                       medicineSelected,
@@ -34,6 +35,9 @@ export default function TabletSelect({selectedMedId,
 
         medicineSelected({id: idOfselectedRow, name});
     }
+
+  //let { patientId } = useParams()
+  //console.log(`patient id is ${patientId} tabletSelect`);
 
     return  (
     <>
