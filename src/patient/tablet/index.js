@@ -3,7 +3,7 @@ import {Route, Switch, useHistory/*,useLocation */} from 'react-router-dom'
 import ErrorBoundary from '../../errorboundary.js'
 import TabletSelect from './tablet-select-container';
 import PropTypes from 'prop-types';
-import StartDate from './start-date';
+import StartDate,{pageIds} from './start-date';
 import /*TabletWizardController,*/ {MyButtons,ButtonInfo} from './tablet-wizard-controller';
 import {tomorrowAsYYYYMMDD, todayAsYYYYMMDD, dateFormat} from '../../dateutils.js'
 import parse from 'date-fns/parse'
@@ -63,7 +63,7 @@ export default function TabletWizard({match})
     const goPage3    = () => onNavigation('endDate',  `${match.path}/endDate`);
 
     const makeButtonArray = ({medId, page}) => {
-        console.log(`makeButtonArray ${page} ... ${medId}`);
+        //console.log(`makeButtonArray ${page} ... ${medId}`);
 
         const buttons = [];
 
@@ -105,8 +105,8 @@ export default function TabletWizard({match})
             startDateValid = differenceInDays (nowIs, startDate) === 0 || 
                              isBefore(nowIs, startDate);
 
-            console.log("startDate " + startDate);
-            console.log("now " + nowIs);
+          //console.log("startDate " + startDate);
+          //console.log("now " + nowIs);
                              
         } catch (e) {
             console.log("Caught an error" + e);
@@ -159,7 +159,7 @@ export default function TabletWizard({match})
                                endDate={state.endDate}
                                handleFormChange={dateChanged('startDate')} 
                                validationMsg={state.validationMsg} 
-                               editEndDate={false} />
+                               pageType={pageIds.START_PAGE} />
                 </Route>
                 <Route path={`${match.path}/endDate`}>
                     <StartDate medicineName={state.medicineName} 
@@ -167,7 +167,7 @@ export default function TabletWizard({match})
                                  endDate={state.endDate}
                                  handleFormChange={dateChanged('endDate')} 
                                  validationMsg={state.validationMsg} 
-                                 editEndDate={true} />
+                               pageType={pageIds.END_PAGE} />
                 </Route>
                 <Route component={NoMatch} />
             </Switch>

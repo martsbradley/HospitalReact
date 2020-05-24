@@ -2,42 +2,55 @@ import React from 'react'
 import ValidationMessage from '../../validationmessage.js'
 import PropTypes from 'prop-types';
 
+export const pageIds = {
+    START_PAGE  : 1,
+    END_PAGE    : 2,
+    CONFIRM_PAGE: 3
+};
+
+function createDateField(isWritable, fieldName, value,onChangeHandler){
+    let element = null;
+    if (!isWritable) {
+        element = <div className="form-group">
+                      <label htmlFor="{fieldName}" >{fieldName}</label>
+                       <input type="date" className="form-control " name={fieldName}
+                                      value={value} readOnly disabled>
+                      </input>
+                  </div>;
+    }
+    else {
+        element = <div className="form-group">
+                      <label htmlFor="{fieldName}" >{fieldName}</label>
+                      <input type="date" className="form-control" name={fieldName}
+                                          value={value}  
+                                          onChange={onChangeHandler}>
+                       </input>
+                  </div>;
+    }
+
+    return element;
+}
+
+
 export default function StartDate({medicineName, 
                                    startDate,
                                    endDate,
                                    handleFormChange, 
-                                   editEndDate,
+                                   pageType,
                                    validationMsg}) {
     let isBlocking = false;
     if (validationMsg !== '') isBlocking = true;
 
-    let startDateElement;
-    let endDateBlock = null;
-    let heading = 'Start';
-
     const dateChanged = (event) => handleFormChange(event.target.value);
+    let startDateBlock = createDateField(pageType === pageIds.START_PAGE, 'starpage', startDate, dateChanged);
+    let endDateBlock   = null;
 
-    if (editEndDate) {
-        heading = 'End'
-        startDateElement = <input type="date" className="form-control " name="startDate" 
-                                  value={startDate} readOnly disabled />
-
-        endDateBlock = <div className="form-group">
-                           <label htmlFor="endDate">End Date</label>
-                           <input type="date" 
-                                  className="form-control " name="endDate" 
-                                  value={endDate}
-                                  onChange={dateChanged}/>
-                       </div>
-    }
-    else {
-        startDateElement = <input type="date" className="form-control " name="startDate" 
-                                  value={startDate}  
-                                  onChange={dateChanged}/>
+    if (pageType > pageIds.START_PAGE) {
+        endDateBlock   = createDateField(pageType == pageIds.END_PAGE, 'endspage', endDate, dateChanged);
     }
 
     return (<div>
-            <h1>Prescription Select {heading} Date</h1>
+            <h1>New Prescription</h1>
             <div className="col-md-6 form-line">
                <div className="form-group">
                    <label htmlFor="medicine">Medicine</label>
@@ -45,10 +58,7 @@ export default function StartDate({medicineName,
                           readOnly disabled value={medicineName} />
                </div>
                
-               <div className="form-group">
-                   <label htmlFor="startDate" >Start Date</label>
-                   {startDateElement}
-               </div>
+               {startDateBlock}
 
                {endDateBlock}
                
@@ -63,7 +73,7 @@ StartDate.propTypes = {
     medicineName     : PropTypes.string,
     aDate            : PropTypes.string,
     handleFormChange : PropTypes.func,
-    editEndDate      : PropTypes.bool,
+    pageType         : PropTypes.number,
     startDate        : PropTypes.string,
     endDate          : PropTypes.string,
     validationMsg    : PropTypes.string,
