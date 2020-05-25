@@ -1,10 +1,10 @@
-import {checkResponse, pageURL, filterParam} from './api-utils'
-const urlPrefix = "/meds";
+import {checkResponse, pageURL, filterParam, post} from './api-utils';
+import {medicineURL, prescriptionURL} from './url-constants';
 
 export async function loadMedicines(pageNumber, pageSize, filterText) {
     const query = pageURL(pageNumber, pageSize);
     const filter = filterParam(filterText)
-    const medicinesURL = `${urlPrefix}${query}${filter}`;
+    const medicinesURL = `${medicineURL}${query}${filter}`;
 
     const response = await fetch(medicinesURL);
 
@@ -12,27 +12,39 @@ export async function loadMedicines(pageNumber, pageSize, filterText) {
 
     let medicines, total, result;
 
-  //  try {
-        /* Network errors are handled by checkResponse
-         * so get the json data */
-        const json = await response.json();
+    const json = await response.json();
 
-        if (!isError) {
-            medicines = json.medicines;
-            total     = json.pageInfo._dataSize;
-            result = {medicines, total};
+    if (isError) {
+        result = json;//Return the validation error
+    } else {
+        medicines = json.medicines;
+        total     = json.pageInfo._dataSize;
+        result = {medicines, total};
+    }
 
-          //console.log("got meds..");
-          //console.log(medicines);
-        } else {
-            //console.log("Return the validation error");
-            //console.log(json);
-            result = json;
-        }
-  //} catch(e) {
-  //    //console.log(e.message);
-  //    throw e;
-  //}
+    return { isError,
+             data: result}
+}
+
+export const savePrescription = async (prescription) => {
+
+    //console.log('savePrescription');
+    let response = await post(prescriptionURL, prescription);
+
+    //console.log('savePrescription post done');
+
+    let isError  = checkResponse(response, prescriptionURL);
+
+    //console.log(`savePrescription isError ${isError}`);
+
+    let result = {};
+
+    if (isError) {
+        //  Only validation issues are expected back.
+        result = await response.json();
+    }
+
+    //console.log(`savePrescription isError ${isError}`);
 
     return { isError,
              data: result}

@@ -1,6 +1,7 @@
 import * as Actions from './actionTypes';
-import {loadMedicines} from '../../api/medicine-api';
+import {loadMedicines, savePrescription} from '../../api/medicine-api';
 import {handleError} from './errorActions';
+
 
 const makeLoadMedicinesSuccessHandler = 
      (activePage,filter) => dispatch => {
@@ -13,6 +14,10 @@ const makeLoadMedicinesSuccessHandler =
                    filter, 
         });
     }
+}
+
+const savePrescriptionSuccessHandler = (dispatch) => {
+    dispatch({ type       : Actions.PRESCRIPTION_SAVED_SUCCESS});
 }
 
 /* This action immediately calls the async network calls.
@@ -31,4 +36,17 @@ export const medicinesPaged = (activePage, itemsOnPage, filter) => dispatch =>
     });
 }
 
+export const createPrescription = (prescription, navFn) => async (dispatch) => 
+{
+    dispatch({type:Actions.BEGIN_API_CALL});
 
+    try {
+        await savePrescription(prescription);
+
+        savePrescriptionSuccessHandler(dispatch);
+        navFn();
+    }
+    catch (e) {
+       handleError(dispatch, e); 
+    }
+}

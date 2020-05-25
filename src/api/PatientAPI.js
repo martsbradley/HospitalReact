@@ -1,4 +1,4 @@
-import {checkResponse} from './api-utils'
+import {checkResponse, post, put} from './api-utils'
 
 const urlPrefix = "/user/list";
 
@@ -71,21 +71,12 @@ export async function savePatient(patient) {
     const saveURL = '/user/';
     console.log("saving...");
 
-    let methodName = 'put';
+    let sendData = put;
     if (patient.id === undefined) {
-       methodName = 'post';
+       sendData = post;
     }
 
-    const requestPromise = fetch(saveURL,{
-                                method: methodName,
-                                headers: {
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(payload)
-                            });
-
-    let responsePromise = await requestPromise;
+    let responsePromise = await sendData(saveURL, payload);
 
     let isError = checkResponse(responsePromise);
 

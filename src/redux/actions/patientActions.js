@@ -18,7 +18,6 @@ const loadPatientsSuccessHandler = (dispatch) => {
 }
 
 const loadPatientSuccessHandler = (dispatch) => {
-    console.log("Thats done");
 
     return function(payload) {
         dispatch({ type: Actions.PATIENT_CURRENT_LOADED_SUCCESS,

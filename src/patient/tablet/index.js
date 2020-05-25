@@ -2,15 +2,21 @@ import React,{useEffect, useState} from 'react'
 import {/*Link,*/Route, Switch, useHistory,   useParams ,useRouteMatch/*,useLocation*/ } from 'react-router-dom'
 import ErrorBoundary from '../../errorboundary.js'
 import TabletSelect from './tablet-select-container';
-//import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import StartDate,{pageIds} from './start-date';
 import {MyButtons,ButtonInfo} from './tablet-wizard-controller';
 import {tomorrowAsYYYYMMDD, todayAsYYYYMMDD, dateFormat} from '../../dateutils.js'
 import parse from 'date-fns/parse'
 import isBefore from 'date-fns/is_before'
 import differenceInDays from 'date-fns/difference_in_days'
+import { connect } from "react-redux";
+import {createPrescription} from '../../redux/actions/medicineActions';
  
-export default function TabletWizard()
+TabletWizard.propTypes = {
+    createPrescription: PropTypes.func
+};
+
+function TabletWizard({createPrescription})
 {
     const [state, setState] = useState( { selectedMedId: -1,
                                           medicineName : '',
@@ -62,8 +68,27 @@ export default function TabletWizard()
     const goPage2    = () => onNavigation('startDate',    `${match.url}/startDate`);
     const goPage3    = () => onNavigation('endDate',      `${match.url}/endDate`);
     const goPage4    = () => onNavigation('confirmation', `${match.url}/confirmation`);
-    const goConfirm  = () => onNavigation('',             `/patients/form/${patientId}`);
+    const goConfirm  = () => {
+        console.log("Save into the database");
+        
+        console.log(`selectedMedId               ${state.selectedMedId}`);
+        console.log(`medicineName                ${state.medicineName}`);
+        console.log(`startDate                   ${state.startDate}`);
+        console.log(`endDate                     ${state.endDate}`);
+        
+        onNavigation('',             `/patients/form/${patientId}`);
 
+        createPrescription({patientId: patientId,                
+                            prescription : 
+                                  {
+                                    startDate: state.startDate,
+                                    endDate: state.endDate,
+                                    amount: 'lots',
+                                    medicine: {id: state.selectedMedId}
+                                  }
+                            }, 
+                            () => console.log("Move now"))
+    };
 
     const makeButtonArray = ({medId, page}) => {
 
@@ -189,4 +214,9 @@ export default function TabletWizard()
         </>
     </ErrorBoundary>;
 }
-            //<Link to={`/patients/form/${patientId}`}>Back to Edit</Link>
+
+const mapDispatchToProps = {
+    createPrescription: createPrescription
+};
+
+export default connect(null, mapDispatchToProps)(TabletWizard);

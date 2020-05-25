@@ -1,4 +1,4 @@
-import {medicinesPaged} from './medicineActions';
+import {medicinesPaged,createPrescription} from './medicineActions';
 import * as medAPI from '../../api/medicine-api';
 import * as types from './actionTypes';
 
@@ -65,6 +65,34 @@ describe('medicineActions', () => {
         setTimeout(() => {
             expect(dispatch.mock.calls[0][0].type).toBe(types.BEGIN_API_CALL);
             expect(dispatch.mock.calls[1][0].type).toBe(types.ERROR_SET);
+            done();
+        }, 0);
+    });
+
+    it('Pos: createPrescription', (done) => {
+        // eslint-disable-next-line
+        medAPI.savePrescription = jest.fn((a) => {
+            //console.log(`Mocked savePrescription ${a}`);
+            return Promise.resolve();
+        });
+
+
+        // eslint-disable-next-line
+        let dispatch  = jest.fn((detail) => {
+            //console.log("Dispatching >>> " + detail.type);
+            //console.log(`detail ${detail.type}`);
+        });
+
+        const navFn = jest.fn();
+        let thunk = createPrescription({},navFn);
+
+        thunk(dispatch)
+
+        setTimeout(() => {
+
+            expect(dispatch.mock.calls[0][0].type).toBe(types.BEGIN_API_CALL);
+            expect(dispatch.mock.calls[1][0].type).toBe(types.PRESCRIPTION_SAVED_SUCCESS);
+            expect(navFn.mock.calls.length).toEqual(1);
             done();
         }, 0);
     });

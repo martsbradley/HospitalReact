@@ -43,3 +43,25 @@ export function checkResponse(response, url) {
   //}
     return isError;
 }
+
+
+export function post(url, object,) {
+    return sendData(url, 'post', object);
+}
+
+export function put(url, object,) {
+    return sendData(url, 'put', object);
+}
+
+function sendData(url, method, object,) {
+
+    return fetch(url,
+                 {
+                      method,
+                      headers: {
+                          'Accept': 'application/json',
+                          'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify(object)
+                  });
+}
