@@ -89,7 +89,7 @@ export default function PatientForm({loadPatient,
                            handleFormChange={handleFormChange}/>
             <div className="col-md-6 form-line">
                 <div className="form-group">
-                    <PrescriptionTable list={patient.prescriptions} />
+                    <PrescriptionTable patientId={patient.id} list={patient.prescriptions} />
                 </div>
                 <div className="form-group">
                     <ImageTable list={patient.images} />
