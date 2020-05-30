@@ -8,12 +8,12 @@ import medicineReducer from './medicineReducer.js';
 
 export default function appReducer(state, action) {
     return {
-        "count"     :  countReducer(state.count, action),
-        "patient"   :  patientReducer(state.patient, action),
-        "error"     :  errorReducer(state.error, action),
-        "userStatus":  userReducer(state.userStatus, action),
-        "validation":  validationReducer(state.validation, action),
-        "apiCalls"  :  apiStatusReducer(state.apiCalls, action),
-        "medicine"  :  medicineReducer(state.medicine, action)
+        "count"       :  countReducer(state.count, action),
+        "patient"     :  patientReducer(state.patient, action),
+        "error"       :  errorReducer(state.error, action),
+        "userStatus"  :  userReducer(state.userStatus, action),
+        "validation"  :  validationReducer(state.validation, action),
+        "apiCalls"    :  apiStatusReducer(state.apiCalls, action),
+        "medicine"    :  medicineReducer(state.medicine, action),
     };
 }

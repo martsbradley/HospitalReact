@@ -72,6 +72,11 @@ button[disabled]{
     border: 1px solid dimgray;
 }
 
+.disableInput {
+    background: darkgray;
+    border    : 1px solid darkgray;
+}
+
 
 
 // via https://projects.lukehaas.me/css-loaders/ 

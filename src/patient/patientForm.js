@@ -12,6 +12,8 @@ export default function PatientForm({loadPatient,
                                      clearValidations,
                                      validation,
                                      loading,
+                                     loadPrescription,
+                                     unLoadPrescription,
                                      ...props}) {
 
     // patient is an unnamed prop so that can have a constant named
@@ -75,6 +77,13 @@ export default function PatientForm({loadPatient,
     const addTablet       = `/patients/${patient.id}/tablet/select`;
     const addImage        = `/patients/${patient.id}/addimage`;
 
+
+    const handleLoadPrescription = (id) => {
+        console.log("handleLoadPrescription");
+        loadPrescription(id);
+        props.history.push(`/patients/${patient.id}/tablet/delete/${id}`);
+    }
+
 //  console.log("Before render the title is '" + title + "'"); 
 //  console.log("Running useEffect");
 //  console.log("in effect " + title);
@@ -89,7 +98,10 @@ export default function PatientForm({loadPatient,
                            handleFormChange={handleFormChange}/>
             <div className="col-md-6 form-line">
                 <div className="form-group">
-                    <PrescriptionTable patientId={patient.id} list={patient.prescriptions} />
+                    <PrescriptionTable patientId={patient.id} 
+                                       list={patient.prescriptions} 
+                                       loadPrescription={handleLoadPrescription}
+                                       unLoadPrescription={unLoadPrescription}/>
                 </div>
                 <div className="form-group">
                     <ImageTable list={patient.images} />
@@ -120,3 +132,6 @@ PatientForm.propTypes = {
     history : PropTypes.object,
     match   : PropTypes.object
 }
+
+
+

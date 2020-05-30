@@ -29,6 +29,7 @@ const loadPatientSuccessHandler = (dispatch) => {
 
 /* This action immediately calls the async network calls.
  * When the response comes back the success/failure
+ *
  * handlers are called */
 export const loadPatientsAction = (startPage, itemsOnPage) => dispatch => 
 {
@@ -80,4 +81,12 @@ export function savePatientAction(patient, history) {
             handleError(dispatch, myError);
         })
      };
+}
+
+export function loadPrescription(prescriptionId) {
+    return { type: Actions.PRESCRIPTION_LOAD_CURRENT,
+             prescriptionId};
+}
+export function unLoadPrescription() {
+    return { type: Actions.PRESCRIPTION_UNLOAD_CURRENT};
 }

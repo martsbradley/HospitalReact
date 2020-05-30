@@ -12,18 +12,21 @@ export const pageIds = {
 function createDateField(isWritable, fieldName, value,onChangeHandler, labelTxt){
     let element = null;
     if (!isWritable) {
-        element = <div className="form-group">
-                      <label htmlFor="{fieldName}">{labelTxt}</label>
-                      <span className="form-control-plaintext">{value}</span>
+        element = <div className="form-group row">
+                      <label className="col-sm-2 col-form-label">{labelTxt}</label>
+                       <div className="col-sm-10">
+                          <span className="form-control disableInput">{value}</span>
+                       </div>
                   </div>;
     }
     else {
-        element = <div className="form-group">
-                      <label htmlFor="{fieldName}" >{labelTxt}</label>
-                      <input type="date" className="form-control" name={fieldName}
-                                          value={value}  
-                                          onChange={onChangeHandler}>
-                       </input>
+        element = <div className="form-group row">
+                      <label htmlFor="{fieldName}" className="col-sm-2 col-form-label">{labelTxt}</label>
+                       <div className="col-sm-10">
+                           <input type="date" className="form-control" name={fieldName}
+                                              value={value}  
+                                              onChange={onChangeHandler}/>
+                       </div>
                   </div>;
     }
 
@@ -53,11 +56,12 @@ export default function StartDate({title,
 
     return (<div>
             <h1>Prescription {title}</h1>
-            <div className="col-md-6 form-line">
-               <div className="form-group">
-                   <label htmlFor="medicine">Medicine</label>
-                   <input type="input" className="form-control-plaintext" name="medicine" 
-                          readOnly disabled value={medicineName} />
+            <div className="col-md-6">
+               <div className="form-group row">
+                   <label htmlFor="medicine" className="col-sm-2 col-form-label">Medicine</label>
+                   <div className="col-sm-10">
+                       <span className="form-control disableInput">{medicineName}</span>
+                   </div>
                </div>
                
                {startDateBlock}

@@ -85,8 +85,7 @@ describe('TabletWizard', () => {
 
         await waitFor(() => {
             const heading = screen.getByRole("heading");
-            expect(heading).toHaveTextContent("Prescription Starting on Date");
-            
+            expect(heading).toHaveTextContent("Prescription Choose Start Date");
         });
     });
 })

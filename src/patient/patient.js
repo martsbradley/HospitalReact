@@ -10,7 +10,7 @@ import AddImage from '../addimage.js'
 import TabletWizard from './tablet';
 import { connect } from "react-redux";
 
-function PatientTable({errorInfo}) {
+function PatientTable({errorInfo,prescription}) {
 
     if (errorInfo !== "") {
 
@@ -25,7 +25,9 @@ function PatientTable({errorInfo}) {
             <Route path="/patients/:patientId/addimage"     component={AddImage} />
             <Route path="/patients/form/:patientId"         component={PatientForm} />
             <Route path="/patients/new"                     component={PatientForm} />
-            <Route path="/patients/:patientId/tablet/delete/:id" component={TabletDelete} />
+            <Route path="/patients/:patientId/tablet/delete/:id">
+                 <TabletDelete prescription={prescription}/>
+            </Route>
             <Route path="/patients/:patientId/tablet"       component={TabletWizard} />
         </Switch>
     </ErrorBoundary>
@@ -39,7 +41,8 @@ PatientTable.propTypes = {
 function mapStateToProps(state) {
 
     const result = {
-        errorInfo         : state.error
+        errorInfo   : state.error,
+        prescription: state.patient.prescription
     };
 
     return result;

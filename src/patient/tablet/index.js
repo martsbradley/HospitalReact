@@ -183,7 +183,7 @@ function TabletWizard({createPrescription})
                                   medicineSelected= {medicineSelectedFn} />
                 </Route>
                 <Route path={`${match.path}/startDate`}>
-                    <StartDate title="Starting on Date"
+                    <StartDate title="Choose Start Date"
                                medicineName={state.medicineName} 
                                startDate={state.startDate}
                                endDate={state.endDate}
@@ -192,7 +192,7 @@ function TabletWizard({createPrescription})
                                pageType={pageIds.START_PAGE} />
                 </Route>
                 <Route path={`${match.path}/endDate`}>
-                    <StartDate title="Ending on Date"
+                    <StartDate title="Choose End Date"
                                medicineName={state.medicineName} 
                                startDate={state.startDate}
                                endDate={state.endDate}
@@ -201,7 +201,7 @@ function TabletWizard({createPrescription})
                                pageType={pageIds.END_PAGE} />
                 </Route>
                 <Route path={`${match.path}/confirmation`}>
-                    <StartDate title="Confirmation"
+                    <StartDate title="Provide Confirmation"
                                medicineName={state.medicineName} 
                                startDate={state.startDate}
                                endDate={state.endDate}

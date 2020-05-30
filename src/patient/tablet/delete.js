@@ -1,15 +1,17 @@
 import React,{useEffect} from 'react'
-//import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 //import {createPrescription} from '../../redux/actions/medicineActions';
 import {useParams /*,Route, Switch, Link, useHistory, useRouteMatch,useLocation*/ } from 'react-router-dom'
 import ErrorBoundary from '../../errorboundary.js'
 import PropTypes from 'prop-types';
  
 TabletDelete.propTypes = {
-    deletePrescription: PropTypes.func
+    deletePrescription: PropTypes.func,
+    prescription      : PropTypes.obj
 };
 
-export default function TabletDelete()
+export default function TabletDelete({prescription})
+                 
 {
     const {patientId,id} = useParams()
 
@@ -27,34 +29,33 @@ export default function TabletDelete()
         //
     },[]);
 
-    const medicineName = "heroine";
-    const startDate = "2020-01-01";
-    const endDate = "2020-01-01";
-
-    console.log("Now in patient delete");
-
    return <ErrorBoundary>
         <>
-           <h1>Delete Prescription</h1>
-            <div className="col-md-6 form-line">
-               <div className="form-group">
-                   <label htmlFor="medicine">Medicine</label>
-                   <input type="input" className="form-control-plaintext" name="medicine" 
-                          readOnly disabled value={medicineName} />
+           <h1>Delete Prescription {id} </h1>
+            <form>
+            <div className="col-md-6">
+               <div className="form-group row">
+                   <label htmlFor="medicine" className="col-sm-2 col-form-label">Medicine</label>
+                   <div className="col-sm-10">
+                       <span className="form-control disableInput">{prescription.medicine.name}</span>
+                   </div>
                </div>
-               <div className="form-group">
-                   <label htmlFor="{fieldName}">Start Date</label>
-                   <span className="form-control-plaintext">{startDate}</span>
+               <div className="form-group row">
+                   <label className="col-sm-2 col-form-label">Start Date</label>
+                   <div className="col-sm-10">
+                       <span className="form-control disableInput">{prescription.startDate}</span>
+                   </div>
                </div>
-               <div className="form-group">
-                   <label htmlFor="{fieldName}">End Date</label>
-                   <span className="form-control-plaintext">{endDate}</span>
+               <div className="form-group row">
+                   <label className="col-sm-2 col-form-label">End Date</label>
+                   <div className="col-sm-10">
+                       <span className="form-control disableInput"  >{prescription.endDate}</span>
+                   </div>
                </div>
           
-             <br/>
-              patientId = {patientId}
-              id = {id}
+                <Link  to={`/patients/form/${patientId}`}><button>Cancel</button></Link>
             </div>
+            </form>
         </>
     </ErrorBoundary>;
 }

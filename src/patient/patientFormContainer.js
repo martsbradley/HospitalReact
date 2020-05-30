@@ -12,10 +12,12 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-       loadPatient   :   patientActions.loadPatientAction,
-       unLoadPatient :   patientActions.unLoadPatientAction,
-       clearValidations: validationActions.clearValidationAction,
-       savePatient   :   patientActions.savePatientAction
+       loadPatient        : patientActions.loadPatientAction,
+       unLoadPatient      : patientActions.unLoadPatientAction,
+       clearValidations   : validationActions.clearValidationAction,
+       savePatient        : patientActions.savePatientAction,
+       loadPrescription   : patientActions.loadPrescription,
+       unLoadPrescription : patientActions.unLoadPrescription,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PatientForm);
