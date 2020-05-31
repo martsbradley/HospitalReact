@@ -1,4 +1,4 @@
-import {checkResponse, pageURL, filterParam, post/*, httpDelete*/} from './api-utils';
+import {checkResponse, pageURL, filterParam, post, httpDelete} from './api-utils';
 import {medicineURL, prescriptionURL} from './url-constants';
 
 export async function loadMedicines(pageNumber, pageSize, filterText) {
@@ -52,12 +52,9 @@ export const savePrescription = async (prescription) => {
 }
 export const deletePrescription = async (prescriptionId) => {
 
-    //let url =`${prescriptionURL}/${prescriptionId}`;
-    let url ='/meds/abc';
+    let url =`${prescriptionURL}/prescription/${prescriptionId}`;
 
-    console.log(prescriptionId);
-    console.log("Hitting " + url);
-    let response = await fetch(url);
+    let response = await httpDelete(url);
 
     let isError  = checkResponse(response, url);
 

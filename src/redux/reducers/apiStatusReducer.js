@@ -18,8 +18,8 @@ export default function apiStatusReducer(
         action.type === types.API_CALL_ERROR ||
         actionTypeEndsInSuccess(action.type)
     ) {
-        //let newState = state - 1;
-        //console.log(`End state ${state} ${newState}`);
+      //let newState = state - 1;
+      //console.log(`End state ${state} ${newState}`);
         return --state;
     }
 

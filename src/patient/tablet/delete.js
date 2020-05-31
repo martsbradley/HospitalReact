@@ -1,6 +1,6 @@
 import React,{useEffect} from 'react'
 import {Link} from "react-router-dom";
-import {useParams/*, useHistory*/} from 'react-router-dom'
+import {useParams, useHistory} from 'react-router-dom'
 import ErrorBoundary from '../../errorboundary.js'
 import PropTypes from 'prop-types';
 
@@ -22,11 +22,11 @@ export default function TabletDelete(props)
         //
     },[]);
 
-    //let history = useHistory();
+    let history = useHistory();
 
     const reloadPatientPage = () => {
-        //history.push(`/patients/form/${patientId}`);
         console.log("reloadPatientPage");
+        history.push(`/patients/form/${patientId}`);
     }
 
     function performDelete()  {
@@ -69,4 +69,3 @@ TabletDelete.propTypes = {
     presc: PropTypes.object,
     deletePrescription: PropTypes.func,
 };
-

@@ -51,24 +51,24 @@ export const createPrescription = (prescription, navFn) => async (dispatch) =>
     }
 }
 
-export function unLoadPrescription() {
-    return { type: Actions.PRESCRIPTION_UNLOAD_CURRENT_SUCCESS};
+export function unLoadPrescription(dispatch) {
+    return dispatch({ type: Actions.PRESCRIPTION_UNLOAD_CURRENT_SUCCESS});
 }
 
-export const deletePrescriptionAction = (prescriptionId/*, navFn*/) => async (dispatch) => 
+export const deletePrescriptionAction = (prescriptionId, navFn) => async (dispatch) => 
 {
-    //dispatch({type:Actions.BEGIN_API_CALL});
+    dispatch({type:Actions.BEGIN_API_CALL});
     console.log(dispatch);
 
     try {
         await deletePrescription(prescriptionId);
 
-        //unLoadPrescription(dispatch);
-        //navFn();
+        navFn();
+        unLoadPrescription(dispatch);
     }
     catch (e) {
         console.log("deletePrescription error");
         console.log(e);
-       //handleError(dispatch, e); 
+        handleError(dispatch, e); 
     }
 }
