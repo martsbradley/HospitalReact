@@ -79,7 +79,7 @@ export default function patientReducer(patient , action){
         case types.PRESCRIPTION_LOAD_CURRENT:
             return loadPrescription(patient, action);
 
-        case types.PRESCRIPTION_UNLOAD_CURRENT:
+        case types.PRESCRIPTION_UNLOAD_CURRENT_SUCCESS:
             return unLoadPrescription(patient);
         default:
             return patient;

@@ -36,8 +36,8 @@ export default function patientList({patients,
     const items = patients.map(patient => <PatientRow key={patient.id} pat={patient}/>)
 
     return <>
+        <div className="tablehead col-md-6">
         <h1>Patients</h1>
-        <div className="tablehead">
             <div className="myleft">
                 <Link to="/patients/new/"><i className="fa fa-plus-square fa-3x"></i></Link>
             </div>
@@ -48,11 +48,10 @@ export default function patientList({patients,
                             activePage={activePage}
                             itemsCountPerPage={itemsPerPage}
                             totalItemsCount={totalItemsCount}
-                            pageRangeDisplayed={15}
+                            pageRangeDisplayed={5}
                             onChange={changePage} >
                 </Pagination>
             </div>
-        </div>
 
         <table className='table table-bordered'>
                    <thead className='thead-dark'>
@@ -68,6 +67,7 @@ export default function patientList({patients,
             {items}
           </tbody>
         </table>
+        </div>
     </>
 }
 patientList.propTypes = {

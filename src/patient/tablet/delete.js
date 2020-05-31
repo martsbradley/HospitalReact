@@ -1,19 +1,12 @@
 import React,{useEffect} from 'react'
-import { Link } from "react-router-dom";
-//import {createPrescription} from '../../redux/actions/medicineActions';
-import {useParams /*,Route, Switch, Link, useHistory, useRouteMatch,useLocation*/ } from 'react-router-dom'
+import {Link} from "react-router-dom";
+import {useParams/*, useHistory*/} from 'react-router-dom'
 import ErrorBoundary from '../../errorboundary.js'
 import PropTypes from 'prop-types';
- 
-TabletDelete.propTypes = {
-    deletePrescription: PropTypes.func,
-    prescription      : PropTypes.obj
-};
 
-export default function TabletDelete({prescription})
-                 
+export default function TabletDelete(props)
 {
-    const {patientId,id} = useParams()
+    const {patientId,prescriptionId} = useParams()
 
     useEffect(() => {
         console.log("loading delete data");
@@ -29,39 +22,51 @@ export default function TabletDelete({prescription})
         //
     },[]);
 
+    //let history = useHistory();
+
+    const reloadPatientPage = () => {
+        //history.push(`/patients/form/${patientId}`);
+        console.log("reloadPatientPage");
+    }
+
+    function performDelete()  {
+      console.log("performDelete");
+
+      props.deletePrescription(prescriptionId, reloadPatientPage);
+    }
+
    return <ErrorBoundary>
         <>
-           <h1>Delete Prescription {id} </h1>
-            <form>
+           <h1>Delete Prescription {prescriptionId} </h1>
             <div className="col-md-6">
                <div className="form-group row">
                    <label htmlFor="medicine" className="col-sm-2 col-form-label">Medicine</label>
                    <div className="col-sm-10">
-                       <span className="form-control disableInput">{prescription.medicine.name}</span>
+                       <span className="form-control disableInput">{props.presc.medicine.name}</span>
                    </div>
                </div>
                <div className="form-group row">
                    <label className="col-sm-2 col-form-label">Start Date</label>
                    <div className="col-sm-10">
-                       <span className="form-control disableInput">{prescription.startDate}</span>
+                       <span className="form-control disableInput">{props.presc.startDate}</span>
                    </div>
                </div>
                <div className="form-group row">
                    <label className="col-sm-2 col-form-label">End Date</label>
                    <div className="col-sm-10">
-                       <span className="form-control disableInput"  >{prescription.endDate}</span>
+                       <span className="form-control disableInput"  >{props.presc.endDate}</span>
                    </div>
                </div>
           
-                <Link  to={`/patients/form/${patientId}`}><button>Cancel</button></Link>
+                <Link to={`/patients/form/${patientId}`}><button>Cancel</button></Link>
+                 <button onClick={performDelete}>Delete</button>
             </div>
-            </form>
         </>
     </ErrorBoundary>;
 }
-/*
-const mapDispatchToProps = {
-    createPrescription: createPrescription
+
+TabletDelete.propTypes = {
+    presc: PropTypes.object,
+    deletePrescription: PropTypes.func,
 };
 
-export default connect(null, mapDispatchToProps)(TabletWizard);*/

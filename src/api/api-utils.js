@@ -53,11 +53,23 @@ export function put(url, object,) {
     return sendData(url, 'put', object);
 }
 
-function sendData(url, method, object,) {
-
+export function httpDelete(url) {
+    console.log("httpDelete calling sendData : " + url);
     return fetch(url,
                  {
-                      method,
+                     method: 'delete', 
+                     headers: {
+                          'Accept': 'application/json',
+                      }
+                  });
+}
+
+function sendData(url, methodName, object) {
+
+    console.log("sendData :"+ methodName);
+    return fetch(url,
+                 {
+                      method: methodName,
                       headers: {
                           'Accept': 'application/json',
                           'Content-Type': 'application/json'

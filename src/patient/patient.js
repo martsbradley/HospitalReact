@@ -4,13 +4,13 @@ import PatientForm from './patientFormContainer'
 import PatientList from './list/patientListContainer'
 import PropTypes from 'prop-types';
 import Prescription from './prescription/prescription.js'
-import TabletDelete from './tablet/delete.js'
+import TabletDelete from './tablet/delete-container.js'
 import ErrorBoundary from '../errorboundary.js'
 import AddImage from '../addimage.js'
 import TabletWizard from './tablet';
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 
-function PatientTable({errorInfo,prescription}) {
+function PatientTable({errorInfo}) {
 
     if (errorInfo !== "") {
 
@@ -25,10 +25,9 @@ function PatientTable({errorInfo,prescription}) {
             <Route path="/patients/:patientId/addimage"     component={AddImage} />
             <Route path="/patients/form/:patientId"         component={PatientForm} />
             <Route path="/patients/new"                     component={PatientForm} />
-            <Route path="/patients/:patientId/tablet/delete/:id">
-                 <TabletDelete prescription={prescription}/>
-            </Route>
-            <Route path="/patients/:patientId/tablet"       component={TabletWizard} />
+            <Route path="/patients/:patientId/tablet/delete/:prescriptionId" 
+                                                            component={TabletDelete} />
+            <Route path="/patients/:patientId/tablet" component={TabletWizard} />
         </Switch>
     </ErrorBoundary>
     )
@@ -42,7 +41,6 @@ function mapStateToProps(state) {
 
     const result = {
         errorInfo   : state.error,
-        prescription: state.patient.prescription
     };
 
     return result;
@@ -50,5 +48,5 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = null;
 
-
 export default connect(mapStateToProps, mapDispatchToProps)(PatientTable);
+

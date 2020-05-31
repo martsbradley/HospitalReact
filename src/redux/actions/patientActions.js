@@ -87,6 +87,3 @@ export function loadPrescription(prescriptionId) {
     return { type: Actions.PRESCRIPTION_LOAD_CURRENT,
              prescriptionId};
 }
-export function unLoadPrescription() {
-    return { type: Actions.PRESCRIPTION_UNLOAD_CURRENT};
-}

@@ -1,5 +1,5 @@
 import * as Actions from './actionTypes';
-import {loadMedicines, savePrescription} from '../../api/medicine-api';
+import {loadMedicines, savePrescription, deletePrescription} from '../../api/medicine-api';
 import {handleError} from './errorActions';
 
 
@@ -48,5 +48,27 @@ export const createPrescription = (prescription, navFn) => async (dispatch) =>
     }
     catch (e) {
        handleError(dispatch, e); 
+    }
+}
+
+export function unLoadPrescription() {
+    return { type: Actions.PRESCRIPTION_UNLOAD_CURRENT_SUCCESS};
+}
+
+export const deletePrescriptionAction = (prescriptionId/*, navFn*/) => async (dispatch) => 
+{
+    //dispatch({type:Actions.BEGIN_API_CALL});
+    console.log(dispatch);
+
+    try {
+        await deletePrescription(prescriptionId);
+
+        //unLoadPrescription(dispatch);
+        //navFn();
+    }
+    catch (e) {
+        console.log("deletePrescription error");
+        console.log(e);
+       //handleError(dispatch, e); 
     }
 }

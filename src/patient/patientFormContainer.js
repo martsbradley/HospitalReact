@@ -16,8 +16,7 @@ const mapDispatchToProps = {
        unLoadPatient      : patientActions.unLoadPatientAction,
        clearValidations   : validationActions.clearValidationAction,
        savePatient        : patientActions.savePatientAction,
-       loadPrescription   : patientActions.loadPrescription,
-       unLoadPrescription : patientActions.unLoadPrescription,
+       loadPrescription   : patientActions.loadPrescription
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PatientForm);
