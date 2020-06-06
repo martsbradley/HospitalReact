@@ -20,7 +20,7 @@ export default function Navigation({ isAuthenticated, isOnLoginScreen}) {
 
                 { !isOnLoginScreen && isAuthenticated ?
                         <li className="nav-item">
-                            <NavLink className="nav-link" activeClassName='isactive' to="/patients">Patients</NavLink>
+                            <NavLink className="nav-link" activeClassName='isactive' to="/patient">Patients</NavLink>
                         </li>
                         : null
                 }

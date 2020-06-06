@@ -73,7 +73,7 @@ export function savePatientAction(patient, history) {
             }
             else {
                 dispatch({ type: Actions.PATIENTS_SAVED_SUCCESS });
-                history.push("/patients");
+                history.push("/patient");
             }
         })
         .catch(myError => {

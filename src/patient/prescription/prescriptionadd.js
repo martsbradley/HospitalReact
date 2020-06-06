@@ -170,7 +170,7 @@ export default class PrescriptionAdd extends React.Component {
 
                     <div className="form-line">
                         <div className="form-group">
-                            <Link to={`/patients/edit/${this.props.patientId}`}><button>Cancel</button></Link>
+                            <Link to={`/patient/edit/${this.props.patientId}`}><button>Cancel</button></Link>
                             <button type="submit">Next</button>
                         </div>
                     </div>

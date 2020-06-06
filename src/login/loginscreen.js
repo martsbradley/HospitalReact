@@ -26,7 +26,7 @@ export default function LoginScreen({isLoggedIn, loginHandler}){
     }
 
     if (isLoggedIn === true) {
-        return <Redirect to="/patients"/>
+        return <Redirect to="/patient"/>
     }
 
     const result = (
@@ -50,7 +50,7 @@ export default function LoginScreen({isLoggedIn, loginHandler}){
 
                 <div className="form-group">
 
-                    <Link to="/patients"><button>Cancel</button></Link>
+                    <Link to="/patient"><button>Cancel</button></Link>
                     <button type="submit">Login</button>
                 </div>
             </div>

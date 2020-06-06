@@ -41,8 +41,8 @@ describe('PatientForm', () => {
       const args = {...defaultArgs, loadPatient};
 
         const {getByRole} = renderWithRouterMatch(Wrapper(args),
-                                        { path:  "/patients/:patientId",
-                                          route: "/patients/100"});
+                                        { path:  "/patient/:patientId",
+                                          route: "/patient/100"});
 
         expect(getByRole('heading')).toHaveTextContent("Edit Patient");
         expect(loadPatient).toHaveBeenCalledTimes(1);
@@ -51,8 +51,8 @@ describe('PatientForm', () => {
     it('New', () => {
         const args = {...defaultArgs};
         const {getByRole} = renderWithRouterMatch(Wrapper(args),
-                                        { path:  "/patients/new",
-                                          route: "/patients/new"});
+                                        { path:  "/patient/new",
+                                          route: "/patient/new"});
         expect(getByRole('heading')).toHaveTextContent("New Patient");
     });
 
@@ -62,8 +62,8 @@ describe('PatientForm', () => {
 
         const args = {...defaultArgs, loadPatient};
         const {getByRole} = renderWithRouterMatch(Wrapper(args),
-                                        { path:  "/patients/new",
-                                          route: "/patients/new"});
+                                        { path:  "/patient/new",
+                                          route: "/patient/new"});
 
         expect(getByRole('heading')).toHaveTextContent("New Patient");
         expect(loadPatient).not.toBeCalled();

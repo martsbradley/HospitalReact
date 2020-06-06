@@ -13,8 +13,8 @@ function PatientRow (props) {
     <td style={{width: '5%'}} className="d-none d-sm-table-cell">{pat.id}</td>
     <td style={{width: '20%'}} >{pat.forename}</td>
     <td style={{width: '20%'}} className="d-none d-sm-table-cell">{pat.surname}</td>
-    <td style={{width: '10%'}} className="d-none d-md-table-cell"><Link to={`/patients/${id}`}>{pat.dateOfBirth}</Link></td>
-    <td style={{width: '5%'}} ><Link to={`/patients/${id}`}>{editIcon}</Link></td>
+    <td style={{width: '10%'}} className="d-none d-md-table-cell"><Link to={`/patient/${id}`}>{pat.dateOfBirth}</Link></td>
+    <td style={{width: '5%'}} ><Link to={`/patient/${id}`}>{editIcon}</Link></td>
     </tr>);
 }
 
@@ -39,7 +39,7 @@ export default function patientList({patients,
         <div className="tablehead col-md-6">
         <h1>Patients</h1>
             <div className="myleft">
-                <Link to="/patients/new/"><i className="fa fa-plus-square fa-3x"></i></Link>
+                <Link to="/patient/new/"><i className="fa fa-plus-square fa-3x"></i></Link>
             </div>
             <div className="float-right">
                 <Pagination

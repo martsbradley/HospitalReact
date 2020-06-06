@@ -86,7 +86,7 @@ export default class PrescriptionConfirm extends React.Component {
 
     render () {
         if (this.state.success === true) {
-            return <Redirect to={`/patients/edit/${this.props.patientId}`} />
+            return <Redirect to={`/patient/edit/${this.props.patientId}`} />
         }
 
         return (<div>

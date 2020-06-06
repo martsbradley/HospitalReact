@@ -20,14 +20,14 @@ function PatientTable({errorInfo}) {
     let result = (
     <ErrorBoundary>
         <Switch>
-            <Route path="/patients/" exact                  component={PatientList} />
-            <Route path="/patients/:patientId/prescription" component={Prescription} />
-            <Route path="/patients/:patientId/addimage"     component={AddImage} />
-            <Route path="/patients/new"                     component={PatientForm} />
-            <Route path="/patients/:patientId/tablet/delete/:prescriptionId" 
-                                                            component={TabletDelete} />
-            <Route path="/patients/:patientId/tablet" component={TabletWizard} />
-            <Route path="/patients/:patientId"              component={PatientForm} />
+            <Route path="/patient"     exact               component={PatientList} />
+            <Route path="/patient/new" exact               component={PatientForm} />
+            <Route path="/patient/:patientId"  exact       component={PatientForm} />
+            <Route path="/patient/:patientId/prescription" component={Prescription} />
+            <Route path="/patient/:patientId/addimage"     component={AddImage} />
+            <Route path="/patient/:patientId/tablet/delete/:prescriptionId" 
+                                                           component={TabletDelete} />
+            <Route path="/patient/:patientId/tablet"       component={TabletWizard} />
         </Switch>
     </ErrorBoundary>
     )

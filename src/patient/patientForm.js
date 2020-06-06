@@ -74,14 +74,14 @@ export default function PatientForm({loadPatient,
                                    [name] : value }));
     }
 
-    const addTablet       = `/patients/${patient.id}/tablet/select`;
-    const addImage        = `/patients/${patient.id}/addimage`;
+    const addTablet       = `/patient/${patient.id}/tablet/select`;
+    const addImage        = `/patient/${patient.id}/addimage`;
 
 
     const handleLoadPrescription = (id) => {
         console.log("handleLoadPrescription");
         loadPrescription(id);
-        props.history.push(`/patients/${patient.id}/tablet/delete/${id}`);
+        props.history.push(`/patient/${patient.id}/tablet/delete/${id}`);
     }
 
 //  console.log("Before render the title is '" + title + "'"); 
@@ -114,7 +114,7 @@ export default function PatientForm({loadPatient,
                 <div className="form-group">
                     <button type="submit">Submit</button>
 
-                    <Link to="/patients"><button>Cancel</button></Link>
+                    <Link to="/patient"><button>Cancel</button></Link>
                     {editPatient ?
                         <>
                             <Link id="addtabs2" to={`${addTablet}`} ><button>Add Tablet</button></Link>

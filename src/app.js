@@ -26,7 +26,7 @@ export default function App(){
 
                     <Route path="/count"   component={DrawItComp} />
 
-                    <AuthenticatedRoute path="/patients"
+                    <AuthenticatedRoute path="/patient"
                                             component={PatientTable}  />
 
                     <Route path="/error/authentication"   component={AuthenticationError} />
