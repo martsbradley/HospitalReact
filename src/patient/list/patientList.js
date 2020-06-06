@@ -13,8 +13,8 @@ function PatientRow (props) {
     <td style={{width: '5%'}} className="d-none d-sm-table-cell">{pat.id}</td>
     <td style={{width: '20%'}} >{pat.forename}</td>
     <td style={{width: '20%'}} className="d-none d-sm-table-cell">{pat.surname}</td>
-    <td style={{width: '10%'}} className="d-none d-md-table-cell"><Link to={`/patients/form/${id}`}>{pat.dateOfBirth}</Link></td>
-    <td style={{width: '5%'}} ><Link to={`/patients/form/${id}`}>{editIcon}</Link></td>
+    <td style={{width: '10%'}} className="d-none d-md-table-cell"><Link to={`/patients/${id}`}>{pat.dateOfBirth}</Link></td>
+    <td style={{width: '5%'}} ><Link to={`/patients/${id}`}>{editIcon}</Link></td>
     </tr>);
 }
 

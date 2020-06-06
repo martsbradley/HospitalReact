@@ -25,7 +25,7 @@ function mapStateToProps(state) {
 //
 
 function saveCourse(history) {
-    history.push("/patients/list");
+    history.push("/patients");
 
     return function(dispatch) {
         dispatch({type: types.INCREMENT_COUNT});

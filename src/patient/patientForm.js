@@ -114,7 +114,7 @@ export default function PatientForm({loadPatient,
                 <div className="form-group">
                     <button type="submit">Submit</button>
 
-                    <Link to="/patients/list"><button>Cancel</button></Link>
+                    <Link to="/patients"><button>Cancel</button></Link>
                     {editPatient ?
                         <>
                             <Link id="addtabs2" to={`${addTablet}`} ><button>Add Tablet</button></Link>

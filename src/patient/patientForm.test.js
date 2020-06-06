@@ -41,8 +41,8 @@ describe('PatientForm', () => {
       const args = {...defaultArgs, loadPatient};
 
         const {getByRole} = renderWithRouterMatch(Wrapper(args),
-                                        { path:  "/patients/form/:patientId",
-                                          route: "/patients/form/100"});
+                                        { path:  "/patients/:patientId",
+                                          route: "/patients/100"});
 
         expect(getByRole('heading')).toHaveTextContent("Edit Patient");
         expect(loadPatient).toHaveBeenCalledTimes(1);

@@ -63,7 +63,7 @@ function TabletWizard({createPrescription})
     let match = useRouteMatch();
 
 
-    const exitWizard = () => onNavigation('',             `/patients/form/${patientId}`);
+    const exitWizard = () => onNavigation('',             `/patients/${patientId}`);
     const goPage1    = () => onNavigation('select',       `${match.url}/select`);
     const goPage2    = () => onNavigation('startDate',    `${match.url}/startDate`);
     const goPage3    = () => onNavigation('endDate',      `${match.url}/endDate`);
@@ -76,7 +76,7 @@ function TabletWizard({createPrescription})
         console.log(`startDate                   ${state.startDate}`);
         console.log(`endDate                     ${state.endDate}`);
         
-        onNavigation('',             `/patients/form/${patientId}`);
+        onNavigation('',             `/patients/${patientId}`);
 
         createPrescription({patientId: patientId,                
                             prescription : 

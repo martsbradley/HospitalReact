@@ -26,7 +26,7 @@ export default function TabletDelete(props)
 
     const reloadPatientPage = () => {
         console.log("reloadPatientPage");
-        history.push(`/patients/form/${patientId}`);
+        history.push(`/patients/${patientId}`);
     }
 
     function performDelete()  {
@@ -58,7 +58,7 @@ export default function TabletDelete(props)
                    </div>
                </div>
           
-                <Link to={`/patients/form/${patientId}`}><button>Cancel</button></Link>
+                <Link to={`/patients/${patientId}`}><button>Cancel</button></Link>
                  <button onClick={performDelete}>Delete</button>
             </div>
         </>
