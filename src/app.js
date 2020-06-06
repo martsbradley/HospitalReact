@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, BrowserRouter, Switch} from 'react-router-dom';
 import {HomePage} from './homepage';
-import PatientTable from './patient/patient';
+import PatientTable from './patient';
 import Navigation from './navigation/navigationContainer';
 import Login from './login';
 import AuthenticatedRoute from './authenticatedroute';
