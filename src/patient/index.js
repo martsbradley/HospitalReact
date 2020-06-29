@@ -3,7 +3,7 @@ import {Route, Redirect, Switch} from 'react-router-dom'
 import PatientForm from './patientFormContainer'
 import PatientList from './list/patientListContainer'
 import PropTypes from 'prop-types';
-import Prescription from './prescription/prescription.js'
+//import Prescription from './prescription/prescription.js'
 import TabletDelete from './tablet/delete-container.js'
 import ErrorBoundary from '../errorboundary.js'
 import AddImage from '../addimage.js'
@@ -23,7 +23,6 @@ function PatientTable({errorInfo}) {
             <Route path="/patient"     exact               component={PatientList} />
             <Route path="/patient/new" exact               component={PatientForm} />
             <Route path="/patient/:patientId"  exact       component={PatientForm} />
-            <Route path="/patient/:patientId/prescription" component={Prescription} />
             <Route path="/patient/:patientId/addimage"     component={AddImage} />
             <Route path="/patient/:patientId/tablet/delete/:prescriptionId" 
                                                            component={TabletDelete} />
@@ -50,3 +49,4 @@ const mapDispatchToProps = null;
 
 export default connect(mapStateToProps, mapDispatchToProps)(PatientTable);
 
+            //<Route path="/patient/:patientId/prescription" component={Prescription} /> --
