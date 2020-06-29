@@ -6,7 +6,7 @@ export async function loadMedicines(pageNumber, pageSize, filterText) {
     const filter = filterParam(filterText)
     const medicinesURL = `${medicineURL}${query}${filter}`;
 
-    console.log("Hitting " + medicineURL);
+    //console.log("Hitting " + medicineURL);
     const response = await fetch(medicinesURL);
 
     let isError = checkResponse(response, medicinesURL);

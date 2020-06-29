@@ -19,7 +19,7 @@ import {
 describe('PatientForm', () => {
 
     const doesNothing = () => {}
-    const validation = []
+    const validation = {}
     const defaultArgs = { patient          : emptyPatient,
                           loadPatient      : doesNothing,
                           unLoadPatient    : doesNothing,

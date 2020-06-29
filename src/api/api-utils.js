@@ -66,7 +66,7 @@ export function httpDelete(url) {
 
 function sendData(url, methodName, object) {
 
-    console.log("sendData :"+ methodName);
+    //console.log("sendData :"+ methodName);
     return fetch(url,
                  {
                       method: methodName,

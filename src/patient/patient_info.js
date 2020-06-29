@@ -47,6 +47,6 @@ let PatientInfo = ({ patient,
 PatientInfo.propTypes = {
     patient: PropTypes.object,
     handleFormChange: PropTypes.func,
-    validation  : PropTypes.array
+    validation  : PropTypes.object
 };
 export default PatientInfo;
