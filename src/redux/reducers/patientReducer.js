@@ -1,5 +1,6 @@
 import * as types from '../actions/actionTypes';
 import assert  from 'assert';
+import {emptyPatient} from '../initialstore';
 
 function changePage(patient, action) {
     const patientState = {...patient,
@@ -14,16 +15,16 @@ function currentPatientLoaded(patient, action){
 }
 
 function unloadPatient(patient) {
-    const patientState =  {...patient,
-                              current : { forename : '',
-                                      surname      : '',
-                                      dateOfBirth  : '',
-                                      prescription : [],
-                                      rowVersion   : 0,
-                                      images       : []
-                                    },
-                          };
-     return patientState;
+
+
+    const patientState = {...patient,
+                          'current': {...emptyPatient}};
+
+  //console.log("Before unloadPatient")
+  //console.log(patient);
+  //console.log("After unloadPatient")
+  //console.log(patientState);
+    return patientState;
 }
 
 function listedSuccess(patient, action) {
