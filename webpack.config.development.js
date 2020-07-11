@@ -12,7 +12,6 @@ module.exports = (env) => {
          new webpack.HotModuleReplacementPlugin()
       ],
       devServer: {
-        /*clientLogLevel: 'trace',*/
         clientLogLevel: 'silent',
         publicPath: '/',
         hot: true,
