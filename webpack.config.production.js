@@ -10,8 +10,5 @@ module.exports = (env) => {
       output: {
         publicPath: '/',
       },
-      devServer: {
-        contentBase:  path.resolve(__dirname, './dist'),
-      }
     });
 };
