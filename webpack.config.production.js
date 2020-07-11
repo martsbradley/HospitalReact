@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const fs = require('fs');
 const path = require('path'); 
 const baseConfig = require('./webpack.config.js');
+const merge = require('webpack-merge');
 
 module.exports = (env) => {
     return merge(baseConfig(env), {
@@ -10,7 +11,7 @@ module.exports = (env) => {
         publicPath: '/',
       },
       devServer: {
-        contentBase:  path.join(__dirname, '/dist'),
+        contentBase:  path.resolve(__dirname, './dist'),
       }
-    }
+    });
 };
