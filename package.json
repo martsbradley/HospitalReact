@@ -18,10 +18,10 @@
   },
   "scripts": {
     "sayhi": "babel-node buildScripts/sayhi.js",
-    "start":  "webpack-dev-server --env.ENVIRONMENT=development --config ./webpack.config.js            --progress --mode development --port 3000 --https --cert=/home/martin/Software/JavaScript/HospitalReact/certs/cert.pem --key=/home/martin/Software/JavaScript/HospitalReact/certs/key.pem",
-    "build":  "webpack            --env.ENVIRONMENT=production  --config ./webpack.config.production.js --progress --mode production",
-    "server": "webpack-dev-server --env.ENVIRONMENT=production  --config ./webpack.config.production.js --progress --mode production --port 3000 --https --cert=/home/martin/Software/JavaScript/HospitalReact/certs/cert.pem --key=/home/martin/Software/JavaScript/HospitalReact/certs/key.pem",
-    "test": "node node_modules/jest/bin/jest.js --env=jest-environment-jsdom-sixteen",
+    "start":  "webpack-dev-server --env.ENVIRONMENT=development --config ./webpack.js            --progress --mode development --port 3000 --https --cert=/home/martin/Software/JavaScript/HospitalReact/certs/cert.pem --key=/home/martin/Software/JavaScript/HospitalReact/certs/key.pem",
+    "build":  "webpack            --env.ENVIRONMENT=production  --config ./webpack.production.js --progress --mode production",
+    "server": "webpack-dev-server --env.ENVIRONMENT=production  --config ./webpack.production.js --progress --mode production --port 3000 --https --cert=/home/martin/Software/JavaScript/HospitalReact/certs/cert.pem --key=/home/martin/Software/JavaScript/HospitalReact/certs/key.pem",
+    "test":   "node node_modules/jest/bin/jest.js --env=jest-environment-jsdom-sixteen",
     "generate-mock-data": "node buildScripts/generateMockData",
     "prestart-mockapi": "npm run generate-mock-data",
     "start-mockapi": "json-server --watch db.json --port 3001"
