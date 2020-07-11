@@ -5,13 +5,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const readEnvironment = (env) => {
-    // Default to production if the provided environment is missing 
-    //
-    // Two files wth key=value
-    //        .env.development
-    //        .env.production
-    //
-    //
+    // Two files wth key=value .env.development .env.production
     const productionPath = path.join(__dirname) + '/.env.production';
     const envPath        = path.join(__dirname) + '/.env.' + env.ENVIRONMENT;
 
@@ -44,7 +38,7 @@ module.exports = (env) => {
       output: {
         filename   : 'bundle.js',
         path       : path.resolve(__dirname, './dist'),
-        publicPath : 'https://localhost:3000/',
+        publicPath : '/',
       },
       module: {
         rules: [
@@ -76,10 +70,10 @@ module.exports = (env) => {
          },
       },
       plugins: [
-         new webpack.DefinePlugin(details),
-         new HtmlWebpackPlugin({ template: "./src/index.html",
-                                 inject: false,
-                                 title:  "Title" }),
+         new webpack.DefinePlugin(details), 
+         new HtmlWebpackPlugin({templateContent : '<div id="root"></div>'}),
       ],
     }
 };
+
+

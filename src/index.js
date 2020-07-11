@@ -22,7 +22,11 @@ if (process.env.NODE_ENV !== 'production' && module.hot) {
 }
 
 // eslint-disable-next-line no-undef
-console.log('Building for ' + process.env.ENVIRONMENT);
+console.log('index.js ENVIRONMENT is ' + process.env.ENVIRONMENT);
+console.log('index.js module.hot is:');
+// eslint-disable-next-line no-undef
+console.log(module.hot);
+
 
 renderApp();
 
