@@ -41,6 +41,11 @@ module.exports = (env) => {
 
     return {
       entry: './src/index.js',
+      output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, '/dist'),
+        publicPath       : 'https://localhost:3000/',
+      },
       module: {
         rules: [
           {
@@ -58,7 +63,6 @@ module.exports = (env) => {
       resolve: {
         extensions: ['*', '.js', '.jsx']
       },
-      mode: 'development',
       devServer: {
          contentBase:  false, 
          hotOnly: true,
@@ -77,10 +81,5 @@ module.exports = (env) => {
                                  inject: false,
                                  title:  "Title" }),
       ],
-      output: {
-        path: __dirname + '/dist',
-        filename: 'bundle.js',
-        publicPath       : 'https://localhost:3000/',
-      }
     }
 };

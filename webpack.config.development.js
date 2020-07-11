@@ -11,17 +11,11 @@ module.exports = (env) => {
       plugins: [
          new webpack.HotModuleReplacementPlugin()
       ],
+      mode: 'development',
       devServer: {
         clientLogLevel: 'silent',
-        publicPath: '/',
         hot: true,
-        proxy: {
-            '/user' : { target: 'http://localhost:3001', secure: false},
-            '/meds' : { target: 'http://localhost:3001', secure: false},
-            '/auth' : { target: 'http://localhost:3001', secure: false}
-        }
       }
     });
-    //console.log(result);
     return result;
 };
