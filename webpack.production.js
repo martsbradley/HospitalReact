@@ -7,5 +7,8 @@ const merge = require('webpack-merge');
 
 module.exports = (env) => {
     return merge(baseConfig(env), {
+      devServer: {
+         hotOnly: false,
+      }
     });
 };

@@ -19,8 +19,11 @@ export default function configureStore(){
                               initialstore,
                               composeWithDevTools(middleWare));
 
-    // eslint-disable-next-line no-undef
-    module.hot.accept('./reducers', () => store.replaceReducer(rootReducer))
+        // eslint-disable-next-line no-undef
+    if (process.env.NODE_ENV !== 'production' && typeof module.hot !== 'undefined') {
+        // eslint-disable-next-line no-undef
+        module.hot.accept('./reducers', () => store.replaceReducer(rootReducer))
+    }
 
     return store;
 }
