@@ -71,7 +71,9 @@ module.exports = (env) => {
       },
       plugins: [
          new webpack.DefinePlugin(details), 
-         new HtmlWebpackPlugin({templateContent : '<div id="root"></div>'}),
+         new HtmlWebpackPlugin({hash: true,
+                                title: 'Victoria Hospital',
+                                template: './src/index.html'}),
       ],
     }
 };
